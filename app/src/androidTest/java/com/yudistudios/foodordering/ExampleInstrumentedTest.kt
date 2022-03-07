@@ -1,12 +1,19 @@
 package com.yudistudios.foodordering
 
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.yudistudios.foodordering.repositories.FoodRepository
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import org.junit.Before
+import org.junit.Rule
+import javax.inject.Inject
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -14,11 +21,31 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.yudistudios.foodordering", appContext.packageName)
+
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    lateinit var foodRepository: FoodRepository
+
+    @Before
+    fun init() {
+        hiltRule.inject()
     }
+
+    @Test
+    fun getAllFoods() {
+        foodRepository.getAllFoods()
+
+        runBlocking {
+            delay(3000)
+        }
+
+        assertNotEquals(-1, foodRepository.getAllFoodsResponseCode)
+        assertEquals(200, foodRepository.getAllFoodsResponseCode)
+        assertNotEquals(null, foodRepository.foods.value)
+    }
+
 }

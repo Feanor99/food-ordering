@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/activity_login.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_account.xml" value="0.25" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/menu/menu_main_nav.xml" value="0.25" />
       </map>
     </option>
   </component>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Food Ordering</string>
     <string name="login">Login</string>
-    <string name="your_favourite_restaurants_await">Your favourite restaurants await!</string>
+    <string name="your_favourite_restaurant_awaits">Your favourite restaurant awaits!</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="or_sign_in_with_e_mail">or sign in with e-mail</string>
     <string name="e_mail">E-mail</string>
@@ -11,4 +11,7 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="create_an_account">Create an Account</string>
     <string name="not_registered_yet">Not registered yet?</string>
+    <string name="home">Home</string>
+    <string name="account">Account</string>
+    <string name="support">Support</string>
 </resources>

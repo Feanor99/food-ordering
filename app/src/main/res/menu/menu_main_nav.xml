@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        app:showAsAction="always"
+        android:title="@string/home"/>
+
+    <item
+        android:id="@+id/accountFragment"
+        android:icon="@drawable/ic_account"
+        app:showAsAction="always"
+        android:title="@string/account"/>
+
+    <item
+        android:id="@+id/supportFragment"
+        android:icon="@drawable/ic_support"
+        app:showAsAction="always"
+        android:title="@string/support"/>
+</menu>
