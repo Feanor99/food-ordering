@@ -12,4 +12,5 @@ class FoodOrderingApp: Application() {
             Timber.plant(Timber.DebugTree())
         }
      }
+
 }

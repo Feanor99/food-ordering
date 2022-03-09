@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="food"
+            type="com.yudistudios.foodordering.retrofit.models.Food" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/view_guide"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toTopOf="@id/cardView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="4dp"
+            android:shadowColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_guide">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageView"
+                    loadImage="@{food.imageName}"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textView_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{food.name}"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView_price"
+                    app:layout_constraintStart_toStartOf="@id/imageView"
+                    app:layout_constraintTop_toBottomOf="@id/imageView"
+                    tools:text="Baklava" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/textView_price"
+                    priceText="@{food.price}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/textView_name"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_name"
+                    tools:text="$ 965,23" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{food.amount == 0 ? View.VISIBLE : View.INVISIBLE}"
+                    android:text="@string/add_to_basket"
+                    app:icon="@drawable/ic_plus"
+                    app:iconSize="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_price"/>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_after_item_added"
+                    android:layout_width="0dp"
+                    android:visibility="@{food.amount > 0 ? View.VISIBLE : View.INVISIBLE}"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/textView_name"
+                    app:layout_constraintTop_toBottomOf="@+id/textView_price">
+
+                    <ImageButton
+                        android:id="@+id/materialButton_decrease"
+                        android:layout_width="45dp"
+                        android:layout_height="0dp"
+                        android:backgroundTint="?colorPrimary"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_minus"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/white" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:gravity="center"
+                        android:text='@{food.amount + ""}'
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:background="@drawable/custom_input"
+                        app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
+                        app:layout_constraintEnd_toStartOf="@id/materialButton_increase"
+                        app:layout_constraintStart_toEndOf="@id/materialButton_decrease"
+                        app:layout_constraintTop_toTopOf="@id/materialButton_decrease" />
+
+                    <ImageButton
+                        android:id="@+id/materialButton_increase"
+                        android:layout_width="45dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:backgroundTint="?colorPrimary"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_plus"
+                        app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/textView_amount"
+                        app:layout_constraintTop_toTopOf="@id/materialButton_decrease"
+                        app:tint="@color/white" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

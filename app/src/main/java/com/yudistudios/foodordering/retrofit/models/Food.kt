@@ -19,4 +19,7 @@ data class Food(
     @SerializedName("yemek_fiyat")
     @Expose
     val price: String,
+
+    @Transient
+    var amount: Int
 )

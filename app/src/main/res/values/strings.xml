@@ -14,4 +14,6 @@
     <string name="home">Home</string>
     <string name="account">Account</string>
     <string name="support">Support</string>
+    <string name="search">Search</string>
+    <string name="add_to_basket">Add</string>
 </resources>

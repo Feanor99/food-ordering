@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.databinding.ActivityMainBinding
 import com.yudistudios.foodordering.firebase.AuthUtils
+import com.yudistudios.foodordering.firebase.DatabaseUtils
 import com.yudistudios.foodordering.ui.activities.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        DatabaseUtils.getInstance()
 
         checkIfSignedIn()
 

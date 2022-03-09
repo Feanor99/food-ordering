@@ -15,9 +15,12 @@
         android:theme="@style/Theme.FoodOrdering" >
         <activity
             android:name=".ui.activities.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".ui.activities.main.MainActivity"
+            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:screenOrientation="portrait"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
