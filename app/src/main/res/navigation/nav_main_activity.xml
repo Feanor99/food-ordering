@@ -9,7 +9,13 @@
         android:id="@+id/homeFragment"
         android:name="com.yudistudios.foodordering.ui.activities.main.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_foodDetailFragment"
+            app:destination="@id/foodDetailFragment"
+            app:enterAnim="@anim/comes_from_bottom"
+            app:popExitAnim="@anim/goes_to_top" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.yudistudios.foodordering.ui.activities.main.fragments.AccountFragment"
@@ -20,4 +26,12 @@
         android:name="com.yudistudios.foodordering.ui.activities.main.fragments.SupportFragment"
         android:label="fragment_support"
         tools:layout="@layout/fragment_support" />
+    <fragment
+        android:id="@+id/foodDetailFragment"
+        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.FoodDetailFragment"
+        android:label="FoodDetailFragment" >
+        <argument
+            android:name="food"
+            app:argType="com.yudistudios.foodordering.retrofit.models.Food" />
+    </fragment>
 </navigation>

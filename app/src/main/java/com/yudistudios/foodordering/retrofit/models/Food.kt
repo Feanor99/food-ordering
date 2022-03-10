@@ -1,8 +1,11 @@
 package com.yudistudios.foodordering.retrofit.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Food(
     @SerializedName("yemek_id")
     @Expose
@@ -22,4 +25,4 @@ data class Food(
 
     @Transient
     var amount: Int
-)
+) : Parcelable

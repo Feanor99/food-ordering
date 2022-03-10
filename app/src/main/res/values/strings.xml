@@ -16,4 +16,14 @@
     <string name="support">Support</string>
     <string name="search">Search</string>
     <string name="add_to_basket">Add</string>
+    <string name="detail">Detail</string>
+    <string name="price">Price</string>
+    <string name="none">None</string>
+    <string name="lower">Lower</string>
+    <string name="higher">Higher</string>
+    <string name="all">All</string>
+    <string name="meals">Meals</string>
+    <string name="drinks">Drinks</string>
+    <string name="desserts">Desserts</string>
+    <string name="pizza">Pizza</string>
 </resources>

@@ -12,16 +12,18 @@ import com.yudistudios.foodordering.utils.fadeInAnimation
 import timber.log.Timber
 
 class FoodRecyclerViewAdapter(
-    val clickListeners: FoodRecyclerItemClickListeners,
-    val isFoodInBasket: (Int) -> FoodBasket?
+    private val clickListeners: FoodRecyclerItemClickListeners
 ) :
     ListAdapter<Food, FoodRecyclerViewAdapter.MyViewHolder>(DiffCallback) {
     class MyViewHolder private constructor(private val binding: ItemFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(food: Food, clickListeners: FoodRecyclerItemClickListeners, isFoodInBasket: (Int) -> FoodBasket?) {
-            binding.cardView.fadeInAnimation()
+        fun bind(food: Food, clickListeners: FoodRecyclerItemClickListeners) {
             binding.food = food
+
+            binding.cardView.setOnClickListener {
+                clickListeners.goDetail(food)
+            }
 
             binding.buttonAdd.setOnClickListener {
                 clickListeners.add(food)
@@ -52,7 +54,7 @@ class FoodRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(getItem(position), clickListeners, isFoodInBasket)
+        holder.bind(getItem(position), clickListeners)
     }
 
     override fun getItemCount(): Int {
@@ -63,7 +65,8 @@ class FoodRecyclerViewAdapter(
 class FoodRecyclerItemClickListeners(
     val add: (Food) -> Unit,
     val increase: (Food) -> Unit,
-    val decrease: (Food) -> Unit
+    val decrease: (Food) -> Unit,
+    val goDetail: (Food) -> Unit
 )
 
 private object DiffCallback : DiffUtil.ItemCallback<Food>() {

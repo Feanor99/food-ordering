@@ -132,7 +132,7 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="16dp"
                         android:gravity="center"
-                        android:text="Price"
+                        android:text="@string/price"
                         android:textColor="@color/black"
                         android:textSize="22sp" />
 
@@ -150,7 +150,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
-                            android:text="None"
+                            android:text="@string/none"
                             android:textSize="14sp" />
 
                         <com.google.android.material.chip.Chip
@@ -158,7 +158,7 @@
                             style="@style/Custom.Chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lower"
+                            android:text="@string/lower"
                             android:textSize="14sp" />
 
                         <com.google.android.material.chip.Chip
@@ -166,7 +166,7 @@
                             style="@style/Custom.Chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Higher"
+                            android:text="@string/higher"
                             android:textSize="14sp" />
 
 
@@ -201,35 +201,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="All" />
+                    android:text="@string/all" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_2"
                     style="@style/Custom.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Meals" />
+                    android:text="@string/meals" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_3"
                     style="@style/Custom.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Drinks" />
+                    android:text="@string/drinks" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_4"
                     style="@style/Custom.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Desserts" />
+                    android:text="@string/desserts" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_5"
                     style="@style/Custom.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pizza" />
+                    android:text="@string/pizza" />
 
             </com.google.android.material.chip.ChipGroup>
 

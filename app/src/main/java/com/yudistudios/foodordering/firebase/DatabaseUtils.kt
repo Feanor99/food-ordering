@@ -34,6 +34,8 @@ class DatabaseUtils private constructor() {
         .child(AuthUtils.user!!.uid)
         .child("BasketItems")
 
+    var lastRemovedFoodIdFromBasket: Int? = null
+
     init {
         listenBasket()
     }
@@ -42,7 +44,8 @@ class DatabaseUtils private constructor() {
         basketReference.child("${foodBasket.foodId}").setValue(foodBasket)
     }
 
-    fun removeFoodToBasket(foodBasket: FoodBasket) {
+    fun removeFoodFromBasket(foodBasket: FoodBasket) {
+        lastRemovedFoodIdFromBasket = foodBasket.foodId
         basketReference.child("${foodBasket.foodId}").removeValue()
     }
 

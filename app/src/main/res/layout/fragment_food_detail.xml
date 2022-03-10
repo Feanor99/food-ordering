@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.yudistudios.foodordering.ui.activities.main.viewmodels.FoodDetailViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activities.main.fragments.FoodDetailFragment">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="8dp"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                app:tint="@color/black" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="@string/detail"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:elevation="4dp"
+                android:shadowColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageView"
+                        loadImage="@{viewModel.food.imageName}"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_margin="32dp"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@{viewModel.food.name}"
+                        android:textColor="@color/black"
+                        android:textSize="26sp"
+                        app:layout_constraintBottom_toTopOf="@+id/textView_price"
+                        app:layout_constraintStart_toStartOf="@id/imageView"
+                        app:layout_constraintTop_toBottomOf="@id/imageView"
+                        tools:text="Baklava" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView_price"
+                        priceText="@{viewModel.food.price}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/textView_name"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_name"
+                        tools:text="$ 965,23" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:onClick="@{() -> viewModel.addFoodToBasket()}"
+                        android:padding="16dp"
+                        android:text="@string/add_to_basket"
+                        android:visibility="@{viewModel.food.amount == 0 ? View.VISIBLE : View.INVISIBLE}"
+                        app:icon="@drawable/ic_plus"
+                        app:iconSize="24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_price" />
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layout_after_item_added"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:visibility="@{viewModel.food.amount > 0 ? View.VISIBLE : View.INVISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/imageView"
+                        app:layout_constraintStart_toStartOf="@id/textView_name"
+                        app:layout_constraintTop_toBottomOf="@+id/textView_price">
+
+                        <ImageButton
+                            android:id="@+id/materialButton_decrease"
+                            android:layout_width="65dp"
+                            android:layout_height="0dp"
+                            android:backgroundTint="?colorPrimary"
+                            android:onClick="@{() -> viewModel.decreaseFoodAmountOnClick()}"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_minus"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/white" />
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editText_amount"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_margin="4dp"
+                            android:layout_marginStart="4dp"
+                            android:background="@drawable/custom_input_one_color"
+                            android:gravity="center"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:text='@{viewModel.food.amount + ""}'
+                            android:textColor="@color/black"
+                            android:textSize="28sp"
+                            app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
+                            app:layout_constraintEnd_toStartOf="@id/materialButton_increase"
+                            app:layout_constraintStart_toEndOf="@id/materialButton_decrease"
+                            app:layout_constraintTop_toTopOf="@id/materialButton_decrease" />
+
+                        <ImageButton
+                            android:id="@+id/materialButton_increase"
+                            android:layout_width="65dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginEnd="8dp"
+                            android:backgroundTint="?colorPrimary"
+                            android:onClick="@{() -> viewModel.increaseFoodAmountOnClick()}"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_plus"
+                            app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/editText_amount"
+                            app:layout_constraintTop_toTopOf="@id/materialButton_decrease"
+                            app:tint="@color/white" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

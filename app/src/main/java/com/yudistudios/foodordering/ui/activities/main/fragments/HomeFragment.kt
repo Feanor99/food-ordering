@@ -13,17 +13,17 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.yudistudios.foodordering.databinding.FragmentHomeBinding
 import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.ui.activities.main.MainActivity
 import com.yudistudios.foodordering.ui.activities.main.viewmodels.HomeViewModel
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerItemClickListeners
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import timber.log.Timber
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -38,8 +38,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getAllFoods()
-
+        viewModel.getFoods()
     }
 
     override fun onCreateView(
@@ -51,7 +50,9 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        setRecyclerAndListen()
+        lifecycleScope.launch {
+            setRecyclerAndListen()
+        }
 
         refreshLayout()
 
@@ -73,7 +74,9 @@ class HomeFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchText = s?.toString()
-                searchFoods()
+                lifecycleScope.launch {
+                    searchFoods()
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -91,8 +94,8 @@ class HomeFragment : Fragment() {
             } else {
                 val foodList = viewModel.foods.value
                 foodList?.let {
-                    val filteredList = foodList.filter {
-                        it.name.lowercase().contains(searchText.toString().lowercase())
+                    val filteredList = foodList.filter { f ->
+                        f.name.lowercase().contains(searchText.toString().lowercase())
                     }.toList()
                     adapter.submitList(filteredList)
                 }
@@ -120,7 +123,7 @@ class HomeFragment : Fragment() {
 
         viewModel.foodsInBasket.observe(viewLifecycleOwner) {
             viewModel.foodsInBasketCount.value = it.size
-            viewModel.updateFoodsWithBasket(it)
+            viewModel.updateAmounts(it)
         }
 
         viewModel.showSortMenuIsClicked.observe(viewLifecycleOwner) {
@@ -143,9 +146,8 @@ class HomeFragment : Fragment() {
         binding.refreshLayout.setOnRefreshListener(
             object : SwipeRefreshLayout.OnRefreshListener {
                 override fun onRefresh() {
-                    viewModel.getAllFoods()
                     isRefreshed = true
-
+                    viewModel.getFoods()
                     binding.chipPriceNone.isChecked = true
 
                     lifecycleScope.launch {
@@ -162,33 +164,21 @@ class HomeFragment : Fragment() {
     }
 
     private fun setRecyclerAndListen() {
-        val addFoodToBasket = { food: Food ->
-            food.amount = 1
-            viewModel.addFoodToBasket(food)
-        }
-        val increaseAmount = { food: Food ->
-            food.amount = 1
-            viewModel.addFoodToBasket(food)
-        }
-        val decreaseAmount = { food: Food ->
-            food.amount = -1
-            viewModel.addFoodToBasket(food)
-        }
-        val clickListeners =
-            FoodRecyclerItemClickListeners(addFoodToBasket, increaseAmount, decreaseAmount)
-        val adapter = FoodRecyclerViewAdapter(clickListeners, viewModel.isFoodInBasket())
-        binding.adapter = adapter
+
+        val adapter = foodRecyclerViewAdapterSetup()
 
         viewModel.foods.observe(viewLifecycleOwner) {
             if (searchText.isNullOrEmpty()) {
                 adapter.submitList(it)
+                Timber.e(viewModel.foodsInBasket.value.toString())
+                Timber.e(it.toString())
             } else {
                 searchFoods()
             }
 
             if (isRefreshed) {
                 viewModel.foodsInBasket.value?.let { it1 ->
-                    viewModel.updateFoodsWithBasket(it1)
+                    viewModel.updateAmounts(it1)
                 }
                 isRefreshed = false
             }
@@ -197,6 +187,39 @@ class HomeFragment : Fragment() {
                 binding.refreshLayout.isRefreshing = false
             }
         }
+    }
+
+    private fun foodRecyclerViewAdapterSetup(): FoodRecyclerViewAdapter {
+
+        val addFoodToBasket = { food: Food ->
+            viewModel.addFoodToBasket(food, 1)
+        }
+
+        val increaseAmount = { food: Food ->
+            viewModel.addFoodToBasket(food, 1)
+        }
+
+        val decreaseAmount = { food: Food ->
+            viewModel.addFoodToBasket(food, -1)
+        }
+
+        val goDetail = { food: Food ->
+            val action = HomeFragmentDirections.actionHomeFragmentToFoodDetailFragment(food)
+            findNavController().navigate(action)
+            MainActivity.sShowBottomNavView.value = false
+        }
+
+        val clickListeners =
+            FoodRecyclerItemClickListeners(
+                addFoodToBasket,
+                increaseAmount,
+                decreaseAmount,
+                goDetail
+            )
+
+        val adapter = FoodRecyclerViewAdapter(clickListeners)
+        binding.adapter = adapter
+        return adapter
     }
 
     override fun onDestroyView() {
