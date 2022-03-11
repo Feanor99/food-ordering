@@ -1,6 +1,7 @@
 package com.yudistudios.foodordering.di
 
 import com.yudistudios.foodordering.retrofit.ApiUtils.Companion.BASE_URL
+import com.yudistudios.foodordering.retrofit.services.BasketService
 import com.yudistudios.foodordering.retrofit.services.FoodService
 import dagger.Module
 import dagger.Provides
@@ -26,5 +27,11 @@ class RetrofitModule {
     @Provides
     fun provideFoodService(retrofit: Retrofit): FoodService {
         return retrofit.create(FoodService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideBasketService(retrofit: Retrofit): BasketService {
+        return retrofit.create(BasketService::class.java)
     }
 }

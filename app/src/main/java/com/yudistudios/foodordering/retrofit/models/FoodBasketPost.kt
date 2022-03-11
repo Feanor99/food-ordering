@@ -3,10 +3,7 @@ package com.yudistudios.foodordering.retrofit.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class FoodBasket(
-    @SerializedName("sepet_yemek_id")
-    @Expose
-    val foodId: Int,
+data class FoodBasketPost(
 
     @SerializedName("yemek_adi")
     @Expose
@@ -28,13 +25,3 @@ data class FoodBasket(
     @Expose
     val userId: String,
 )
-
-fun FoodBasket.toFood(): Food {
-    return Food(
-        id = foodId.toString(),
-        name = foodName,
-        imageName = foodImageName,
-        price = foodPrice.toString(),
-        amount = foodAmount
-    )
-}

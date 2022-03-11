@@ -1,18 +1,16 @@
 package com.yudistudios.foodordering.ui.activities.main.viewmodels
 
-import androidx.lifecycle.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.ChipGroup
 import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.repositories.FoodRepository
 import com.yudistudios.foodordering.retrofit.models.Food
-import com.yudistudios.foodordering.retrofit.models.FoodBasket
 import com.yudistudios.foodordering.retrofit.models.toFood
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -28,18 +26,23 @@ class HomeViewModel @Inject constructor(private val foodRepository: FoodReposito
     val foodsInBasketCount = MutableLiveData(0)
 
     val showSortMenuIsClicked = MutableLiveData(false)
+    val basketButtonIsClicked = MutableLiveData(false)
+
+    var currentSort = 0
 
     fun getFoods() {
         viewModelScope.launch {
             foodRepository.getAllFoods().collect {
-                foods.value = it
+                when (currentSort) {
+                    0 -> foods.value = it
+                    1 -> foods.value = sortFoodsASC(it)
+                    2 -> foods.value = sortFoodsDESC(it)
+                }
             }
-            foodsInBasket.value?.let { updateAmounts(it)}
-
         }
     }
 
-    fun addFoodToBasket(food: Food, amount: Int) {
+    fun changeFoodBasketByGivenAmount(food: Food, amount: Int) {
         val foodTemp = Food(
             id = food.id,
             name = food.name,
@@ -58,25 +61,33 @@ class HomeViewModel @Inject constructor(private val foodRepository: FoodReposito
         showSortMenuIsClicked.value = true
     }
 
+    fun basketButtonOnClick() {
+        basketButtonIsClicked.value = true
+    }
+
+
     fun priceChipCheckListener(chipGroup: ChipGroup, recyclerView: RecyclerView) {
         chipGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.chip_price_lower -> {
-                    sortFoodsASC()
+                    currentSort = 1
+                    getFoods()
                     viewModelScope.launch {
                         delay(1000)
                         recyclerView.smoothScrollToPosition(0)
                     }
                 }
                 R.id.chip_price_higher -> {
-                    sortFoodsDESC()
+                    currentSort = 2
+                    getFoods()
                     viewModelScope.launch {
                         delay(1000)
                         recyclerView.smoothScrollToPosition(0)
                     }
                 }
                 R.id.chip_price_none -> {
-                    resetPriceSort()
+                    currentSort = 0
+                    getFoods()
                     viewModelScope.launch {
                         delay(1000)
                         recyclerView.smoothScrollToPosition(0)
@@ -86,58 +97,51 @@ class HomeViewModel @Inject constructor(private val foodRepository: FoodReposito
         }
     }
 
-    private fun sortFoodsASC() {
-        foods.value?.let { it ->
-            foods.value = it.sortedWith(compareBy {
+    private fun sortFoodsASC(foods: List<Food>?): List<Food>? {
+        var sortedFoods: List<Food>? = null
+        foods?.let { it ->
+            sortedFoods = it.sortedWith(compareBy {
                 it.price.toDouble()
             })
         }
+        return sortedFoods
     }
 
-    private fun sortFoodsDESC() {
-        foods.value?.let { it ->
-            foods.value = it.sortedWith(compareBy {
+    private fun sortFoodsDESC(foods: List<Food>?): List<Food>? {
+        var sortedFoods: List<Food>? = null
+        foods?.let { it ->
+            sortedFoods = it.sortedWith(compareBy {
                 it.price.toDouble()
             }).reversed()
         }
+        return sortedFoods
     }
 
-    private fun resetPriceSort() {
-        getFoods()
-    }
+    fun updateAmounts(): List<Food> {
 
-    fun updateAmounts(basket: List<FoodBasket>) {
-        val currentFoods: MutableList<Food> = foods.value?.toMutableList() ?: mutableListOf()
+        val currentFoods: MutableList<Food>? = foods.value?.map {
+            it.amount = 0
+            it
+        }?.toMutableList()
 
-        if (foodRepository.lastRemovedFoodIdFromBasket != null) {
-            val food = currentFoods.find {
-                it.id == foodRepository.lastRemovedFoodIdFromBasket.toString()
-            }
-            val index = currentFoods.indexOf(food)
+        Timber.e("update Amounts called")
 
-            if (index != -1) {
-                currentFoods[index] = Food(
-                    currentFoods[index].id,
-                    currentFoods[index].name,
-                    currentFoods[index].imageName,
-                    currentFoods[index].price,
-                    0
-                )
-            }
-
-        }
-
-        for (i in basket.indices) {
-            val food = currentFoods.find {
-                it.id.toInt() == basket[i].foodId
-            }
-            val index = currentFoods.indexOf(food)
-            food?.let {
-                currentFoods[index] = basket[i].toFood()
+        currentFoods?.let {
+            val basket = foodsInBasket.value
+            basket?.let {
+                for (i in basket.indices) {
+                    val food = currentFoods.find {
+                        it.id.toInt() == basket[i].id
+                    }
+                    val index = currentFoods.indexOf(food)
+                    food?.let {
+                        currentFoods[index] = basket[i].toFood()
+                    }
+                }
             }
         }
 
-        foods.value = currentFoods.toList()
+        return currentFoods?.toList() ?: listOf()
     }
 
 }

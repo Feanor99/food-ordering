@@ -6,61 +6,35 @@
     <data>
 
         <variable
-            name="food"
-            type="com.yudistudios.foodordering.retrofit.models.Food" />
+            name="foodBasket"
+            type="com.yudistudios.foodordering.retrofit.models.BasketFood" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <View
-            android:id="@+id/view_guide"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintBottom_toTopOf="@id/cardView"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardView"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            loadImage="@{foodBasket.foodImageName}"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:elevation="4dp"
-            android:shadowColor="@color/black"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_guide">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_margin="8dp"
-                    android:padding="4dp"
-                    loadImage="@{food.imageName}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.3" />
-
-                <com.google.android.material.textview.MaterialTextView
+        <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:textColor="@color/black"
+            android:layout_marginStart="16dp"
+            android:text="@{foodBasket.foodName}"
+            android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:text="@{food.name}"
                     app:layout_constraintBottom_toTopOf="@+id/textView_price"
                     app:layout_constraintStart_toEndOf="@id/imageView"
                     app:layout_constraintTop_toTopOf="parent"
@@ -69,13 +43,13 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView_price"
+                    priceText='@{foodBasket.foodPrice + ""}'
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     android:textStyle="bold"
-                    priceText="@{food.price}"
                     app:layout_constraintBottom_toTopOf="@+id/materialButton_decrease"
                     app:layout_constraintStart_toEndOf="@id/imageView"
                     app:layout_constraintTop_toBottomOf="@+id/textView_name"
@@ -86,45 +60,58 @@
                     android:layout_width="45dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
+                    android:backgroundTint="?colorPrimary"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_minus"
-                    android:backgroundTint="@color/primary_third"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toEndOf="@id/imageView"
                     app:layout_constraintTop_toBottomOf="@+id/textView_price"
-                    app:tint="@color/black" />
+                    app:tint="@color/white" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView_amount"
-                    android:layout_width="50dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
+                    android:background="@drawable/custom_input"
                     android:gravity="center"
-                    android:text="0"
+                    android:text='@{foodBasket.foodAmount + ""}'
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="22sp"
                     app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
                     app:layout_constraintEnd_toStartOf="@id/materialButton_increase"
                     app:layout_constraintStart_toEndOf="@id/materialButton_decrease"
-                    app:layout_constraintTop_toTopOf="@id/materialButton_decrease" />
+                    app:layout_constraintTop_toTopOf="@id/materialButton_decrease"
+                    app:layout_constraintWidth_percent="0.3"
+                    tools:text="0" />
 
-                <ImageButton
-                    android:id="@+id/materialButton_increase"
-                    android:layout_width="45dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_plus"
-                    android:scaleType="fitXY"
-                    app:tint="@color/black"
-                    android:backgroundTint="@color/primary_third"
-                    app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintStart_toEndOf="@id/textView_amount"
-                    app:layout_constraintTop_toTopOf="@id/materialButton_decrease" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+        <ImageButton
+            android:id="@+id/materialButton_increase"
+            android:layout_width="45dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:backgroundTint="?colorPrimary"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_plus"
+            app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toEndOf="@id/textView_amount"
+            app:layout_constraintTop_toTopOf="@id/materialButton_decrease"
+            app:tint="@color/white" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

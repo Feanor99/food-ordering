@@ -29,7 +29,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        DatabaseUtils.getInstance()
+        if(checkIfSignedIn()){
+            DatabaseUtils.getInstance()
+        }
 
         sShowBottomNavView.observe(this) {
             if (it) {
@@ -39,8 +41,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        checkIfSignedIn()
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
 
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun checkIfSignedIn() {
+    private fun checkIfSignedIn(): Boolean {
         if (AuthUtils.user == null) {
             val intent = Intent(this@MainActivity, LoginActivity::class.java)
             startActivity(intent)
@@ -57,5 +57,6 @@ class MainActivity : AppCompatActivity() {
 //        else {
 //            AuthUtils.signOut(this)
 //        }
+        return true
     }
 }

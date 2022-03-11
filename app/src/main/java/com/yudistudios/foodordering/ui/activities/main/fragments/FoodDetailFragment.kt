@@ -44,42 +44,9 @@ class FoodDetailFragment : Fragment() {
 
         back()
 
-        listenAmountEditText()
-
         return binding.root
     }
 
-    private fun listenAmountEditText() {
-        binding.editTextAmount.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val amount = binding.editTextAmount.text.toString().toIntOrNull()
-                amount?.let {
-                    if (amount < 0) {
-                        binding.editTextAmount.setText("0")
-                        viewModel.food.value?.let {
-                            val foodTemp = viewModel.food.value!!
-                            foodTemp.amount = 0
-                            viewModel.food.value = foodTemp
-                        }
-                    } else {
-                        viewModel.food.value?.let {
-                            val foodTemp = viewModel.food.value!!
-                            foodTemp.amount = amount
-                            viewModel.food.value = foodTemp
-                        }
-
-                    }
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
-
-        })
-    }
 
     private fun back() {
         binding.buttonBack.setOnClickListener {
@@ -138,6 +105,7 @@ class FoodDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.food.value?.amount = binding.editTextAmount.text.toString().toInt()
         viewModel.updateFoodInBasket()
         _binding = null
     }

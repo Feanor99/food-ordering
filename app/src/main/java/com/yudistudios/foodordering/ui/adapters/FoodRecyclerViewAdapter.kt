@@ -7,14 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.yudistudios.foodordering.databinding.ItemFoodBinding
 import com.yudistudios.foodordering.retrofit.models.Food
-import com.yudistudios.foodordering.retrofit.models.FoodBasket
-import com.yudistudios.foodordering.utils.fadeInAnimation
-import timber.log.Timber
 
 class FoodRecyclerViewAdapter(
     private val clickListeners: FoodRecyclerItemClickListeners
 ) :
-    ListAdapter<Food, FoodRecyclerViewAdapter.MyViewHolder>(DiffCallback) {
+    ListAdapter<Food, FoodRecyclerViewAdapter.MyViewHolder>(DiffCallback()) {
     class MyViewHolder private constructor(private val binding: ItemFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -37,7 +34,6 @@ class FoodRecyclerViewAdapter(
                 clickListeners.increase(food)
             }
 
-            binding.executePendingBindings()
         }
 
         companion object {
@@ -60,6 +56,16 @@ class FoodRecyclerViewAdapter(
     override fun getItemCount(): Int {
         return currentList.count()
     }
+
+    private class DiffCallback : DiffUtil.ItemCallback<Food>() {
+        override fun areItemsTheSame(oldItem: Food, newItem: Food): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Food, newItem: Food): Boolean {
+            return oldItem == newItem
+        }
+    }
 }
 
 class FoodRecyclerItemClickListeners(
@@ -68,13 +74,3 @@ class FoodRecyclerItemClickListeners(
     val decrease: (Food) -> Unit,
     val goDetail: (Food) -> Unit
 )
-
-private object DiffCallback : DiffUtil.ItemCallback<Food>() {
-    override fun areItemsTheSame(oldItem: Food, newItem: Food): Boolean {
-        return oldItem.id == newItem.id
-    }
-
-    override fun areContentsTheSame(oldItem: Food, newItem: Food): Boolean {
-        return oldItem == newItem
-    }
-}

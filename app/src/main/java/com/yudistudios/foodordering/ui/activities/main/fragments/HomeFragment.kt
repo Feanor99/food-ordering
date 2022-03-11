@@ -1,6 +1,7 @@
 package com.yudistudios.foodordering.ui.activities.main.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,17 +13,22 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.yudistudios.foodordering.databinding.FragmentHomeBinding
 import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.ui.activities.basket.BasketActivity
 import com.yudistudios.foodordering.ui.activities.main.MainActivity
 import com.yudistudios.foodordering.ui.activities.main.viewmodels.HomeViewModel
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerItemClickListeners
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -36,9 +42,15 @@ class HomeFragment : Fragment() {
     private var isRefreshed = false
     private var searchText: String? = null
 
+    private val mustRefreshRecyclerView = MutableLiveData<Boolean>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getFoods()
+
+        observeBasket()
+        observeFoods()
+
     }
 
     override fun onCreateView(
@@ -50,9 +62,7 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        lifecycleScope.launch {
-            setRecyclerAndListen()
-        }
+        setRecyclerView()
 
         refreshLayout()
 
@@ -64,8 +74,33 @@ class HomeFragment : Fragment() {
 
         search()
 
+        mustRefreshRecyclerView.value = true
+
         return binding.root
     }
+
+    private fun observeBasket() {
+        viewModel.foodsInBasket.observe(this) {
+            viewModel.foodsInBasketCount.value = it.size
+            Timber.e("basket changed")
+
+            if (viewModel.foods.value != null) {
+                viewModel.foods.value = viewModel.foods.value
+            }
+
+        }
+
+    }
+
+    private fun observeFoods() {
+        viewModel.foods.observe(this) {
+            if (it.isNotEmpty()) {
+                Timber.e("foods changed")
+                mustRefreshRecyclerView.value = true
+            }
+        }
+    }
+
 
     private fun search() {
         binding.editTextSearch.addTextChangedListener(object : TextWatcher {
@@ -90,14 +125,19 @@ class HomeFragment : Fragment() {
 
         adapter?.let {
             if (searchText.isNullOrEmpty()) {
-                adapter.submitList(viewModel.foods.value?.toList() ?: listOf())
+                val amountsSet = viewModel.updateAmounts()
+                adapter.submitList(amountsSet)
             } else {
-                val foodList = viewModel.foods.value
-                foodList?.let {
-                    val filteredList = foodList.filter { f ->
-                        f.name.lowercase().contains(searchText.toString().lowercase())
-                    }.toList()
-                    adapter.submitList(filteredList)
+                val amountsSet = viewModel.updateAmounts()
+                val filteredList = amountsSet.filter { f ->
+                    f.name.lowercase().contains(searchText.toString().lowercase())
+                }.toList()
+                adapter.submitList(filteredList)
+                lifecycleScope.launch {
+                    delay(1000)
+                    _binding?.let {
+                        binding.recyclerView.smoothScrollToPosition(0)
+                    }
                 }
             }
         }
@@ -120,10 +160,25 @@ class HomeFragment : Fragment() {
     }
 
     private fun observers() {
+        mustRefreshRecyclerView.observe(viewLifecycleOwner) {
+            if (it) {
+                if (searchText.isNullOrEmpty()) {
+                    val amountsSet = viewModel.updateAmounts()
+                    val adapter = binding.recyclerView.adapter as FoodRecyclerViewAdapter
+                    adapter.submitList(amountsSet)
+                } else {
+                    searchFoods()
+                }
 
-        viewModel.foodsInBasket.observe(viewLifecycleOwner) {
-            viewModel.foodsInBasketCount.value = it.size
-            viewModel.updateAmounts(it)
+                if (isRefreshed) {
+                    isRefreshed = false
+                }
+
+                if (binding.refreshLayout.isRefreshing) {
+                    binding.refreshLayout.isRefreshing = false
+                }
+                mustRefreshRecyclerView.value = false
+            }
         }
 
         viewModel.showSortMenuIsClicked.observe(viewLifecycleOwner) {
@@ -136,6 +191,19 @@ class HomeFragment : Fragment() {
                 viewModel.showSortMenuIsClicked.value = false
             }
         }
+
+        viewModel.basketButtonIsClicked.observe(viewLifecycleOwner) {
+            if (it) {
+                val intent = Intent(requireActivity(), BasketActivity::class.java)
+                startActivity(intent)
+                viewModel.basketButtonIsClicked.value = false
+            }
+        }
+    }
+
+    private fun setRecyclerView() {
+        val adapter = foodRecyclerViewAdapterSetup()
+        binding.adapter = adapter
     }
 
     private fun sortPriceChipGroup() {
@@ -163,44 +231,18 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun setRecyclerAndListen() {
-
-        val adapter = foodRecyclerViewAdapterSetup()
-
-        viewModel.foods.observe(viewLifecycleOwner) {
-            if (searchText.isNullOrEmpty()) {
-                adapter.submitList(it)
-                Timber.e(viewModel.foodsInBasket.value.toString())
-                Timber.e(it.toString())
-            } else {
-                searchFoods()
-            }
-
-            if (isRefreshed) {
-                viewModel.foodsInBasket.value?.let { it1 ->
-                    viewModel.updateAmounts(it1)
-                }
-                isRefreshed = false
-            }
-
-            if (binding.refreshLayout.isRefreshing) {
-                binding.refreshLayout.isRefreshing = false
-            }
-        }
-    }
-
     private fun foodRecyclerViewAdapterSetup(): FoodRecyclerViewAdapter {
 
         val addFoodToBasket = { food: Food ->
-            viewModel.addFoodToBasket(food, 1)
+            viewModel.changeFoodBasketByGivenAmount(food, 1)
         }
 
         val increaseAmount = { food: Food ->
-            viewModel.addFoodToBasket(food, 1)
+            viewModel.changeFoodBasketByGivenAmount(food, 1)
         }
 
         val decreaseAmount = { food: Food ->
-            viewModel.addFoodToBasket(food, -1)
+            viewModel.changeFoodBasketByGivenAmount(food, -1)
         }
 
         val goDetail = { food: Food ->
@@ -217,9 +259,7 @@ class HomeFragment : Fragment() {
                 goDetail
             )
 
-        val adapter = FoodRecyclerViewAdapter(clickListeners)
-        binding.adapter = adapter
-        return adapter
+        return FoodRecyclerViewAdapter(clickListeners)
     }
 
     override fun onDestroyView() {

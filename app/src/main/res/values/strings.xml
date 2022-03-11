@@ -26,4 +26,6 @@
     <string name="drinks">Drinks</string>
     <string name="desserts">Desserts</string>
     <string name="pizza">Pizza</string>
+    <string name="confirm_basket">Confirm Basket</string>
+    <string name="basket">Basket</string>
 </resources>

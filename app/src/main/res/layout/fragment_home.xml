@@ -80,6 +80,7 @@
                     android:background="?selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
+                    android:onClick="@{() -> viewModel.basketButtonOnClick()}"
                     app:layout_constraintBottom_toBottomOf="@id/editText_search"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/editText_search">
