@@ -22,3 +22,14 @@ fun TextView.setPriceText(price: String) {
         text = String.format("%s %s", formatter.format(priceDouble), currency)
     }
 }
+
+@BindingAdapter("totalCostText")
+fun TextView.setTotalCostText(price: String) {
+    val currency = "₺"
+    val priceDouble = price.toDoubleOrNull()
+    val formatter = DecimalFormat("###,###.00")
+    if (priceDouble != null) {
+        val totalText = resources.getString(R.string.total)
+        text = String.format("%s: %s %s",totalText, formatter.format(priceDouble), currency)
+    }
+}

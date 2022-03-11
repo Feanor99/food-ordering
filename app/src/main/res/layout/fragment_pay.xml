@@ -1,13 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.activities.basket.fragments.PayFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
+    <data>
+
+        <variable
+            name="totalCost"
+            type="String" />
+
+        <variable
+            name="viewModel"
+            type="com.yudistudios.foodordering.ui.activities.basket.viewmodels.PayViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.yudistudios.foodordering.ui.adapters.OrderRecyclerViewAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="8dp"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                app:tint="@color/black" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textView_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="@string/payment"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/address"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintBottom_toTopOf="@id/map" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginVertical="4dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/textView_address"
+            app:layout_constraintStart_toEndOf="@id/textView_address"
+            app:layout_constraintEnd_toStartOf="@id/textView_address_change"
+            app:layout_constraintTop_toTopOf="@id/textView_address" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_address_change"
+            android:text="@string/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginStart="4dp"
+            android:textAlignment="center"
+            android:textColor="?colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/textView_address"
+            app:layout_constraintStart_toEndOf="@id/divider4"
+            app:layout_constraintTop_toTopOf="@id/textView_address" />
+
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView_address"
+            tools:context=".ui.activities.basket.fragments.PayFragment" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/order"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintTop_toBottomOf="@id/map" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:adapter="@{adapter}"
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarFadeDuration="0"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/divider2"
+            app:layout_constraintEnd_toEndOf="@id/map"
+            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintTop_toBottomOf="@id/textView" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toTopOf="@id/textView_total"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintEnd_toEndOf="@id/map"
+            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintTop_toBottomOf="@id/recyclerView" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_total"
+            totalCostText="@{totalCost}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/divider3"
+            app:layout_constraintEnd_toEndOf="@id/map"
+            app:layout_constraintTop_toBottomOf="@id/divider2"
+            tools:text="Total: 2563.47 ₺" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toTopOf="@id/textView_total"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintEnd_toEndOf="@id/map"
+            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintTop_toBottomOf="@id/textView_total" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_creditCard"
+            android:text="**** **** **** 1234 VISA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/checkbox"
+            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginVertical="4dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/textView_creditCard"
+            app:layout_constraintStart_toEndOf="@id/textView_creditCard"
+            app:layout_constraintEnd_toStartOf="@id/textView_creditCard_change"
+            app:layout_constraintTop_toTopOf="@id/textView_creditCard_change" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_creditCard_change"
+            android:text="@string/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="?colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/textView_creditCard"
+            app:layout_constraintStart_toEndOf="@id/divider5"
+            app:layout_constraintTop_toBottomOf="@id/textView_creditCard" />
+
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/i_accept_the_agreement"
+            android:textColor="?colorPrimary"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/button_pay"
+            app:layout_constraintStart_toStartOf="@id/map" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_pay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/pay"
+            android:textSize="18sp"
+            android:onClick="@{() -> viewModel.payButtonOnClick()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

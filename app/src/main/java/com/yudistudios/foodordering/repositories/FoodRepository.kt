@@ -93,6 +93,9 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
 
     }
 
+    fun clearAll() {
+        DatabaseUtils.getInstance().clearBasket()
+    }
 
     fun getAllFoods(): Flow<List<Food>> {
         return flow {

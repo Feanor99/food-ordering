@@ -46,6 +46,10 @@ class DatabaseUtils private constructor() {
         basketReference.child("id_${basketFood.id}").removeValue()
     }
 
+    fun clearBasket() {
+        basketReference.removeValue()
+    }
+
     private fun listenBasket() {
 
         val basketListener = object : ValueEventListener {

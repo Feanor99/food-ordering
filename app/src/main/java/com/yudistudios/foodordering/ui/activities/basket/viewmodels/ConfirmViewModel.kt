@@ -8,6 +8,9 @@ import com.yudistudios.foodordering.repositories.BasketRepository
 import com.yudistudios.foodordering.repositories.FoodRepository
 import com.yudistudios.foodordering.retrofit.models.BasketFood
 import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
+import com.yudistudios.foodordering.utils.HttpRequestResult
+import com.yudistudios.foodordering.utils.HttpRequestStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +31,10 @@ class ConfirmViewModel @Inject constructor(
 
     val confirmButtonIsClicked = MutableLiveData(false)
 
+    private val hasErrors = MutableLiveData(false)
+
+    val confirmationStatus = MutableLiveData<HttpRequestStatus>()
+
     fun confirmButtonOnClick() {
         confirmButtonIsClicked.value = true
     }
@@ -38,6 +45,9 @@ class ConfirmViewModel @Inject constructor(
         foods?.forEach {
             basketRepository.addFoodToBasket(it).collect { response ->
                 Timber.e(response.toString())
+                if (response.success != 1L) {
+                    hasErrors.postValue(true)
+                }
             }
         }
     }
@@ -57,21 +67,32 @@ class ConfirmViewModel @Inject constructor(
         }
     }
 
-    fun updateBasket(foodsForRemove: List<BasketFood>) {
+    fun updateBasket(getBasketResponse: GetBasketResponse) {
 
         CoroutineScope(Dispatchers.IO).launch {
-            foodsForRemove.forEach {
+
+            getBasketResponse.foods.forEach {
                 basketRepository.removeFoodFromBasket(it.id).collect { response ->
                     Timber.e(response.toString())
+                    if (response.success != 1L) {
+                        hasErrors.postValue(true)
+                    }
                 }
             }
 
             addFoodsToBasket()
 
+            if (hasErrors.value == false) {
+                confirmationStatus.postValue(HttpRequestStatus(HttpRequestResult.SUCCESS))
+            } else {
+                confirmationStatus.postValue(HttpRequestStatus(HttpRequestResult.FAILED))
+            }
+
         }
     }
 
-    fun refreshBasket() {
+    fun refreshBasketWithFirebaseBasket() {
+        confirmationStatus.value = HttpRequestStatus(HttpRequestResult.WAITING)
         basket = basketRepository.getBasket().asLiveData()
     }
 }

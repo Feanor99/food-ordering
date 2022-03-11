@@ -3,6 +3,7 @@ package com.yudistudios.foodordering.repositories
 import com.yudistudios.foodordering.firebase.AuthUtils
 import com.yudistudios.foodordering.retrofit.models.BasketFood
 import com.yudistudios.foodordering.retrofit.models.BasketResponse
+import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
 import com.yudistudios.foodordering.retrofit.models.toFoodBasketPost
 import com.yudistudios.foodordering.retrofit.services.BasketService
 import kotlinx.coroutines.flow.Flow
@@ -12,16 +13,16 @@ import javax.inject.Inject
 
 class BasketRepository @Inject constructor(private val basketService: BasketService) {
 
-    fun getBasket(): Flow<List<BasketFood>> {
+    fun getBasket(): Flow<GetBasketResponse> {
         return flow {
             try {
                 val response = basketService.getBasket(AuthUtils.user!!.uid)
                 Timber.e(response.body().toString())
 
-                emit(response.body()?.foods ?: listOf())
+                emit(response.body() ?: GetBasketResponse(listOf(), 0))
             } catch (e: Exception) {
                 Timber.e(e.message.toString())
-                emit(listOf())
+                emit(GetBasketResponse(listOf(), 0))
             }
         }
     }

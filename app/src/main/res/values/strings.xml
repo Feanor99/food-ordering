@@ -28,4 +28,12 @@
     <string name="pizza">Pizza</string>
     <string name="confirm_basket">Confirm Basket</string>
     <string name="basket">Basket</string>
+    <string name="payment">Payment</string>
+    <string name="total">Total</string>
+    <string name="i_accept_the_agreement">I accept the agreement</string>
+    <string name="pay">Pay</string>
+    <string name="order">Order</string>
+    <string name="address">Address</string>
+    <string name="change">change</string>
+    <string name="ok">OK</string>
 </resources>

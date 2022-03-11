@@ -1,5 +1,6 @@
 package com.yudistudios.foodordering.ui.activities.basket.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.databinding.FragmentConfirmBinding
 import com.yudistudios.foodordering.retrofit.models.BasketFood
+import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
 import com.yudistudios.foodordering.ui.activities.basket.viewmodels.ConfirmViewModel
 import com.yudistudios.foodordering.ui.adapters.FoodBasketRecyclerItemClickListeners
 import com.yudistudios.foodordering.ui.adapters.FoodBasketRecyclerViewAdapter
+import com.yudistudios.foodordering.utils.Dialogs
+import com.yudistudios.foodordering.utils.HttpRequestResult
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -22,6 +28,8 @@ class ConfirmFragment : Fragment() {
 
     private var _binding: FragmentConfirmBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var dialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +48,34 @@ class ConfirmFragment : Fragment() {
 
         back()
 
+        observeConfirmationStatus()
+
         return binding.root
+    }
+
+    private fun observeConfirmationStatus() {
+
+        viewModel.confirmationStatus.observe(viewLifecycleOwner) {
+            when (it.result) {
+                HttpRequestResult.SUCCESS -> {
+                    findNavController().navigate(R.id.action_confirmFragment_to_payFragment)
+                    if (dialog.isShowing) {
+                        dialog.cancel()
+                    }
+                }
+                HttpRequestResult.FAILED -> {
+                    if (dialog.isShowing) {
+                        dialog.cancel()
+                    }
+                    dialog = Dialogs().errorDialog(requireContext())
+                    dialog.show()
+                }
+                HttpRequestResult.WAITING -> {
+                    dialog = Dialogs().loadingDialog(requireContext())
+                    dialog.show()
+                }
+            }
+        }
     }
 
     private fun back() {
@@ -53,11 +88,13 @@ class ConfirmFragment : Fragment() {
 
         viewModel.confirmButtonIsClicked.observe(viewLifecycleOwner) {
             if (it) {
-                viewModel.refreshBasket()
 
-                basketRefreshed()
+                viewModel.refreshBasketWithFirebaseBasket()
+
+                refreshBasketObserver()
 
                 viewModel.confirmButtonIsClicked.value = false
+
             }
         }
     }
@@ -79,11 +116,11 @@ class ConfirmFragment : Fragment() {
 
     }
 
-    private fun basketRefreshed() {
-        var observer: Observer<List<BasketFood>>? = null
-        observer = Observer<List<BasketFood>> { list ->
+    private fun refreshBasketObserver() {
+        var observer: Observer<GetBasketResponse>? = null
+        observer = Observer<GetBasketResponse> { response ->
 
-            viewModel.updateBasket(list)
+            viewModel.updateBasket(response)
 
             observer?.let {
                     it1 -> viewModel.basket.removeObserver(it1)
