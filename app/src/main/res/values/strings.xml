@@ -3,7 +3,9 @@
     <string name="login">Login</string>
     <string name="your_favourite_restaurant_awaits">Your favourite restaurant awaits!</string>
     <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
     <string name="or_sign_in_with_e_mail">or sign in with e-mail</string>
+    <string name="or_sign_up_with_e_mail">or sign up with e-mail</string>
     <string name="e_mail">E-mail</string>
     <string name="Password">Password</string>
     <string name="sign_in">Sign In</string>
@@ -36,4 +38,11 @@
     <string name="address">Address</string>
     <string name="change">change</string>
     <string name="ok">OK</string>
+    <string name="create_account">Create Account</string>
+    <string name="re_type_password">Re-Type Password</string>
+    <string name="network_error">Network Error</string>
+    <string name="success">Success</string>
+    <string name="swipe_down_to_refresh">Swipe Down To Refresh</string>
+    <string name="active_orders">Active Orders</string>
+    <string name="view">view</string>
 </resources>

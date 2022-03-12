@@ -1,5 +1,6 @@
 package com.yudistudios.foodordering.ui.activities.main.fragments
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -24,6 +25,7 @@ import com.yudistudios.foodordering.ui.activities.main.MainActivity
 import com.yudistudios.foodordering.ui.activities.main.viewmodels.HomeViewModel
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerItemClickListeners
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerViewAdapter
+import com.yudistudios.foodordering.utils.Dialogs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -43,6 +45,8 @@ class HomeFragment : Fragment() {
     private var searchText: String? = null
 
     private val mustRefreshRecyclerView = MutableLiveData<Boolean>()
+
+    private lateinit var dialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -160,6 +164,23 @@ class HomeFragment : Fragment() {
     }
 
     private fun observers() {
+
+        viewModel.getFoodsResponse.observe(viewLifecycleOwner) {
+            if (it.successCode != 1) {
+                dialog = Dialogs().errorDialog(requireContext())
+                dialog.show()
+                binding.animationView.visibility = View.VISIBLE
+                binding.textViewSwipe.visibility = View.VISIBLE
+            } else {
+                binding.animationView.visibility = View.GONE
+                binding.textViewSwipe.visibility = View.GONE
+            }
+
+            if (_binding != null && binding.refreshLayout.isRefreshing) {
+                binding.refreshLayout.isRefreshing = false
+            }
+        }
+
         mustRefreshRecyclerView.observe(viewLifecycleOwner) {
             if (it) {
                 if (searchText.isNullOrEmpty()) {
@@ -218,14 +239,6 @@ class HomeFragment : Fragment() {
                     viewModel.getFoods()
                     binding.chipPriceNone.isChecked = true
 
-                    lifecycleScope.launch {
-                        withContext(Dispatchers.Default) {
-                            delay(3000)
-                            if (_binding != null && binding.refreshLayout.isRefreshing) {
-                                binding.refreshLayout.isRefreshing = false
-                            }
-                        }
-                    }
                 }
             }
         )
@@ -264,6 +277,9 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        if (::dialog.isInitialized && dialog.isShowing) {
+            dialog.cancel()
+        }
         _binding = null
     }
 

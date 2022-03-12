@@ -83,10 +83,15 @@
                     android:id="@+id/button_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:visibility="@{food.amount == 0 ? View.VISIBLE : View.INVISIBLE}"
                     android:text="@string/add_to_basket"
                     app:icon="@drawable/ic_plus"
                     app:iconSize="24dp"
+                    app:iconTint="?colorPrimary"
+                    android:textColor="?colorPrimary"
+                    app:cornerRadius="32dp"
+                    app:strokeColor="?colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -103,18 +108,26 @@
                     app:layout_constraintStart_toStartOf="@id/textView_name"
                     app:layout_constraintTop_toBottomOf="@+id/textView_price">
 
-                    <ImageButton
+                    <FrameLayout
                         android:id="@+id/materialButton_decrease"
-                        android:layout_width="45dp"
+                        android:layout_width="35dp"
                         android:layout_height="0dp"
-                        android:backgroundTint="?colorPrimary"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_minus"
+                        android:background="@drawable/bg_circle"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:tint="@color/white" />
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_minus"
+                            app:tint="?colorPrimary" />
+                    </FrameLayout>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/textView_amount"
@@ -125,27 +138,36 @@
                         android:text='@{food.amount + ""}'
                         android:textColor="@color/black"
                         android:textSize="20sp"
-                        android:background="@drawable/custom_input"
+                        android:background="@drawable/bg_text_bordered"
                         app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
                         app:layout_constraintEnd_toStartOf="@id/materialButton_increase"
                         app:layout_constraintStart_toEndOf="@id/materialButton_decrease"
                         app:layout_constraintTop_toTopOf="@id/materialButton_decrease" />
 
-                    <ImageButton
+                    <FrameLayout
                         android:id="@+id/materialButton_increase"
-                        android:layout_width="45dp"
+                        android:layout_width="35dp"
                         android:layout_height="0dp"
-                        android:layout_marginStart="4dp"
+                        android:background="@drawable/bg_circle"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
                         android:layout_marginEnd="8dp"
-                        android:backgroundTint="?colorPrimary"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/ic_plus"
+                        android:layout_marginStart="4dp"
                         app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/textView_amount"
-                        app:layout_constraintTop_toTopOf="@id/materialButton_decrease"
-                        app:tint="@color/white" />
+                        app:layout_constraintTop_toTopOf="@id/materialButton_decrease">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_plus"
+                            app:tint="?colorPrimary" />
+                    </FrameLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

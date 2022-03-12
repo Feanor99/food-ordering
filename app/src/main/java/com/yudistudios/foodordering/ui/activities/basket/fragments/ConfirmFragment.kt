@@ -17,7 +17,7 @@ import com.yudistudios.foodordering.ui.activities.basket.viewmodels.ConfirmViewM
 import com.yudistudios.foodordering.ui.adapters.FoodBasketRecyclerItemClickListeners
 import com.yudistudios.foodordering.ui.adapters.FoodBasketRecyclerViewAdapter
 import com.yudistudios.foodordering.utils.Dialogs
-import com.yudistudios.foodordering.utils.HttpRequestResult
+import com.yudistudios.foodordering.utils.Result
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
@@ -57,23 +57,24 @@ class ConfirmFragment : Fragment() {
 
         viewModel.confirmationStatus.observe(viewLifecycleOwner) {
             when (it.result) {
-                HttpRequestResult.SUCCESS -> {
+                Result.SUCCESS -> {
                     findNavController().navigate(R.id.action_confirmFragment_to_payFragment)
                     if (dialog.isShowing) {
                         dialog.cancel()
                     }
                 }
-                HttpRequestResult.FAILED -> {
+                Result.NETWORK_ERROR -> {
                     if (dialog.isShowing) {
                         dialog.cancel()
                     }
                     dialog = Dialogs().errorDialog(requireContext())
                     dialog.show()
                 }
-                HttpRequestResult.WAITING -> {
+                Result.WAITING -> {
                     dialog = Dialogs().loadingDialog(requireContext())
                     dialog.show()
                 }
+                else -> return@observe
             }
         }
     }

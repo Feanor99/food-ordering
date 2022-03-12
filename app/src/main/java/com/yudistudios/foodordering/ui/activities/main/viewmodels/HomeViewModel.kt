@@ -8,6 +8,7 @@ import com.google.android.material.chip.ChipGroup
 import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.repositories.FoodRepository
 import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.retrofit.models.GetFoodsResponse
 import com.yudistudios.foodordering.retrofit.models.toFood
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -20,6 +21,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val foodRepository: FoodRepository) : ViewModel() {
 
     var foods = MutableLiveData<List<Food>>()
+    var getFoodsResponse = MutableLiveData<GetFoodsResponse>()
 
     val foodsInBasket get() = foodRepository.foodsInBasket
 
@@ -33,10 +35,11 @@ class HomeViewModel @Inject constructor(private val foodRepository: FoodReposito
     fun getFoods() {
         viewModelScope.launch {
             foodRepository.getAllFoods().collect {
+                getFoodsResponse.value = it
                 when (currentSort) {
-                    0 -> foods.value = it
-                    1 -> foods.value = sortFoodsASC(it)
-                    2 -> foods.value = sortFoodsDESC(it)
+                    0 -> foods.value = it.foods
+                    1 -> foods.value = sortFoodsASC(it.foods)
+                    2 -> foods.value = sortFoodsDESC(it.foods)
                 }
             }
         }

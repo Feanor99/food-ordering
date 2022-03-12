@@ -29,9 +29,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(checkIfSignedIn()){
-            DatabaseUtils.getInstance()
-        }
 
         sShowBottomNavView.observe(this) {
             if (it) {
@@ -48,15 +45,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun checkIfSignedIn(): Boolean {
-        if (AuthUtils.user == null) {
-            val intent = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-//        else {
-//            AuthUtils.signOut(this)
-//        }
-        return true
-    }
 }

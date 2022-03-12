@@ -12,10 +12,13 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.yudistudios.foodordering.databinding.FragmentSignInBinding
 import com.yudistudios.foodordering.firebase.AuthUtils
 import com.yudistudios.foodordering.ui.activities.login.viewmodels.SignInViewModel
 import com.yudistudios.foodordering.ui.activities.main.MainActivity
+import com.yudistudios.foodordering.utils.Dialogs
+import com.yudistudios.foodordering.utils.Result
 
 class SignInFragment : Fragment() {
 
@@ -54,7 +57,7 @@ class SignInFragment : Fragment() {
                 val imm =
                     requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(v.windowToken, 0)
-                viewModel.buttonSignInClicked()
+                viewModel.buttonSignInOnClick()
                 true
             } else {
                 false
@@ -63,18 +66,44 @@ class SignInFragment : Fragment() {
     }
 
     private fun observers() {
+
+        AuthUtils.signInResultIsSuccess.observe(viewLifecycleOwner) { response ->
+            when (response.result) {
+                Result.SUCCESS -> {
+                    val intent = Intent(requireActivity(), MainActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
+                Result.NETWORK_ERROR -> {
+                    val dialog = Dialogs().errorDialog(requireContext())
+                    dialog.show()
+                    AuthUtils.resetStatus()
+                }
+                Result.INCORRECT_PASSWORD -> {
+                    binding.textInputLayoutPassword.error = "E-mail or password is incorrect"
+                    AuthUtils.resetStatus()
+                }
+                else -> return@observe
+            }
+        }
+
         viewModel.isButtonSignInClicked.observe(viewLifecycleOwner) {
             if (it) {
                 binding.editTextPassword.clearFocus()
 
-                if (binding.editTextEmail.text.toString().isEmpty()) {
+                val email = binding.editTextEmail.text.toString()
+                val password = binding.editTextPassword.text.toString()
+
+                if (email.isEmpty()) {
                     binding.editTextEmail.error = "Required"
                 }
 
-                if (binding.editTextPassword.text.toString().isEmpty()) {
+                if (password.isEmpty()) {
                     binding.editTextPassword.error = "Required"
-                } else {
-                    binding.textInputLayoutPassword.error = "E-mail or password is incorrect"
+                }
+
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    AuthUtils.signIn(email, password, requireActivity())
                 }
 
 
@@ -84,17 +113,18 @@ class SignInFragment : Fragment() {
 
         viewModel.isButtonGoogleSignInClicked.observe(viewLifecycleOwner) {
             if (it) {
-                AuthUtils.signInResultIsSuccess.observe(viewLifecycleOwner) { isSuccess ->
-                    if (isSuccess) {
-                        val intent = Intent(requireActivity(), MainActivity::class.java)
-                        startActivity(intent)
-                        requireActivity().finish()
-                    }
-                }
-
                 AuthUtils.signIn(signInLauncher)
 
                 viewModel.isButtonGoogleSignInClicked.value = false
+            }
+        }
+
+        viewModel.isCreateAccountClicked.observe(viewLifecycleOwner) {
+            if (it) {
+                val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
+                findNavController().navigate(action)
+
+                viewModel.isCreateAccountClicked.value = false
             }
         }
     }

@@ -15,14 +15,13 @@ class DatabaseUtils private constructor() {
         private var instance: DatabaseUtils? = null
 
         fun getInstance(): DatabaseUtils {
-            if (instance == null) {
+            if (instance == null && AuthUtils.user != null) {
                 instance = DatabaseUtils()
             }
 
             return instance!!
         }
     }
-
 
     private val database = Firebase.database.reference
 
@@ -34,6 +33,10 @@ class DatabaseUtils private constructor() {
         .child(AuthUtils.user!!.uid)
         .child("BasketItems")
 
+    private val ordersReference = database.child("users")
+        .child(AuthUtils.user!!.uid)
+        .child("ActiveOrders")
+
     init {
         listenBasket()
     }
@@ -44,6 +47,10 @@ class DatabaseUtils private constructor() {
 
     fun removeFoodFromBasket(basketFood: BasketFood) {
         basketReference.child("id_${basketFood.id}").removeValue()
+    }
+
+    fun saveOrder(order: List<BasketFood>) {
+        ordersReference.push().setValue(order)
     }
 
     fun clearBasket() {

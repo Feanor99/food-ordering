@@ -9,8 +9,8 @@ import com.yudistudios.foodordering.repositories.FoodRepository
 import com.yudistudios.foodordering.retrofit.models.BasketFood
 import com.yudistudios.foodordering.retrofit.models.Food
 import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
-import com.yudistudios.foodordering.utils.HttpRequestResult
-import com.yudistudios.foodordering.utils.HttpRequestStatus
+import com.yudistudios.foodordering.utils.Result
+import com.yudistudios.foodordering.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +33,7 @@ class ConfirmViewModel @Inject constructor(
 
     private val hasErrors = MutableLiveData(false)
 
-    val confirmationStatus = MutableLiveData<HttpRequestStatus>()
+    val confirmationStatus = MutableLiveData<Status>()
 
     fun confirmButtonOnClick() {
         confirmButtonIsClicked.value = true
@@ -83,16 +83,16 @@ class ConfirmViewModel @Inject constructor(
             addFoodsToBasket()
 
             if (hasErrors.value == false) {
-                confirmationStatus.postValue(HttpRequestStatus(HttpRequestResult.SUCCESS))
+                confirmationStatus.postValue(Status(Result.SUCCESS))
             } else {
-                confirmationStatus.postValue(HttpRequestStatus(HttpRequestResult.FAILED))
+                confirmationStatus.postValue(Status(Result.NETWORK_ERROR))
             }
 
         }
     }
 
     fun refreshBasketWithFirebaseBasket() {
-        confirmationStatus.value = HttpRequestStatus(HttpRequestResult.WAITING)
+        confirmationStatus.value = Status(Result.WAITING)
         basket = basketRepository.getBasket().asLiveData()
     }
 }

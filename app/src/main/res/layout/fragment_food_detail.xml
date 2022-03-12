@@ -69,6 +69,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:elevation="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintWidth_percent="0.8"
                 android:shadowColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +98,7 @@
                         android:layout_marginStart="8dp"
                         android:text="@{viewModel.food.name}"
                         android:textColor="@color/black"
-                        android:textSize="26sp"
+                        android:textSize="21sp"
                         app:layout_constraintBottom_toTopOf="@+id/textView_price"
                         app:layout_constraintStart_toStartOf="@id/imageView"
                         app:layout_constraintTop_toBottomOf="@id/imageView"
@@ -108,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:textSize="30sp"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@id/textView_name"
                         app:layout_constraintTop_toBottomOf="@+id/textView_name"
@@ -118,17 +120,22 @@
                         android:id="@+id/button_add"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:onClick="@{() -> viewModel.addFoodToBasket()}"
-                        android:padding="16dp"
-                        android:text="@string/add_to_basket"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:visibility="@{viewModel.food.amount == 0 ? View.VISIBLE : View.INVISIBLE}"
+                        android:text="@string/add_to_basket"
                         app:icon="@drawable/ic_plus"
                         app:iconSize="24dp"
+                        app:iconTint="?colorPrimary"
+                        android:onClick="@{() -> viewModel.addFoodToBasket()}"
+                        android:textColor="?colorPrimary"
+                        app:cornerRadius="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:padding="12dp"
+                        android:textSize="16sp"
+                        app:strokeColor="?colorPrimary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView_price" />
+                        app:layout_constraintStart_toStartOf="parent" />
 
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -136,63 +143,77 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
                         android:visibility="@{viewModel.food.amount > 0 ? View.VISIBLE : View.INVISIBLE}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/imageView"
                         app:layout_constraintStart_toStartOf="@id/textView_name"
                         app:layout_constraintTop_toBottomOf="@+id/textView_price">
 
-                        <ImageButton
+                        <FrameLayout
                             android:id="@+id/materialButton_decrease"
-                            android:layout_width="65dp"
+                            android:layout_width="45dp"
                             android:layout_height="0dp"
-                            android:backgroundTint="?colorPrimary"
+                            android:background="@drawable/bg_circle"
+                            android:clickable="true"
+                            android:focusable="true"
                             android:onClick="@{() -> viewModel.decreaseFoodAmountOnClick()}"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_minus"
+                            android:gravity="center"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:tint="@color/white" />
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_minus"
+                                app:tint="?colorPrimary" />
+                        </FrameLayout>
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editText_amount"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:layout_margin="4dp"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/custom_input_one_color"
+                            android:background="@drawable/bg_text_bordered"
                             android:gravity="center"
                             android:imeOptions="actionDone"
                             android:inputType="number"
                             android:maxLines="1"
                             android:text='@{viewModel.food.amount + ""}'
                             android:textColor="@color/black"
-                            android:textSize="28sp"
+                            android:textSize="24sp"
                             app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
                             app:layout_constraintEnd_toStartOf="@id/materialButton_increase"
                             app:layout_constraintStart_toEndOf="@id/materialButton_decrease"
                             app:layout_constraintTop_toTopOf="@id/materialButton_decrease" />
 
-                        <ImageButton
+                        <FrameLayout
                             android:id="@+id/materialButton_increase"
-                            android:layout_width="65dp"
+                            android:layout_width="45dp"
+                            android:background="@drawable/bg_circle"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
                             android:layout_height="0dp"
-                            android:layout_marginStart="4dp"
                             android:layout_marginEnd="8dp"
-                            android:backgroundTint="?colorPrimary"
                             android:onClick="@{() -> viewModel.increaseFoodAmountOnClick()}"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ic_plus"
                             app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
                             app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/editText_amount"
-                            app:layout_constraintTop_toTopOf="@id/materialButton_decrease"
-                            app:tint="@color/white" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            app:layout_constraintTop_toTopOf="@id/materialButton_decrease">
 
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerInside"
+                                android:src="@drawable/ic_plus"
+                                app:tint="?colorPrimary" />
+                        </FrameLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

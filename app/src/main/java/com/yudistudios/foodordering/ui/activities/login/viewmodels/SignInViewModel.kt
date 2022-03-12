@@ -7,13 +7,18 @@ class SignInViewModel : ViewModel() {
 
     var isButtonSignInClicked = MutableLiveData(false)
     var isButtonGoogleSignInClicked = MutableLiveData(false)
+    var isCreateAccountClicked = MutableLiveData(false)
 
-    fun buttonSignInClicked() {
+    fun buttonSignInOnClick() {
         isButtonSignInClicked.value = true
     }
 
-    fun buttonGoogleSignInClicked() {
+    fun buttonGoogleSignInOnClick() {
         isButtonGoogleSignInClicked.value = true
+    }
+
+    fun createAccountOnClick() {
+        isCreateAccountClicked.value = true
     }
 
 }

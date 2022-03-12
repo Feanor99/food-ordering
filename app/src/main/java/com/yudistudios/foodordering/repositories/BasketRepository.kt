@@ -1,6 +1,7 @@
 package com.yudistudios.foodordering.repositories
 
 import com.yudistudios.foodordering.firebase.AuthUtils
+import com.yudistudios.foodordering.firebase.DatabaseUtils
 import com.yudistudios.foodordering.retrofit.models.BasketFood
 import com.yudistudios.foodordering.retrofit.models.BasketResponse
 import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
@@ -67,6 +68,10 @@ class BasketRepository @Inject constructor(private val basketService: BasketServ
                 emit(BasketResponse(-2, "default"))
             }
         }
+    }
+
+    fun saveOrder(order: List<BasketFood>) {
+        DatabaseUtils.getInstance().saveOrder(order)
     }
 
 }

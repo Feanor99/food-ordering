@@ -18,8 +18,8 @@ import com.yudistudios.foodordering.databinding.FragmentPayBinding
 import com.yudistudios.foodordering.ui.activities.basket.viewmodels.PayViewModel
 import com.yudistudios.foodordering.ui.adapters.OrderRecyclerViewAdapter
 import com.yudistudios.foodordering.utils.Dialogs
-import com.yudistudios.foodordering.utils.HttpRequestResult
-import com.yudistudios.foodordering.utils.HttpRequestStatus
+import com.yudistudios.foodordering.utils.Result
+import com.yudistudios.foodordering.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.math.BigDecimal
@@ -36,7 +36,7 @@ class PayFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
 
-        val address = LatLng(41.038872, 29.000634)
+        val address = LatLng(39.930429, 32.798766)
         googleMap.addMarker(MarkerOptions().position(address).title("Marker in address"))
         googleMap.setMinZoomPreference(15.0f)
         googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
@@ -77,7 +77,7 @@ class PayFragment : Fragment() {
 
         viewModel.clearStatus.observe(viewLifecycleOwner) {
             when (it.result) {
-                HttpRequestResult.SUCCESS -> {
+                Result.SUCCESS -> {
                     if (::dialog.isInitialized && dialog.isShowing) {
                         dialog.cancel()
                     }
@@ -86,17 +86,18 @@ class PayFragment : Fragment() {
                     }
                     dialog.show()
                 }
-                HttpRequestResult.FAILED -> {
+                Result.NETWORK_ERROR -> {
                     if (::dialog.isInitialized && dialog.isShowing) {
                         dialog.cancel()
                     }
                     dialog = Dialogs().errorDialog(requireContext())
                     dialog.show()
                 }
-                HttpRequestResult.WAITING -> {
+                Result.WAITING -> {
                     dialog = Dialogs().loadingDialog(requireContext())
                     dialog.show()
                 }
+                else -> return@observe
             }
         }
     }
@@ -114,12 +115,12 @@ class PayFragment : Fragment() {
                     if (response.successCode == 1) {
                         Timber.e("clear basket")
                         viewModel.clearBasket(response.foods)
-                        viewModel.clearStatus.value = HttpRequestStatus(HttpRequestResult.WAITING)
+                        viewModel.clearStatus.value = Status(Result.WAITING)
                     } else {
-                        viewModel.clearStatus.value = HttpRequestStatus(HttpRequestResult.FAILED)
+                        viewModel.clearStatus.value = Status(Result.NETWORK_ERROR)
                     }
                 } else {
-                    viewModel.clearStatus.value = HttpRequestStatus(HttpRequestResult.FAILED)
+                    viewModel.clearStatus.value = Status(Result.NETWORK_ERROR)
                 }
 
                 viewModel.payButtonIsClicked.value = false
@@ -132,7 +133,7 @@ class PayFragment : Fragment() {
         viewModel.basket.observe(viewLifecycleOwner) { response ->
 
             if (response.successCode != 1) {
-                viewModel.clearStatus.value = HttpRequestStatus(HttpRequestResult.FAILED)
+                viewModel.clearStatus.value = Status(Result.NETWORK_ERROR)
 
             } else if (response.foods.isNotEmpty()) {
 

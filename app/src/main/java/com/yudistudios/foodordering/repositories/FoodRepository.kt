@@ -4,9 +4,11 @@ import com.yudistudios.foodordering.firebase.AuthUtils
 import com.yudistudios.foodordering.firebase.DatabaseUtils
 import com.yudistudios.foodordering.retrofit.models.Food
 import com.yudistudios.foodordering.retrofit.models.BasketFood
+import com.yudistudios.foodordering.retrofit.models.GetFoodsResponse
 import com.yudistudios.foodordering.retrofit.services.FoodService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
 class FoodRepository @Inject constructor(private val foodService: FoodService) {
@@ -97,13 +99,14 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
         DatabaseUtils.getInstance().clearBasket()
     }
 
-    fun getAllFoods(): Flow<List<Food>> {
+    fun getAllFoods(): Flow<GetFoodsResponse> {
         return flow {
             try {
                 val response = foodService.getAllFoods()
-                emit(response.body()?.foods ?: listOf())
+                emit(response.body() ?: GetFoodsResponse(listOf(), 0))
             } catch (e: Exception) {
-                emit(listOf())
+                Timber.e("${e.message}")
+                emit(GetFoodsResponse(listOf(), 0))
             }
         }
     }

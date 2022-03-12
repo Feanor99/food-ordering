@@ -34,7 +34,7 @@
             android:textColor="@color/black"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/animationView"
-            android:text="Success" />
+            android:text="@string/success" />
 
 
         <com.google.android.material.button.MaterialButton
