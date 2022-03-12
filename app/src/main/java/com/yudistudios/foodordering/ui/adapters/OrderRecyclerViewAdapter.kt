@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yudistudios.foodordering.databinding.ItemOrderBinding
-import com.yudistudios.foodordering.retrofit.models.BasketFood
+import com.yudistudios.foodordering.models.BasketFood
 
 class OrderRecyclerViewAdapter(private val mList: List<BasketFood>) :
     RecyclerView.Adapter<OrderRecyclerViewAdapter.ViewHolder>() {

@@ -6,8 +6,8 @@ import androidx.lifecycle.asLiveData
 import com.yudistudios.foodordering.firebase.DatabaseUtils
 import com.yudistudios.foodordering.repositories.BasketRepository
 import com.yudistudios.foodordering.repositories.FoodRepository
-import com.yudistudios.foodordering.retrofit.models.BasketFood
-import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.models.BasketFood
+import com.yudistudios.foodordering.models.Food
 import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
 import com.yudistudios.foodordering.utils.Result
 import com.yudistudios.foodordering.utils.Status

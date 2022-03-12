@@ -3,9 +3,8 @@ package com.yudistudios.foodordering.ui.activities.main.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.yudistudios.foodordering.repositories.FoodRepository
-import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.models.Food
 import dagger.hilt.android.lifecycle.HiltViewModel
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel

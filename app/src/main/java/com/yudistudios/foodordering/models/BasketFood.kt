@@ -1,7 +1,8 @@
-package com.yudistudios.foodordering.retrofit.models
+package com.yudistudios.foodordering.models
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.yudistudios.foodordering.retrofit.models.FoodBasketPost
 
 data class BasketFood(
     @SerializedName("sepet_yemek_id")

@@ -9,7 +9,7 @@
 
         <variable
             name="food"
-            type="com.yudistudios.foodordering.retrofit.models.Food" />
+            type="com.yudistudios.foodordering.models.Food" />
 
     </data>
 

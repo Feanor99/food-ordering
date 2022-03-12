@@ -19,7 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.yudistudios.foodordering.databinding.FragmentHomeBinding
-import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.models.Food
 import com.yudistudios.foodordering.ui.activities.basket.BasketActivity
 import com.yudistudios.foodordering.ui.activities.main.MainActivity
 import com.yudistudios.foodordering.ui.activities.main.viewmodels.HomeViewModel
@@ -27,10 +27,8 @@ import com.yudistudios.foodordering.ui.adapters.FoodRecyclerItemClickListeners
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerViewAdapter
 import com.yudistudios.foodordering.utils.Dialogs
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -164,6 +162,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun observers() {
+
+        viewModel.orders.observe(viewLifecycleOwner) {
+            if (it.size > 0) {
+                binding.layoutActiveOrders.visibility = View.VISIBLE
+            } else {
+                binding.layoutActiveOrders.visibility = View.GONE
+            }
+        }
 
         viewModel.getFoodsResponse.observe(viewLifecycleOwner) {
             if (it.successCode != 1) {

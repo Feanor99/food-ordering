@@ -1,9 +1,10 @@
 package com.yudistudios.foodordering.repositories
 
+import androidx.lifecycle.LiveData
 import com.yudistudios.foodordering.firebase.AuthUtils
 import com.yudistudios.foodordering.firebase.DatabaseUtils
-import com.yudistudios.foodordering.retrofit.models.Food
-import com.yudistudios.foodordering.retrofit.models.BasketFood
+import com.yudistudios.foodordering.models.BasketFood
+import com.yudistudios.foodordering.models.Food
 import com.yudistudios.foodordering.retrofit.models.GetFoodsResponse
 import com.yudistudios.foodordering.retrofit.services.FoodService
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 class FoodRepository @Inject constructor(private val foodService: FoodService) {
 
-    val foodsInBasket get() = DatabaseUtils.getInstance().foodsInBasket
+    val foodsInBasket: LiveData<MutableList<BasketFood>>
+        get() = DatabaseUtils.getInstance().foodsInBasket
 
     fun addFoodToBasket(food: Food) {
         val foodsExist = foodsInBasket.value ?: mutableListOf()

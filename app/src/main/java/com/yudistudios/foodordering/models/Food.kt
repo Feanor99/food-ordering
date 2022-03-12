@@ -1,4 +1,4 @@
-package com.yudistudios.foodordering.retrofit.models
+package com.yudistudios.foodordering.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.Expose

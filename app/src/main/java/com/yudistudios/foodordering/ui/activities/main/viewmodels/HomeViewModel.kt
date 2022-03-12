@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.ChipGroup
 import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.repositories.FoodRepository
-import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.repositories.OrderRepository
+import com.yudistudios.foodordering.models.Food
 import com.yudistudios.foodordering.retrofit.models.GetFoodsResponse
-import com.yudistudios.foodordering.retrofit.models.toFood
+import com.yudistudios.foodordering.models.toFood
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -18,10 +19,15 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val foodRepository: FoodRepository) : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val foodRepository: FoodRepository,
+    private val orderRepository: OrderRepository
+) : ViewModel() {
 
     var foods = MutableLiveData<List<Food>>()
     var getFoodsResponse = MutableLiveData<GetFoodsResponse>()
+
+    val orders get() = orderRepository.orders
 
     val foodsInBasket get() = foodRepository.foodsInBasket
 

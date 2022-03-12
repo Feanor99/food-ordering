@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.yudistudios.foodordering.repositories.BasketRepository
 import com.yudistudios.foodordering.repositories.FoodRepository
-import com.yudistudios.foodordering.retrofit.models.BasketFood
+import com.yudistudios.foodordering.models.BasketFood
 import com.yudistudios.foodordering.utils.Result
 import com.yudistudios.foodordering.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel

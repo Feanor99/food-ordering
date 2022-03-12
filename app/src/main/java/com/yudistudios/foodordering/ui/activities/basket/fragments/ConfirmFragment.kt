@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.databinding.FragmentConfirmBinding
-import com.yudistudios.foodordering.retrofit.models.BasketFood
+import com.yudistudios.foodordering.models.BasketFood
 import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
 import com.yudistudios.foodordering.ui.activities.basket.viewmodels.ConfirmViewModel
 import com.yudistudios.foodordering.ui.adapters.FoodBasketRecyclerItemClickListeners
@@ -112,6 +112,16 @@ class ConfirmFragment : Fragment() {
             adapter.submitList(it.map { fb ->
                 fb.copy()
             })
+
+            if (it.isEmpty()) {
+                binding.animationView.visibility = View.VISIBLE
+                binding.textViewBasketEmpty.visibility = View.VISIBLE
+                binding.buttonConfirm.visibility = View.INVISIBLE
+            } else {
+                binding.buttonConfirm.visibility = View.VISIBLE
+                binding.animationView.visibility = View.GONE
+                binding.textViewBasketEmpty.visibility = View.GONE
+            }
 
         }
 

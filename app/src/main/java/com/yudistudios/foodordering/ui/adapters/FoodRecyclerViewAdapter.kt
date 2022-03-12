@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.yudistudios.foodordering.databinding.ItemFoodBinding
-import com.yudistudios.foodordering.retrofit.models.Food
+import com.yudistudios.foodordering.models.Food
 
 class FoodRecyclerViewAdapter(
     private val clickListeners: FoodRecyclerItemClickListeners
