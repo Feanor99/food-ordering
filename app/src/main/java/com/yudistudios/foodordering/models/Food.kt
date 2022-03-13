@@ -24,5 +24,14 @@ data class Food(
     val price: String,
 
     @Transient
-    var amount: Int
+    var amount: Int,
+
+    @Transient
+    var isFavorite: Boolean
 ) : Parcelable
+
+fun Food.clone(): Food {
+    return Food(
+        id, name, imageName, price, amount, isFavorite
+    )
+}

@@ -1,6 +1,5 @@
 package com.yudistudios.foodordering.ui.activities.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +8,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.databinding.ActivityMainBinding
-import com.yudistudios.foodordering.firebase.AuthUtils
-import com.yudistudios.foodordering.firebase.DatabaseUtils
-import com.yudistudios.foodordering.ui.activities.login.LoginActivity
 import com.yudistudios.foodordering.utils.fadeInAnimation
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +24,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         sShowBottomNavView.observe(this) {
             if (it) {

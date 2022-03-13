@@ -6,11 +6,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.ChipGroup
 import com.yudistudios.foodordering.R
+import com.yudistudios.foodordering.models.Food
+import com.yudistudios.foodordering.models.clone
+import com.yudistudios.foodordering.models.toFood
 import com.yudistudios.foodordering.repositories.FoodRepository
 import com.yudistudios.foodordering.repositories.OrderRepository
-import com.yudistudios.foodordering.models.Food
 import com.yudistudios.foodordering.retrofit.models.GetFoodsResponse
-import com.yudistudios.foodordering.models.toFood
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -31,10 +32,13 @@ class HomeViewModel @Inject constructor(
 
     val foodsInBasket get() = foodRepository.foodsInBasket
 
+    val favoriteFoods get() = foodRepository.favoriteFoods
+
     val foodsInBasketCount = MutableLiveData(0)
 
     val showSortMenuIsClicked = MutableLiveData(false)
     val basketButtonIsClicked = MutableLiveData(false)
+    val viewOrdersButtonIsClicked = MutableLiveData(false)
 
     var currentSort = 0
 
@@ -42,6 +46,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             foodRepository.getAllFoods().collect {
                 getFoodsResponse.value = it
+
                 when (currentSort) {
                     0 -> foods.value = it.foods
                     1 -> foods.value = sortFoodsASC(it.foods)
@@ -57,7 +62,8 @@ class HomeViewModel @Inject constructor(
             name = food.name,
             imageName = food.imageName,
             price = food.price,
-            amount = amount
+            amount = amount,
+            isFavorite = food.isFavorite
         )
         if (amount > 0) {
             foodRepository.addFoodToBasket(foodTemp)
@@ -74,6 +80,9 @@ class HomeViewModel @Inject constructor(
         basketButtonIsClicked.value = true
     }
 
+    fun viewOrdersButtonOnClick() {
+        viewOrdersButtonIsClicked.value = true
+    }
 
     fun priceChipCheckListener(chipGroup: ChipGroup, recyclerView: RecyclerView) {
         chipGroup.setOnCheckedChangeListener { _, checkedId ->
@@ -137,10 +146,10 @@ class HomeViewModel @Inject constructor(
 
         currentFoods?.let {
             val basket = foodsInBasket.value
-            basket?.let {
+            basket?.let { _ ->
                 for (i in basket.indices) {
-                    val food = currentFoods.find {
-                        it.id.toInt() == basket[i].id
+                    val food = currentFoods.find { f ->
+                        f.id.toInt() == basket[i].id
                     }
                     val index = currentFoods.indexOf(food)
                     food?.let {
@@ -148,9 +157,27 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }
+
+            val favorites = favoriteFoods.value
+            favorites?.forEach {
+                val food = currentFoods.find { f ->
+                    f.id == it
+                }?.clone()
+
+                val index = currentFoods.indexOf(food)
+                food?.isFavorite = true
+
+                food?.let {
+                    currentFoods[index] = food
+                }
+            }
         }
 
         return currentFoods?.toList() ?: listOf()
+    }
+
+    fun updateFavorites(ids: MutableList<String>) {
+        foodRepository.updateFavorites(ids.toList())
     }
 
 }

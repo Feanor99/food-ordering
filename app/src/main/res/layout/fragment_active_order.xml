@@ -10,8 +10,8 @@
             type="String" />
 
         <variable
-            name="viewModel"
-            type="com.yudistudios.foodordering.ui.activities.basket.viewmodels.PayViewModel" />
+            name="date"
+            type="String" />
 
         <variable
             name="adapter"
@@ -50,7 +50,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:text="@string/payment"
+                android:text="@string/order_details"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="@string/address"
+            android:text="@string/courier"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -87,7 +87,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_address_change"
-            android:text="@string/change"
+            android:text="Estimated arrival time: 5 mins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -129,7 +129,7 @@
             app:layout_constraintTop_toBottomOf="@id/map" />
 
         <View
-            android:id="@+id/divider6"
+            android:id="@+id/divider5"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
@@ -154,7 +154,7 @@
             app:layout_constraintBottom_toTopOf="@id/divider2"
             app:layout_constraintEnd_toEndOf="@id/map"
             app:layout_constraintStart_toStartOf="@id/map"
-            app:layout_constraintTop_toBottomOf="@id/divider6" />
+            app:layout_constraintTop_toBottomOf="@id/divider5" />
 
         <View
             android:id="@+id/divider2"
@@ -205,61 +205,26 @@
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/checkbox"
             app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintBottom_toTopOf="@id/textView_date"
             app:layout_constraintTop_toBottomOf="@id/divider3" />
 
-        <View
-            android:id="@+id/divider5"
-            android:layout_width="2dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginVertical="4dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="@id/textView_creditCard"
-            app:layout_constraintStart_toEndOf="@id/textView_creditCard"
-            app:layout_constraintEnd_toStartOf="@id/textView_creditCard_change"
-            app:layout_constraintTop_toTopOf="@id/textView_creditCard_change" />
-
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textView_creditCard_change"
-            android:text="@string/change"
+            android:id="@+id/textView_date"
+            tools:text="2022.10.15 12:10:25"
+            android:text="@{date}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:textAlignment="center"
-            android:textColor="?colorPrimary"
+            android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/textView_creditCard"
-            app:layout_constraintStart_toEndOf="@id/divider5"
+            app:layout_constraintStart_toStartOf="@id/map"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView_creditCard" />
 
-
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/i_accept_the_agreement"
-            android:textColor="?colorPrimary"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/button_pay"
-            app:layout_constraintStart_toStartOf="@id/map" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_pay"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/pay"
-            android:textSize="18sp"
-            android:onClick="@{() -> viewModel.payButtonOnClick()}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -12,6 +12,9 @@ class FoodDetailViewModel @Inject constructor(private val foodRepository: FoodRe
     ViewModel() {
 
     val food = MutableLiveData<Food>()
+
+    val favoriteFoods get() = foodRepository.favoriteFoods
+
     val increaseButtonIsClicked = MutableLiveData(false)
     val decreaseButtonIsClicked = MutableLiveData(false)
 
@@ -40,4 +43,26 @@ class FoodDetailViewModel @Inject constructor(private val foodRepository: FoodRe
             }
         }
     }
+
+    fun favoriteOnClick() {
+        val favorites = favoriteFoods.value?.toMutableList()
+        val foodTemp = food.value
+        if (favorites != null && foodTemp != null) {
+            if (favorites.contains(foodTemp.id)) {
+                favorites.remove(foodTemp.id)
+            } else {
+                favorites.add(foodTemp.id)
+            }
+            updateFavorites(favorites)
+
+            foodTemp.isFavorite = !foodTemp.isFavorite
+
+            food.value = foodTemp!!
+        }
+    }
+
+    private fun updateFavorites(ids: MutableList<String>) {
+        foodRepository.updateFavorites(ids.toList())
+    }
+
 }

@@ -15,7 +15,7 @@ import com.yudistudios.foodordering.models.BasketFood
 import com.yudistudios.foodordering.retrofit.models.GetBasketResponse
 import com.yudistudios.foodordering.ui.activities.basket.viewmodels.ConfirmViewModel
 import com.yudistudios.foodordering.ui.adapters.FoodBasketRecyclerItemClickListeners
-import com.yudistudios.foodordering.ui.adapters.FoodBasketRecyclerViewAdapter
+import com.yudistudios.foodordering.ui.adapters.BasketFoodRecyclerViewAdapter
 import com.yudistudios.foodordering.utils.Dialogs
 import com.yudistudios.foodordering.utils.Result
 import dagger.hilt.android.AndroidEntryPoint
@@ -105,7 +105,7 @@ class ConfirmFragment : Fragment() {
         viewModel.foodsInBasket.observe(viewLifecycleOwner) {
 
             Timber.e("foods in basket changed")
-            val adapter = binding.recyclerView.adapter as FoodBasketRecyclerViewAdapter
+            val adapter = binding.recyclerView.adapter as BasketFoodRecyclerViewAdapter
 
             //same list sent if given directly and causes fail to refresh ui
             //so mapping and creating new list
@@ -146,7 +146,7 @@ class ConfirmFragment : Fragment() {
         binding.adapter = adapter
     }
 
-    private fun setupAdapter(): FoodBasketRecyclerViewAdapter {
+    private fun setupAdapter(): BasketFoodRecyclerViewAdapter {
         val increaseButton = { f: BasketFood ->
             viewModel.changeFoodBasketByGivenAmount(f, 1)
         }
@@ -157,7 +157,7 @@ class ConfirmFragment : Fragment() {
 
         val clickListeners = FoodBasketRecyclerItemClickListeners(increaseButton, decreaseButton)
 
-        return FoodBasketRecyclerViewAdapter(clickListeners)
+        return BasketFoodRecyclerViewAdapter(clickListeners)
     }
 
     override fun onDestroyView() {

@@ -54,6 +54,27 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <FrameLayout
+                    android:id="@+id/button_favorite"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/bg_circle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside"
+                        android:src='@{food.isFavorite ? @drawable/ic_baseline_favorite_24 : @drawable/ic_baseline_favorite_border_24}'
+                        app:tint="?colorPrimary" />
+
+                </FrameLayout>
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView_name"
                     android:layout_width="wrap_content"

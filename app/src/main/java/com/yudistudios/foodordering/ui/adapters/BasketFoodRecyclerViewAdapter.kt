@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.yudistudios.foodordering.databinding.ItemFoodBasketBinding
+import com.yudistudios.foodordering.databinding.ItemBasketFoodBinding
 import com.yudistudios.foodordering.models.BasketFood
 
-class FoodBasketRecyclerViewAdapter(
+class BasketFoodRecyclerViewAdapter(
     private val clickListeners: FoodBasketRecyclerItemClickListeners
-) : ListAdapter<BasketFood, FoodBasketRecyclerViewAdapter.MyViewHolder>(DiffCallback()) {
+) : ListAdapter<BasketFood, BasketFoodRecyclerViewAdapter.MyViewHolder>(DiffCallback()) {
 
-    class MyViewHolder private constructor(private val binding: ItemFoodBasketBinding) :
+    class MyViewHolder private constructor(private val binding: ItemBasketFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(basketFood: BasketFood, clickListeners: FoodBasketRecyclerItemClickListeners) {
@@ -31,7 +31,7 @@ class FoodBasketRecyclerViewAdapter(
         companion object {
             fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemFoodBasketBinding.inflate(layoutInflater, parent, false)
+                val binding = ItemBasketFoodBinding.inflate(layoutInflater, parent, false)
                 return MyViewHolder(binding)
             }
         }

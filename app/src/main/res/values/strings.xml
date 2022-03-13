@@ -43,8 +43,11 @@
     <string name="network_error">Network Error</string>
     <string name="success">Success</string>
     <string name="swipe_down_to_refresh">Swipe Down To Refresh</string>
-    <string name="active_orders">You Have Active Orders</string>
+    <string name="have_active_orders">You Have Active Orders</string>
+    <string name="active_orders">Active Orders</string>
     <string name="view">view</string>
     <string name="basket_is_empty">Basket is Empty</string>
-    <string name="write_something">write something...</string>
+    <string name="write_something">write something…</string>
+    <string name="order_details">Order Details</string>
+    <string name="courier">Courier</string>
 </resources>

@@ -3,13 +3,13 @@ package com.yudistudios.foodordering.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.yudistudios.foodordering.databinding.ItemOrderBinding
+import com.yudistudios.foodordering.databinding.ItemFoodOrderBinding
 import com.yudistudios.foodordering.models.BasketFood
 
 class OrderRecyclerViewAdapter(private val mList: List<BasketFood>) :
     RecyclerView.Adapter<OrderRecyclerViewAdapter.ViewHolder>() {
 
-    class ViewHolder(private val binding: ItemOrderBinding) :
+    class ViewHolder(private val binding: ItemFoodOrderBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(basketFood: BasketFood) {
@@ -19,7 +19,7 @@ class OrderRecyclerViewAdapter(private val mList: List<BasketFood>) :
         companion object {
             fun from(parent: ViewGroup): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ItemOrderBinding.inflate(layoutInflater, parent, false)
+                val binding = ItemFoodOrderBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }

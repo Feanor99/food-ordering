@@ -34,6 +34,10 @@ class FoodRecyclerViewAdapter(
                 clickListeners.increase(food)
             }
 
+            binding.buttonFavorite.setOnClickListener {
+                clickListeners.toggleFavorite(food)
+            }
+
         }
 
         companion object {
@@ -72,5 +76,6 @@ class FoodRecyclerItemClickListeners(
     val add: (Food) -> Unit,
     val increase: (Food) -> Unit,
     val decrease: (Food) -> Unit,
-    val goDetail: (Food) -> Unit
+    val goDetail: (Food) -> Unit,
+    val toggleFavorite: (Food) -> Unit,
 )

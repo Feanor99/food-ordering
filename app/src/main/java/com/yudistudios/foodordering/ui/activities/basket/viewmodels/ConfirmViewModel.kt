@@ -58,7 +58,8 @@ class ConfirmViewModel @Inject constructor(
             name = basketFood.foodName,
             imageName = basketFood.foodImageName,
             price = basketFood.foodPrice.toString(),
-            amount = amount
+            amount = amount,
+            isFavorite = false
         )
         if (amount > 0) {
             foodRepository.addFoodToBasket(foodTemp)

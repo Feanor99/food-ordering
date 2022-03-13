@@ -13,8 +13,10 @@
         <action
             android:id="@+id/action_homeFragment_to_foodDetailFragment"
             app:destination="@id/foodDetailFragment"
-            app:enterAnim="@anim/comes_from_bottom"
-            app:popExitAnim="@anim/goes_to_top" />
+            app:enterAnim="@anim/comes_from_bottom" />
+        <action
+            android:id="@+id/action_homeFragment_to_listOrdersFragment"
+            app:destination="@id/listOrdersFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -29,9 +31,28 @@
     <fragment
         android:id="@+id/foodDetailFragment"
         android:name="com.yudistudios.foodordering.ui.activities.main.fragments.FoodDetailFragment"
-        android:label="FoodDetailFragment" >
+        android:label="FoodDetailFragment"
+        tools:layout="@layout/fragment_food_detail">
         <argument
             android:name="food"
             app:argType="com.yudistudios.foodordering.models.Food" />
+    </fragment>
+    <fragment
+        android:id="@+id/listOrdersFragment"
+        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.ListOrdersFragment"
+        android:label="ListOrdersFragment"
+        tools:layout="@layout/fragment_list_orders">
+        <action
+            android:id="@+id/action_listOrdersFragment_to_activeOrderFragment"
+            app:destination="@id/activeOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activeOrderFragment"
+        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.ActiveOrderFragment"
+        android:label="ActiveOrderFragment"
+        tools:layout="@layout/fragment_active_order">
+        <argument
+            android:name="order"
+            app:argType="com.yudistudios.foodordering.models.Order" />
     </fragment>
 </navigation>

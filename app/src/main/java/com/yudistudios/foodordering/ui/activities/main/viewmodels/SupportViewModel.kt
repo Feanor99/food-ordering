@@ -1,6 +1,5 @@
 package com.yudistudios.foodordering.ui.activities.main.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.yudistudios.foodordering.firebase.AuthUtils

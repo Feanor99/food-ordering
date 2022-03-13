@@ -14,6 +14,7 @@ import com.firebase.ui.auth.AuthUI.IdpConfig.GoogleBuilder
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.yudistudios.foodordering.R
@@ -23,7 +24,7 @@ import timber.log.Timber
 
 object AuthUtils {
 
-    var user = FirebaseAuth.getInstance().currentUser
+    var user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
     private val mSignInResultIsSuccess = MutableLiveData<Status>()
     val signInResultIsSuccess: LiveData<Status> get() = mSignInResultIsSuccess
@@ -119,8 +120,8 @@ object AuthUtils {
     }
 
     fun signOut(context: Context) {
-        FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signOut()
         AuthUI.getInstance()
-            .signOut(context);
+            .signOut(context)
     }
 }

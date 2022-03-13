@@ -17,6 +17,9 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
     val foodsInBasket: LiveData<MutableList<BasketFood>>
         get() = DatabaseUtils.getInstance().foodsInBasket
 
+    val favoriteFoods: LiveData<List<String>>
+        get() = DatabaseUtils.getInstance().favoriteFoods
+
     fun addFoodToBasket(food: Food) {
         val foodsExist = foodsInBasket.value ?: mutableListOf()
         foodsExist.let {
@@ -111,6 +114,10 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
                 emit(GetFoodsResponse(listOf(), 0))
             }
         }
+    }
+
+    fun updateFavorites(ids: List<String>) {
+        DatabaseUtils.getInstance().setFavoriteFoods(ids)
     }
 
 }

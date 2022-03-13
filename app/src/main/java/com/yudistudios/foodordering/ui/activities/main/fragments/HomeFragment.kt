@@ -21,7 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.yudistudios.foodordering.databinding.FragmentHomeBinding
 import com.yudistudios.foodordering.models.Food
 import com.yudistudios.foodordering.ui.activities.basket.BasketActivity
-import com.yudistudios.foodordering.ui.activities.main.MainActivity
+import com.yudistudios.foodordering.ui.activities.main.MainActivity.Companion.sShowBottomNavView
 import com.yudistudios.foodordering.ui.activities.main.viewmodels.HomeViewModel
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerItemClickListeners
 import com.yudistudios.foodordering.ui.adapters.FoodRecyclerViewAdapter
@@ -64,6 +64,8 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        sShowBottomNavView.value = true
+
         setRecyclerView()
 
         refreshLayout()
@@ -83,8 +85,12 @@ class HomeFragment : Fragment() {
 
     private fun observeBasket() {
         viewModel.foodsInBasket.observe(this) {
-            viewModel.foodsInBasketCount.value = it.size
             Timber.e("basket changed")
+
+            val count = it.map { bf ->
+                bf.foodAmount
+            }.sum()
+            viewModel.foodsInBasketCount.value = count
 
             if (viewModel.foods.value != null) {
                 viewModel.foods.value = viewModel.foods.value
@@ -126,22 +132,20 @@ class HomeFragment : Fragment() {
         val adapter = _binding?.recyclerView?.adapter as FoodRecyclerViewAdapter?
 
         adapter?.let {
-            if (searchText.isNullOrEmpty()) {
                 val amountsSet = viewModel.updateAmounts()
-                adapter.submitList(amountsSet)
-            } else {
-                val amountsSet = viewModel.updateAmounts()
+
                 val filteredList = amountsSet.filter { f ->
                     f.name.lowercase().contains(searchText.toString().lowercase())
                 }.toList()
+
                 adapter.submitList(filteredList)
+
                 lifecycleScope.launch {
                     delay(1000)
                     _binding?.let {
                         binding.recyclerView.smoothScrollToPosition(0)
                     }
                 }
-            }
         }
     }
 
@@ -177,9 +181,11 @@ class HomeFragment : Fragment() {
                 dialog.show()
                 binding.animationView.visibility = View.VISIBLE
                 binding.textViewSwipe.visibility = View.VISIBLE
+
             } else {
                 binding.animationView.visibility = View.GONE
                 binding.textViewSwipe.visibility = View.GONE
+
             }
 
             if (_binding != null && binding.refreshLayout.isRefreshing) {
@@ -191,8 +197,10 @@ class HomeFragment : Fragment() {
             if (it) {
                 if (searchText.isNullOrEmpty()) {
                     val amountsSet = viewModel.updateAmounts()
+
                     val adapter = binding.recyclerView.adapter as FoodRecyclerViewAdapter
                     adapter.submitList(amountsSet)
+
                 } else {
                     searchFoods()
                 }
@@ -224,6 +232,13 @@ class HomeFragment : Fragment() {
                 val intent = Intent(requireActivity(), BasketActivity::class.java)
                 startActivity(intent)
                 viewModel.basketButtonIsClicked.value = false
+            }
+        }
+
+        viewModel.viewOrdersButtonIsClicked.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToListOrdersFragment())
+                viewModel.viewOrdersButtonIsClicked.value = false
             }
         }
     }
@@ -267,15 +282,29 @@ class HomeFragment : Fragment() {
         val goDetail = { food: Food ->
             val action = HomeFragmentDirections.actionHomeFragmentToFoodDetailFragment(food)
             findNavController().navigate(action)
-            MainActivity.sShowBottomNavView.value = false
+            sShowBottomNavView.value = false
         }
+
+        val toggleFavorite = { food: Food ->
+            val favorites = viewModel.favoriteFoods.value?.toMutableList()
+            if (favorites != null) {
+                if (favorites.contains(food.id)) {
+                    favorites.remove(food.id)
+                } else {
+                    favorites.add(food.id)
+                }
+                viewModel.updateFavorites(favorites)
+            }
+        }
+
 
         val clickListeners =
             FoodRecyclerItemClickListeners(
                 addFoodToBasket,
                 increaseAmount,
                 decreaseAmount,
-                goDetail
+                goDetail,
+                toggleFavorite
             )
 
         return FoodRecyclerViewAdapter(clickListeners)
@@ -286,6 +315,7 @@ class HomeFragment : Fragment() {
         if (::dialog.isInitialized && dialog.isShowing) {
             dialog.cancel()
         }
+
         _binding = null
     }
 

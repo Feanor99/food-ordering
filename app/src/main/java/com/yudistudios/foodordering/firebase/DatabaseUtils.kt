@@ -8,6 +8,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.yudistudios.foodordering.models.BasketFood
 import com.yudistudios.foodordering.models.ChatMessage
+import com.yudistudios.foodordering.models.Order
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
@@ -32,7 +33,7 @@ class DatabaseUtils private constructor() {
         value = mutableListOf()
     }
 
-    val orders = MutableLiveData<MutableList<List<BasketFood>>>().apply {
+    val orders = MutableLiveData<MutableList<Order>>().apply {
         value = mutableListOf()
     }
 
@@ -40,9 +41,13 @@ class DatabaseUtils private constructor() {
         value = mutableListOf()
     }
 
-    private val basketReference = database.child("users")
+    val favoriteFoods = MutableLiveData<List<String>>().apply {
+        value = listOf()
+    }
+
+    private val foodsReference = database.child("users")
         .child(AuthUtils.user!!.uid)
-        .child("BasketItems")
+        .child("Foods")
 
     private val orderReference = database.child("users")
         .child(AuthUtils.user!!.uid)
@@ -63,63 +68,79 @@ class DatabaseUtils private constructor() {
     }
 
     fun addFoodToBasket(basketFood: BasketFood) {
-        basketReference.child("id_${basketFood.id}").setValue(basketFood)
+        foodsReference.child("Basket").child("id_${basketFood.id}").setValue(basketFood)
     }
 
     fun removeFoodFromBasket(basketFood: BasketFood) {
-        basketReference.child("id_${basketFood.id}").removeValue()
+        foodsReference.child("Basket").child("id_${basketFood.id}").removeValue()
     }
 
-    fun saveOrder(order: List<BasketFood>) {
-        orderReference.push().setValue(order)
+    fun setFavoriteFoods(ids: List<String>) {
+        foodsReference.child("Favorites").setValue(ids)
+    }
+
+
+    fun saveOrder(order: Order) {
+        orderReference.child(order.date.toString()).setValue(
+            mapOf(
+                "items" to order.items,
+                "longitude" to order.longitude,
+                "latitude" to order.latitude
+            )
+        )
     }
 
     fun clearBasket() {
-        basketReference.removeValue()
+        foodsReference.removeValue()
     }
 
     private fun listenBasket() {
 
-        val basketListener = object : ValueEventListener {
+        val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val foods = snapshot.value as Map<*, *>?
+                Timber.e("database foods data changed")
+
+                val data = snapshot.value as Map<*, *>?
                 val temp = mutableListOf<BasketFood>()
 
-                foods?.forEach {
-                    temp.add(mapToFoodBasket(it.value as Map<*, *>))
+                data?.let {
+                    val foods = data["Basket"] as Map<*, *>?
+                    foods?.forEach {
+                        temp.add(mapToFoodBasket(it.value as Map<*, *>))
+                    }
+
+                    val favorites = data["Favorites"] as List<String>?
+                    favorites?.let {
+                        favoriteFoods.value = favorites.toList()
+                    }
                 }
 
-                Timber.e("database basket changed")
                 foodsInBasket.value = temp
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
             }
         }
 
-        basketReference.addValueEventListener(basketListener)
+        foodsReference.addValueEventListener(listener)
     }
 
     private fun listenOrders() {
         val orderListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val data = snapshot.value as Map<*, *>?
+                Timber.e("order table changed")
 
-                if (data != null) {
-                    data.forEach {
-                        val order = it.value as ArrayList<*>
-                        val ordersTemp = orders.value
+                val ordersTemp = mutableListOf<Order>()
 
-                        @Suppress("UNCHECKED_CAST")
-                        ordersTemp?.add(order as List<BasketFood>)
+                (snapshot.value as Map<*, *>?)?.forEach {
+                    val date = (it.key as String).toLong()
+                    val order = mapToOrder(it.value as Map<*, *>, date)
 
-                        orders.value = ordersTemp
-                    }
-                } else {
-                    orders.value = mutableListOf()
+                    ordersTemp.add(order)
                 }
 
-                Timber.e("order table changed")
+                orders.value = ordersTemp
 
             }
 
@@ -180,6 +201,24 @@ class DatabaseUtils private constructor() {
             senderId = map["senderId"] as String,
             content = map["content"] as String,
             date = map["date"] as Long
+        )
+    }
+
+    private fun mapToOrder(map: Map<*, *>, date: Long): Order {
+        val mapValue = map["items"] as ArrayList<*>
+        val listOfItems = mutableListOf<BasketFood>()
+
+        mapValue.forEach {
+            if (it is Map<*, *>) {
+                listOfItems.add(mapToFoodBasket(it))
+            }
+        }
+
+        return Order(
+            date = date,
+            items = listOfItems,
+            longitude = map["longitude"] as Double,
+            latitude = map["latitude"] as Double
         )
     }
 }

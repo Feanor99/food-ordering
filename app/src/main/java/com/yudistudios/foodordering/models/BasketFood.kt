@@ -1,9 +1,12 @@
 package com.yudistudios.foodordering.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.yudistudios.foodordering.retrofit.models.FoodBasketPost
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class BasketFood(
     @SerializedName("sepet_yemek_id")
     @Expose
@@ -28,7 +31,7 @@ data class BasketFood(
     @SerializedName("kullanici_adi")
     @Expose
     val userId: String,
-)
+) : Parcelable
 
 fun BasketFood.toFood(): Food {
     return Food(
@@ -36,7 +39,8 @@ fun BasketFood.toFood(): Food {
         name = foodName,
         imageName = foodImageName,
         price = foodPrice.toString(),
-        amount = foodAmount
+        amount = foodAmount,
+        isFavorite = false
     )
 }
 
