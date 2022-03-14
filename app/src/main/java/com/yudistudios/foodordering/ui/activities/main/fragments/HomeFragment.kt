@@ -78,6 +78,8 @@ class HomeFragment : Fragment() {
 
         search()
 
+        categoryPriceChipGroup()
+
         mustRefreshRecyclerView.value = true
 
         return binding.root
@@ -250,6 +252,10 @@ class HomeFragment : Fragment() {
 
     private fun sortPriceChipGroup() {
         viewModel.priceChipCheckListener(binding.chipGroupPrice, binding.recyclerView)
+    }
+
+    private fun categoryPriceChipGroup() {
+        viewModel.categoryChipCheckListener(binding.chipGroupCategory, binding.recyclerView)
     }
 
     private fun refreshLayout() {

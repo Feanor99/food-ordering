@@ -61,8 +61,8 @@ class PayViewModel @Inject constructor(
                     val order = Order(
                         date = date,
                         items = orderItems,
-                        longitude = 34.930429,
-                        latitude = 32.798766)
+                        latitude = 41.075760,
+                        longitude = 28.923424)
                     basketRepository.saveOrder(order)
                 } else {
                     clearStatus.value = (Status(Result.NETWORK_ERROR))

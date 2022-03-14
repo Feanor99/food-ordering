@@ -13,6 +13,12 @@ fun ImageView.loadImage(name: String) {
     Glide.with(this.rootView).load("$baseUrl$name").placeholder(R.drawable.loading_anim).into(this)
 }
 
+@BindingAdapter("loadImageByUrl")
+fun ImageView.loadImageByUrl(url: String) {
+    Glide.with(this.rootView).load(url)
+        .into(this)
+}
+
 @BindingAdapter("priceText")
 fun TextView.setPriceText(price: String) {
     val currency = "₺"

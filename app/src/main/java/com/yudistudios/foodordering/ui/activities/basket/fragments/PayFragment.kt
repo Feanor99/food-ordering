@@ -36,7 +36,7 @@ class PayFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
 
-        val address = LatLng(39.930429, 32.798766)
+        val address = LatLng(41.080146, 28.925986)
         googleMap.addMarker(MarkerOptions().position(address).title("Marker in address"))
         googleMap.setMinZoomPreference(15.0f)
         googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN

@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.yudistudios.foodordering.R
 import com.yudistudios.foodordering.databinding.FragmentActiveOrderBinding
 import com.yudistudios.foodordering.models.Order
@@ -44,10 +45,13 @@ class ActiveOrderFragment : Fragment() {
 
             val address = com.google.android.gms.maps.model.LatLng(order.latitude, order.longitude)
             googleMap.addMarker(
-                com.google.android.gms.maps.model.MarkerOptions().position(address)
+                com.google.android.gms.maps.model.MarkerOptions().position(address).icon(
+                    BitmapDescriptorFactory.fromResource(R.drawable.motorbike)
+                )
                     .title("Marker in address")
             )
-            googleMap.setMinZoomPreference(15.0f)
+
+            googleMap.setMinZoomPreference(17.0f)
             googleMap.mapType = com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN
             googleMap.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLng(address))
         }

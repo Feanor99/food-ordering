@@ -172,7 +172,6 @@
                             android:text="@string/higher"
                             android:textSize="14sp" />
 
-
                     </com.google.android.material.chip.ChipGroup>
                 </LinearLayout>
 
@@ -236,6 +235,7 @@
                 android:scrollbars="none">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup_category"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:selectionRequired="true"
@@ -243,12 +243,19 @@
                     app:singleSelection="true">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chip_1"
+                        android:id="@+id/chip_all"
                         style="@style/Custom.Chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:text="@string/all" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_favorites"
+                        style="@style/Custom.Chip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/favorites" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_2"

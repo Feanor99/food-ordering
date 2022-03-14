@@ -25,6 +25,10 @@ class DatabaseUtils private constructor() {
 
             return instance!!
         }
+
+        fun destroy() {
+            instance = null
+        }
     }
 
     private val database = Firebase.database.reference
@@ -91,7 +95,7 @@ class DatabaseUtils private constructor() {
     }
 
     fun clearBasket() {
-        foodsReference.removeValue()
+        foodsReference.child("Basket").removeValue()
     }
 
     private fun listenBasket() {

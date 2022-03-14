@@ -121,6 +121,10 @@ object AuthUtils {
 
     fun signOut(context: Context) {
         FirebaseAuth.getInstance().signOut()
+        user = null
+        DatabaseUtils.destroy()
+        mSignInResultIsSuccess.value = Status(Result.NONE)
+        mSignUpResultIsSuccess.value = Status(Result.NONE)
         AuthUI.getInstance()
             .signOut(context)
     }

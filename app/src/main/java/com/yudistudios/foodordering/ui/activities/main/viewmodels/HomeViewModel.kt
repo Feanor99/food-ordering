@@ -41,6 +41,7 @@ class HomeViewModel @Inject constructor(
     val viewOrdersButtonIsClicked = MutableLiveData(false)
 
     var currentSort = 0
+    var favoritesOnly = false
 
     fun getFoods() {
         viewModelScope.launch {
@@ -111,6 +112,30 @@ class HomeViewModel @Inject constructor(
                         recyclerView.smoothScrollToPosition(0)
                     }
                 }
+                else -> return@setOnCheckedChangeListener
+            }
+        }
+    }
+
+    fun categoryChipCheckListener(chipGroup: ChipGroup, recyclerView: RecyclerView) {
+        chipGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.chip_favorites -> {
+                    favoritesOnly = true
+                    getFoods()
+                    viewModelScope.launch {
+                        delay(1000)
+                        recyclerView.smoothScrollToPosition(0)
+                    }
+                }
+                else -> {
+                    favoritesOnly = false
+                    getFoods()
+                    viewModelScope.launch {
+                        delay(1000)
+                        recyclerView.smoothScrollToPosition(0)
+                    }
+                }
             }
         }
     }
@@ -170,6 +195,16 @@ class HomeViewModel @Inject constructor(
                 food?.let {
                     currentFoods[index] = food
                 }
+            }
+
+            if (favoritesOnly) {
+                var temp = currentFoods.toList()
+
+                temp = temp.filter { f ->
+                    f.isFavorite
+                }
+
+                return temp
             }
         }
 

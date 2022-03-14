@@ -7,5 +7,6 @@ enum class Result {
     NETWORK_ERROR,
     WAITING,
     INCORRECT_PASSWORD,
-    EMAIL_IN_USE
+    EMAIL_IN_USE,
+    NONE
 }

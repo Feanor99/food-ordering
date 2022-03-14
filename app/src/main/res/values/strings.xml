@@ -50,4 +50,8 @@
     <string name="write_something">write something…</string>
     <string name="order_details">Order Details</string>
     <string name="courier">Courier</string>
+    <string name="favorites">Favorites</string>
+    <string name="addresses">Addresses</string>
+    <string name="credit_cards">Credit Cards</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
