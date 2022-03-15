@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.HomeFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,26 +20,26 @@
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.AccountFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.AccountFragment"
         android:label="fragment_account"
         tools:layout="@layout/fragment_account" />
     <fragment
         android:id="@+id/supportFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.SupportFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.SupportFragment"
         android:label="fragment_support"
         tools:layout="@layout/fragment_support" />
     <fragment
         android:id="@+id/foodDetailFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.FoodDetailFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.FoodDetailFragment"
         android:label="FoodDetailFragment"
         tools:layout="@layout/fragment_food_detail">
         <argument
             android:name="food"
-            app:argType="com.yudistudios.foodordering.models.Food" />
+            app:argType="com.yudistudios.foodland.models.Food" />
     </fragment>
     <fragment
         android:id="@+id/listOrdersFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.ListOrdersFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.ListOrdersFragment"
         android:label="ListOrdersFragment"
         tools:layout="@layout/fragment_list_orders">
         <action
@@ -48,11 +48,11 @@
     </fragment>
     <fragment
         android:id="@+id/activeOrderFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.main.fragments.ActiveOrderFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.ActiveOrderFragment"
         android:label="ActiveOrderFragment"
         tools:layout="@layout/fragment_active_order">
         <argument
             android:name="order"
-            app:argType="com.yudistudios.foodordering.models.Order" />
+            app:argType="com.yudistudios.foodland.models.Order" />
     </fragment>
 </navigation>

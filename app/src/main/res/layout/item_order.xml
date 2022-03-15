@@ -76,7 +76,7 @@
                     android:layout_marginStart="16dp"
                     app:layout_constraintBottom_toBottomOf="@id/imageView_step_1"
                     app:layout_constraintStart_toEndOf="@id/imageView_step_1"
-                    android:text="Order Approved"/>
+                    android:text="@string/order_approved"/>
 
                 <View
                     android:id="@+id/divider1"
@@ -102,7 +102,7 @@
                     app:layout_constraintTop_toTopOf="@id/imageView_step_2"
                     app:layout_constraintBottom_toBottomOf="@id/imageView_step_2"
                     app:layout_constraintStart_toStartOf="@id/textview1"
-                    android:text="Cooking"/>
+                    android:text="@string/cooking"/>
 
                 <View
                     android:id="@+id/divider2"
@@ -128,7 +128,7 @@
                     app:layout_constraintTop_toTopOf="@id/imageView_step_3"
                     app:layout_constraintBottom_toBottomOf="@id/imageView_step_3"
                     app:layout_constraintStart_toStartOf="@id/textview1"
-                    android:text="On The Way"/>
+                    android:text="@string/on_the_way"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

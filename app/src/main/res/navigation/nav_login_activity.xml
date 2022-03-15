@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.login.fragments.SignInFragment"
+        android:name="com.yudistudios.foodland.ui.activities.login.fragments.SignInFragment"
         android:label="SignInFragment"
         tools:layout="@layout/fragment_sign_in">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.login.fragments.SignUpFragment"
+        android:name="com.yudistudios.foodland.ui.activities.login.fragments.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
 </navigation>

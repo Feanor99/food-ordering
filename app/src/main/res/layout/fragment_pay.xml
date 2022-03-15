@@ -11,11 +11,11 @@
 
         <variable
             name="viewModel"
-            type="com.yudistudios.foodordering.ui.activities.basket.viewmodels.PayViewModel" />
+            type="com.yudistudios.foodland.ui.activities.basket.viewmodels.PayViewModel" />
 
         <variable
             name="adapter"
-            type="com.yudistudios.foodordering.ui.adapters.OrderRecyclerViewAdapter" />
+            type="com.yudistudios.foodland.ui.adapters.OrderRecyclerViewAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

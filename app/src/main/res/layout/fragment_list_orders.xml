@@ -6,7 +6,7 @@
 
         <variable
             name="adapter"
-            type="com.yudistudios.foodordering.ui.adapters.ListOrdersRecyclerViewAdapter" />
+            type="com.yudistudios.foodland.ui.adapters.ListOrdersRecyclerViewAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

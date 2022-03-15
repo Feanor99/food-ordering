@@ -16,6 +16,8 @@
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/drawable/ic_account.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/drawable/ic_minus.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/drawable/ic_plus.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/drawable/ic_search.xml" value="0.26205128205128203" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/drawable/ic_slider.xml" value="0.26205128205128203" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/drawable/loading_anim.xml" value="0.2301801801801802" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/drawable/loading_img.xml" value="0.2301801801801802" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/activity_basket.xml" value="0.21621621621621623" />
@@ -25,11 +27,11 @@
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/dialog_loading.xml" value="0.25" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/dialog_succes.xml" value="0.25" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/dialog_success.xml" value="0.24444444444444444" />
-        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_account.xml" value="0.536" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_account.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_active_order.xml" value="0.25" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_confirm.xml" value="0.4" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_food_detail.xml" value="0.264" />
-        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_home.xml" value="0.25" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_home.xml" value="0.4" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_list_orders.xml" value="0.25" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_pay.xml" value="0.264" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />

@@ -15,7 +15,7 @@
 
         <variable
             name="adapter"
-            type="com.yudistudios.foodordering.ui.adapters.OrderRecyclerViewAdapter" />
+            type="com.yudistudios.foodland.ui.adapters.OrderRecyclerViewAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,7 +87,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_address_change"
-            android:text="Estimated arrival time: 5 mins"
+            android:text="@string/estimated_arrival_time_5_mins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

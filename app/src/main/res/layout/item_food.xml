@@ -9,7 +9,7 @@
 
         <variable
             name="food"
-            type="com.yudistudios.foodordering.models.Food" />
+            type="com.yudistudios.foodland.models.Food" />
 
     </data>
 

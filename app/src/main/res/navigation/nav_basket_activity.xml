@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/confirmFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.basket.fragments.ConfirmFragment"
+        android:name="com.yudistudios.foodland.ui.activities.basket.fragments.ConfirmFragment"
         android:label="ConfirmFragment"
         tools:layout="@layout/fragment_confirm">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/payFragment"
-        android:name="com.yudistudios.foodordering.ui.activities.basket.fragments.PayFragment"
+        android:name="com.yudistudios.foodland.ui.activities.basket.fragments.PayFragment"
         android:label="fragment_pay"
         tools:layout="@layout/fragment_pay" />
 </navigation>

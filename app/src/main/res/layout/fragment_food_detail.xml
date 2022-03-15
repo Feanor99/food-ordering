@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.yudistudios.foodordering.ui.activities.main.viewmodels.FoodDetailViewModel" />
+            type="com.yudistudios.foodland.ui.activities.main.viewmodels.FoodDetailViewModel" />
 
     </data>
 

@@ -7,7 +7,7 @@
 
         <variable
             name="basketFood"
-            type="com.yudistudios.foodordering.models.BasketFood" />
+            type="com.yudistudios.foodland.models.BasketFood" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -5,13 +5,15 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="viewModel"
-            type="com.yudistudios.foodordering.ui.activities.main.viewmodels.HomeViewModel" />
+            type="com.yudistudios.foodland.ui.activities.main.viewmodels.HomeViewModel" />
 
         <variable
             name="adapter"
-            type="com.yudistudios.foodordering.ui.adapters.FoodRecyclerViewAdapter" />
+            type="com.yudistudios.foodland.ui.adapters.FoodRecyclerViewAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,12 +41,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editText_search"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:visibility="@{viewModel.showSearchEditText ? View.VISIBLE : View.INVISIBLE}"
                     android:layout_marginHorizontal="8dp"
                     android:background="@drawable/custom_input"
-                    android:drawableStart="@drawable/ic_search"
-                    android:drawablePadding="10dp"
-                    android:drawableTint="@color/search_icon_tint"
                     android:hint="@string/search"
                     android:inputType="text"
                     android:maxLines="1"
@@ -53,29 +53,57 @@
                     android:paddingVertical="4dp"
                     android:textColor="@color/search_text_tint"
                     android:textColorHint="@color/search_text_tint"
-                    app:layout_constraintEnd_toStartOf="@id/imageView_sort"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView_search"
+                    app:layout_constraintEnd_toStartOf="@id/imageView_search"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageView_logo"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/logo"
+                    android:visibility="@{viewModel.showSearchEditText ? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/imageView_search"
+                    app:layout_constraintEnd_toStartOf="@id/imageView_search"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageView_search"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="1dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="10dp"
+                    android:onClick="@{() -> viewModel.searchButtonOnClick()}"
+                    android:src="@drawable/ic_search"
+                    app:layout_constraintEnd_toStartOf="@id/imageView_sort"
+                    app:layout_constraintStart_toEndOf="@id/editText_search"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?colorPrimary" />
+
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageView_sort"
                     android:layout_width="45dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_baseline_filter_alt_24"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_slider"
+                    android:padding="9dp"
                     app:tint="?colorPrimary"
                     android:clickable="true"
                     android:focusable="true"
                     android:onClick="@{() -> viewModel.showSortMenuOnClick()}"
                     app:layout_constraintBottom_toBottomOf="@id/editText_search"
                     app:layout_constraintEnd_toStartOf="@id/relativeLayout"
-                    app:layout_constraintStart_toEndOf="@id/editText_search"
                     app:layout_constraintTop_toTopOf="@id/editText_search" />
 
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
                     android:layout_width="45dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginEnd="8dp"
                     android:background="?selectableItemBackground"
                     android:clickable="true"
@@ -85,11 +113,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/editText_search">
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/imageView_basket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="7dp"
                         android:src="@drawable/ic_basket"
                         app:tint="?colorPrimary" />
 
@@ -126,8 +154,8 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="8dp"
                     android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@id/editText_search"
-                    app:layout_constraintTop_toBottomOf="@id/editText_search">
+                    app:layout_constraintStart_toStartOf="@id/imageView_logo"
+                    app:layout_constraintTop_toBottomOf="@id/imageView_logo">
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -135,6 +163,7 @@
                         android:layout_gravity="center"
                         android:layout_marginEnd="16dp"
                         android:gravity="center"
+                        android:paddingBottom="4dp"
                         android:text="@string/price"
                         android:textColor="@color/black"
                         android:textSize="22sp" />

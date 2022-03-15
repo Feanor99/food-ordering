@@ -15,7 +15,7 @@
 
         <variable
             name="viewModel"
-            type="com.yudistudios.foodordering.ui.activities.main.viewmodels.AccountViewModel" />
+            type="com.yudistudios.foodland.ui.activities.main.viewmodels.AccountViewModel" />
 
     </data>
 
@@ -28,8 +28,8 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageView2"
             loadImageByUrl="@{imageUrl}"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="16dp"
                         android:gravity="center"
-                        android:text="Past Orders"
+                        android:text="@string/past_orders"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>

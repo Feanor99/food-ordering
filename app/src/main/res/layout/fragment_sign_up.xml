@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.yudistudios.foodordering.ui.activities.login.viewmodels.SignUpViewModel" />
+            type="com.yudistudios.foodland.ui.activities.login.viewmodels.SignUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

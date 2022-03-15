@@ -7,10 +7,10 @@
 
         <variable
             name="viewModel"
-            type="com.yudistudios.foodordering.ui.activities.main.viewmodels.SupportViewModel" />
+            type="com.yudistudios.foodland.ui.activities.main.viewmodels.SupportViewModel" />
         <variable
             name="adapter"
-            type="com.yudistudios.foodordering.ui.adapters.ChatRecyclerViewAdapter" />
+            type="com.yudistudios.foodland.ui.adapters.ChatRecyclerViewAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Food Ordering Support"
+                    android:text="@string/foodland_support"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="online"
+                    android:text="@string/online"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
