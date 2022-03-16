@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.yudistudios.foodland.R
 import com.yudistudios.foodland.databinding.FragmentAccountBinding
 import com.yudistudios.foodland.firebase.AuthUtils
 import com.yudistudios.foodland.ui.activities.login.LoginActivity
@@ -46,6 +48,13 @@ class AccountFragment : Fragment() {
                 requireActivity().finish()
 
                 viewModel.signOutIsClicked.value = false
+            }
+        }
+
+        viewModel.pastOrdersIsClicked.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(R.id.action_accountFragment_to_pastOrderFragment)
+                viewModel.pastOrdersIsClicked.value = false
             }
         }
     }

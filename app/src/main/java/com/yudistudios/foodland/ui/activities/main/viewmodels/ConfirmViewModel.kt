@@ -1,4 +1,4 @@
-package com.yudistudios.foodland.ui.activities.basket.viewmodels
+package com.yudistudios.foodland.ui.activities.main.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +40,7 @@ class ConfirmViewModel @Inject constructor(
     }
 
     private suspend fun addFoodsToBasket() {
-        val foods = DatabaseUtils.getInstance().foodsInBasket.value?.toList()
+        val foods = DatabaseUtils.getInstance().foodsInBasket.value
 
         foods?.forEach {
             basketRepository.addFoodToBasket(it).collect { response ->

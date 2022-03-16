@@ -34,8 +34,6 @@ class HomeViewModel @Inject constructor(
 
     val favoriteFoods get() = foodRepository.favoriteFoods
 
-    val foodsInBasketCount = MutableLiveData(0)
-
     val showSortMenuIsClicked = MutableLiveData(false)
     val basketButtonIsClicked = MutableLiveData(false)
     val viewOrdersButtonIsClicked = MutableLiveData(false)

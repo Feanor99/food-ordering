@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var sShowBottomNavView = MutableLiveData(true)
+        val foodsInBasketCount = MutableLiveData(0)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,11 +29,14 @@ class MainActivity : AppCompatActivity() {
 
         sShowBottomNavView.observe(this) {
             if (it) {
-                binding.bottomNavigationView.fadeInAnimation()
+                if (binding.bottomNavigationView.visibility == View.GONE)
+                    binding.bottomNavigationView.fadeInAnimation()
             } else {
                 binding.bottomNavigationView.visibility = View.GONE
             }
         }
+
+        cartItemCount()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
@@ -41,6 +45,21 @@ class MainActivity : AppCompatActivity() {
 
         MessagingUtils.generateToken()
 
+    }
+
+    private fun cartItemCount() {
+
+        foodsInBasketCount.observe(this) {
+            val badge = binding.bottomNavigationView.getOrCreateBadge(R.id.basketFragment)
+
+            if (it == 0) {
+                badge.isVisible = false
+                badge.clearNumber()
+            } else if (it > 0) {
+                badge.isVisible = true
+                badge.number = it
+            }
+        }
     }
 
 }

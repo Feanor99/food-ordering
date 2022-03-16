@@ -1,5 +1,6 @@
 package com.yudistudios.foodland.firebase
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -9,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.yudistudios.foodland.models.BasketFood
 import com.yudistudios.foodland.models.ChatMessage
 import com.yudistudios.foodland.models.Order
+import com.yudistudios.foodland.models.PastOrder
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,21 +35,26 @@ class DatabaseUtils private constructor() {
 
     private val database = Firebase.database.reference
 
-    val foodsInBasket = MutableLiveData<MutableList<BasketFood>>().apply {
-        value = mutableListOf()
-    }
+    private val mFoodsInBasket = MutableLiveData<List<BasketFood>>().apply { value = listOf() }
+    val foodsInBasket: LiveData<List<BasketFood>>
+        get() = mFoodsInBasket
 
-    val orders = MutableLiveData<MutableList<Order>>().apply {
-        value = mutableListOf()
-    }
+    private val mOrders = MutableLiveData<List<Order>>().apply { value = listOf() }
+    val orders: LiveData<List<Order>>
+        get() = mOrders
 
-    val chatMessages = MutableLiveData<MutableList<ChatMessage>>().apply {
-        value = mutableListOf()
-    }
+    private val mPastOrders = MutableLiveData<List<PastOrder>>().apply { value = listOf() }
+    val pastOrders: LiveData<List<PastOrder>>
+        get() = mPastOrders
 
-    val favoriteFoods = MutableLiveData<List<String>>().apply {
-        value = listOf()
-    }
+
+    private val mChatMessages = MutableLiveData<List<ChatMessage>>().apply { value = listOf() }
+    val chatMessages: LiveData<List<ChatMessage>>
+        get() = mChatMessages
+
+    private val mFavoriteFoods = MutableLiveData<List<String>>().apply { value = listOf() }
+    val favoriteFoods: LiveData<List<String>>
+        get() = mFavoriteFoods
 
     private val foodsReference = database.child("users")
         .child(AuthUtils.user!!.uid)
@@ -61,10 +68,15 @@ class DatabaseUtils private constructor() {
         .child(AuthUtils.user!!.uid)
         .child("SupportChat")
 
+    private val pastOrderReference = database.child("users")
+        .child(AuthUtils.user!!.uid)
+        .child("PastOrders")
+
     init {
         listenBasket()
         listenOrders()
         listenChat()
+        listenPastOrders()
     }
 
     fun sendMessage(chatMessage: ChatMessage) {
@@ -83,7 +95,6 @@ class DatabaseUtils private constructor() {
         foodsReference.child("Favorites").setValue(ids)
     }
 
-
     fun saveOrder(order: Order) {
         orderReference.child(order.date.toString()).setValue(
             mapOf(
@@ -95,7 +106,16 @@ class DatabaseUtils private constructor() {
     }
 
     fun clearBasket() {
+        pastOrderReference.child("${Calendar.getInstance().timeInMillis}")
+            .setValue(mFoodsInBasket.value)
         foodsReference.child("Basket").removeValue()
+    }
+
+    fun orderAgain(orderItems: List<BasketFood>) {
+        clearBasket()
+        orderItems.forEach {
+            addFoodToBasket(it)
+        }
     }
 
     private fun listenBasket() {
@@ -115,11 +135,11 @@ class DatabaseUtils private constructor() {
 
                     val favorites = data["Favorites"] as List<String>?
                     favorites?.let {
-                        favoriteFoods.value = favorites.toList()
+                        mFavoriteFoods.value = favorites.toList()
                     }
                 }
 
-                foodsInBasket.value = temp
+                mFoodsInBasket.value = temp
 
             }
 
@@ -133,7 +153,7 @@ class DatabaseUtils private constructor() {
     private fun listenOrders() {
         val orderListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                Timber.e("order table changed")
+                Timber.e("orders changed")
 
                 val ordersTemp = mutableListOf<Order>()
 
@@ -144,7 +164,7 @@ class DatabaseUtils private constructor() {
                     ordersTemp.add(order)
                 }
 
-                orders.value = ordersTemp
+                mOrders.value = ordersTemp
 
             }
 
@@ -178,7 +198,7 @@ class DatabaseUtils private constructor() {
                     sendMessage(initialMessage)
                 }
 
-                chatMessages.value = chatMessagesTemp
+                mChatMessages.value = chatMessagesTemp
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -186,6 +206,31 @@ class DatabaseUtils private constructor() {
         }
 
         chatReference.addValueEventListener(chatListener)
+    }
+
+    private fun listenPastOrders() {
+        val pastOrderListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Timber.e("past orders changed")
+
+                val ordersTemp = mutableListOf<PastOrder>()
+
+                (snapshot.value as Map<*, *>?)?.forEach {
+                    val date = (it.key as String).toLong()
+                    val order = mapToPastOrder(it.value as ArrayList<*>, date)
+
+                    ordersTemp.add(order)
+                }
+
+                mPastOrders.value = ordersTemp
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+
+        pastOrderReference.addValueEventListener(pastOrderListener)
     }
 
 
@@ -223,6 +268,22 @@ class DatabaseUtils private constructor() {
             items = listOfItems,
             longitude = map["longitude"] as Double,
             latitude = map["latitude"] as Double
+        )
+    }
+
+    private fun mapToPastOrder(items: ArrayList<*>, date: Long): PastOrder {
+
+        val listOfItems = mutableListOf<BasketFood>()
+
+        items.forEach {
+            if (it is Map<*, *>) {
+                listOfItems.add(mapToFoodBasket(it))
+            }
+        }
+
+        return PastOrder(
+            date = date,
+            items = listOfItems
         )
     }
 }

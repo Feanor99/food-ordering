@@ -63,4 +63,5 @@
     <string name="estimated_arrival_time_5_mins">Estimated arrival time: 5 mins</string>
     <string name="email_password_incorrect">E-mail or password is incorrect</string>
     <string name="default_notification_channel_id" translatable="false">default_noti</string>
+    <string name="order_again">Order Again</string>
 </resources>

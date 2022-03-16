@@ -2,7 +2,6 @@ package com.yudistudios.foodland.ui.activities.main.fragments
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,7 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.yudistudios.foodland.databinding.FragmentHomeBinding
 import com.yudistudios.foodland.models.Food
-import com.yudistudios.foodland.ui.activities.basket.BasketActivity
+import com.yudistudios.foodland.ui.activities.main.MainActivity.Companion.foodsInBasketCount
 import com.yudistudios.foodland.ui.activities.main.MainActivity.Companion.sShowBottomNavView
 import com.yudistudios.foodland.ui.activities.main.viewmodels.HomeViewModel
 import com.yudistudios.foodland.ui.adapters.FoodRecyclerItemClickListeners
@@ -92,7 +91,7 @@ class HomeFragment : Fragment() {
             val count = it.map { bf ->
                 bf.foodAmount
             }.sum()
-            viewModel.foodsInBasketCount.value = count
+            foodsInBasketCount.value = count
 
             if (viewModel.foods.value != null) {
                 viewModel.foods.value = viewModel.foods.value
@@ -231,8 +230,6 @@ class HomeFragment : Fragment() {
 
         viewModel.basketButtonIsClicked.observe(viewLifecycleOwner) {
             if (it) {
-                val intent = Intent(requireActivity(), BasketActivity::class.java)
-                startActivity(intent)
                 viewModel.basketButtonIsClicked.value = false
             }
         }

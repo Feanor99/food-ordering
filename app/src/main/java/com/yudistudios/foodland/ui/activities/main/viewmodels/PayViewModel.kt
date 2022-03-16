@@ -1,4 +1,4 @@
-package com.yudistudios.foodland.ui.activities.basket.viewmodels
+package com.yudistudios.foodland.ui.activities.main.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

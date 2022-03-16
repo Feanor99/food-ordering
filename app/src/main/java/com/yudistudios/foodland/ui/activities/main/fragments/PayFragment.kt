@@ -1,4 +1,4 @@
-package com.yudistudios.foodland.ui.activities.basket.fragments
+package com.yudistudios.foodland.ui.activities.main.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -15,7 +16,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.yudistudios.foodland.R
 import com.yudistudios.foodland.databinding.FragmentPayBinding
-import com.yudistudios.foodland.ui.activities.basket.viewmodels.PayViewModel
+import com.yudistudios.foodland.ui.activities.main.MainActivity
+import com.yudistudios.foodland.ui.activities.main.viewmodels.PayViewModel
 import com.yudistudios.foodland.ui.adapters.OrderRecyclerViewAdapter
 import com.yudistudios.foodland.utils.Dialogs
 import com.yudistudios.foodland.utils.Result
@@ -82,7 +84,10 @@ class PayFragment : Fragment() {
                         dialog.cancel()
                     }
                     dialog = Dialogs().successDialog(requireContext()) {
-                        requireActivity().finish()
+                        if (::dialog.isInitialized && dialog.isShowing) {
+                            dialog.dismiss()
+                        }
+                        findNavController().popBackStack(R.id.basketFragment, inclusive = true)
                     }
                     dialog.show()
                 }
@@ -168,5 +173,6 @@ class PayFragment : Fragment() {
         if (::dialog.isInitialized && dialog.isShowing) {
             dialog.cancel()
         }
+        MainActivity.sShowBottomNavView.value = true
     }
 }

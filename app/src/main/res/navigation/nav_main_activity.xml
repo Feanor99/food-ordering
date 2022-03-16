@@ -22,7 +22,11 @@
         android:id="@+id/accountFragment"
         android:name="com.yudistudios.foodland.ui.activities.main.fragments.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/fragment_account" >
+        <action
+            android:id="@+id/action_accountFragment_to_pastOrderFragment"
+            app:destination="@id/pastOrderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/supportFragment"
         android:name="com.yudistudios.foodland.ui.activities.main.fragments.SupportFragment"
@@ -55,4 +59,23 @@
             android:name="order"
             app:argType="com.yudistudios.foodland.models.Order" />
     </fragment>
+    <fragment
+        android:id="@+id/basketFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.BasketFragment"
+        android:label="BasketFragment"
+        tools:layout="@layout/fragment_basket">
+        <action
+            android:id="@+id/action_basketFragment_to_payFragment"
+            app:destination="@id/payFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.PayFragment"
+        android:label="PayFragment"
+        tools:layout="@layout/fragment_pay"/>
+    <fragment
+        android:id="@+id/pastOrderFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.PastOrderFragment"
+        android:label="fragment_past_order"
+        tools:layout="@layout/fragment_past_order" />
 </navigation>

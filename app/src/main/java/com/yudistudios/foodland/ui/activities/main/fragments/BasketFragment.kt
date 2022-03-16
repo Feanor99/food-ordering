@@ -1,4 +1,4 @@
-package com.yudistudios.foodland.ui.activities.basket.fragments
+package com.yudistudios.foodland.ui.activities.main.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -10,10 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.yudistudios.foodland.R
-import com.yudistudios.foodland.databinding.FragmentConfirmBinding
+import com.yudistudios.foodland.databinding.FragmentBasketBinding
 import com.yudistudios.foodland.models.BasketFood
 import com.yudistudios.foodland.retrofit.models.GetBasketResponse
-import com.yudistudios.foodland.ui.activities.basket.viewmodels.ConfirmViewModel
+import com.yudistudios.foodland.ui.activities.main.MainActivity
+import com.yudistudios.foodland.ui.activities.main.MainActivity.Companion.foodsInBasketCount
+import com.yudistudios.foodland.ui.activities.main.viewmodels.ConfirmViewModel
 import com.yudistudios.foodland.ui.adapters.FoodBasketRecyclerItemClickListeners
 import com.yudistudios.foodland.ui.adapters.BasketFoodRecyclerViewAdapter
 import com.yudistudios.foodland.utils.Dialogs
@@ -22,11 +24,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-class ConfirmFragment : Fragment() {
+class BasketFragment : Fragment() {
 
     private val viewModel: ConfirmViewModel by viewModels()
 
-    private var _binding: FragmentConfirmBinding? = null
+    private var _binding: FragmentBasketBinding? = null
     private val binding get() = _binding!!
 
     lateinit var dialog: AlertDialog
@@ -35,7 +37,7 @@ class ConfirmFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentConfirmBinding.inflate(inflater, container, false)
+        _binding = FragmentBasketBinding.inflate(inflater, container, false)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -45,8 +47,6 @@ class ConfirmFragment : Fragment() {
         observeFoodsInBasket()
 
         observers()
-
-        back()
 
         observeConfirmationStatus()
 
@@ -58,7 +58,8 @@ class ConfirmFragment : Fragment() {
         viewModel.confirmationStatus.observe(viewLifecycleOwner) {
             when (it.result) {
                 Result.SUCCESS -> {
-                    findNavController().navigate(R.id.action_confirmFragment_to_payFragment)
+                    findNavController().navigate(R.id.action_basketFragment_to_payFragment)
+                    MainActivity.sShowBottomNavView.value = false
                     if (dialog.isShowing) {
                         dialog.cancel()
                     }
@@ -76,12 +77,6 @@ class ConfirmFragment : Fragment() {
                 }
                 else -> return@observe
             }
-        }
-    }
-
-    private fun back() {
-        binding.buttonBack.setOnClickListener {
-            requireActivity().finish()
         }
     }
 
@@ -112,6 +107,10 @@ class ConfirmFragment : Fragment() {
             adapter.submitList(it.map { fb ->
                 fb.copy()
             })
+
+            foodsInBasketCount.value = it.map {  fb ->
+                fb.foodAmount
+            }.sum()
 
             if (it.isEmpty()) {
                 binding.animationView.visibility = View.VISIBLE

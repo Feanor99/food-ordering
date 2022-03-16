@@ -15,7 +15,7 @@
     <string name="create_an_account">Hesap Oluştur</string>
     <string name="not_registered_yet">Henüz kayıt olmadınız mı?</string>
     <string name="home">Anasayfa</string>
-    <string name="account">Hesap</string>
+    <string name="account">Hesabım</string>
     <string name="support">Destek</string>
     <string name="search">Arama yapın</string>
     <string name="add_to_basket">Ekle</string>
@@ -30,7 +30,7 @@
     <string name="desserts">Tatlılar</string>
     <string name="pizza">Pizza</string>
     <string name="confirm_basket">Sepeti Onayla</string>
-    <string name="basket">Sepet</string>
+    <string name="basket">Sepetim</string>
     <string name="payment">Ödeme</string>
     <string name="total">Toplam</string>
     <string name="i_accept_the_agreement">Sözleşmeyi kabul ediyorum</string>
@@ -57,10 +57,11 @@
     <string name="sign_out">Oturumu Kapat</string>
     <string name="foodland_support">Foodland Destek</string>
     <string name="online">çevrimiçi</string>
-    <string name="past_orders">Geçmiş Siparişlerim</string>
+    <string name="past_orders">Siparişlerim</string>
     <string name="order_approved">Sipariş onaylandı</string>
     <string name="cooking">Hazırlanıyor</string>
     <string name="on_the_way">Yola çıktı</string>
     <string name="estimated_arrival_time_5_mins">Tahmini teslimat süresi: 5 dk.</string>
     <string name="email_password_incorrect">E-posta ve şifre eşleşmedi</string>
+    <string name="order_again">Tekrarla</string>
 </resources>

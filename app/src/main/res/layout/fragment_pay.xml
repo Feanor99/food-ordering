@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.yudistudios.foodland.ui.activities.basket.viewmodels.PayViewModel" />
+            type="com.yudistudios.foodland.ui.activities.main.viewmodels.PayViewModel" />
 
         <variable
             name="adapter"
@@ -112,7 +112,7 @@
             app:layout_constraintHeight_percent="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView_address"
-            tools:context=".ui.activities.basket.fragments.PayFragment" />
+            tools:context=".ui.activities.main.fragments.PayFragment" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView"

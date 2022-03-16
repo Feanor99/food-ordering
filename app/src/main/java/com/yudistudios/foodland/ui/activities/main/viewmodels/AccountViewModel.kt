@@ -6,8 +6,13 @@ import androidx.lifecycle.ViewModel
 class AccountViewModel : ViewModel() {
 
     val signOutIsClicked = MutableLiveData(false)
+    val pastOrdersIsClicked = MutableLiveData(false)
 
     fun signOutOnClick() {
         signOutIsClicked.value = true
+    }
+
+    fun pastOrdersOnClick() {
+        pastOrdersIsClicked.value = true
     }
 }

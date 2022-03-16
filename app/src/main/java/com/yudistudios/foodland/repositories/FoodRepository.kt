@@ -1,6 +1,5 @@
 package com.yudistudios.foodland.repositories
 
-import androidx.lifecycle.LiveData
 import com.yudistudios.foodland.firebase.AuthUtils
 import com.yudistudios.foodland.firebase.DatabaseUtils
 import com.yudistudios.foodland.models.BasketFood
@@ -14,11 +13,9 @@ import javax.inject.Inject
 
 class FoodRepository @Inject constructor(private val foodService: FoodService) {
 
-    val foodsInBasket: LiveData<MutableList<BasketFood>>
-        get() = DatabaseUtils.getInstance().foodsInBasket
+    val foodsInBasket get() = DatabaseUtils.getInstance().foodsInBasket
 
-    val favoriteFoods: LiveData<List<String>>
-        get() = DatabaseUtils.getInstance().favoriteFoods
+    val favoriteFoods get() = DatabaseUtils.getInstance().favoriteFoods
 
     fun addFoodToBasket(food: Food) {
         val foodsExist = foodsInBasket.value ?: mutableListOf()

@@ -9,6 +9,12 @@
         android:title="@string/home"/>
 
     <item
+        android:id="@+id/basketFragment"
+        android:icon="@drawable/ic_cart"
+        app:showAsAction="always"
+        android:title="@string/basket"/>
+
+    <item
         android:id="@+id/accountFragment"
         android:icon="@drawable/ic_account"
         app:showAsAction="always"
@@ -16,7 +22,7 @@
 
     <item
         android:id="@+id/supportFragment"
-        android:icon="@drawable/ic_support"
+        android:icon="@drawable/ic_chat"
         app:showAsAction="always"
         android:title="@string/support"/>
 </menu>
