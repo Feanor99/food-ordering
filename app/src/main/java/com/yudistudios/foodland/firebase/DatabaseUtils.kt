@@ -7,29 +7,26 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.yudistudios.foodland.models.BasketFood
-import com.yudistudios.foodland.models.ChatMessage
-import com.yudistudios.foodland.models.Order
-import com.yudistudios.foodland.models.PastOrder
+import com.yudistudios.foodland.models.*
 import timber.log.Timber
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DatabaseUtils private constructor() {
 
     companion object {
-        private var instance: DatabaseUtils? = null
+        private var mInstance: DatabaseUtils? = null
+        val instance get() = create()
 
-        fun getInstance(): DatabaseUtils {
-            if (instance == null && AuthUtils.user != null) {
-                instance = DatabaseUtils()
+        private fun create(): DatabaseUtils {
+            if (mInstance == null && AuthUtils.user != null) {
+                mInstance = DatabaseUtils()
             }
 
-            return instance!!
+            return mInstance!!
         }
 
         fun destroy() {
-            instance = null
+            mInstance = null
         }
     }
 
@@ -47,7 +44,6 @@ class DatabaseUtils private constructor() {
     val pastOrders: LiveData<List<PastOrder>>
         get() = mPastOrders
 
-
     private val mChatMessages = MutableLiveData<List<ChatMessage>>().apply { value = listOf() }
     val chatMessages: LiveData<List<ChatMessage>>
         get() = mChatMessages
@@ -55,6 +51,10 @@ class DatabaseUtils private constructor() {
     private val mFavoriteFoods = MutableLiveData<List<String>>().apply { value = listOf() }
     val favoriteFoods: LiveData<List<String>>
         get() = mFavoriteFoods
+
+    private val mAddresses = MutableLiveData<List<Address>>().apply { value = listOf() }
+    val addresses: LiveData<List<Address>>
+        get() = mAddresses
 
     private val foodsReference = database.child("users")
         .child(AuthUtils.user!!.uid)
@@ -72,11 +72,16 @@ class DatabaseUtils private constructor() {
         .child(AuthUtils.user!!.uid)
         .child("PastOrders")
 
+    private val addressReference = database.child("users")
+        .child(AuthUtils.user!!.uid)
+        .child("Addresses")
+
     init {
         listenBasket()
         listenOrders()
         listenChat()
         listenPastOrders()
+        listenAddresses()
     }
 
     fun sendMessage(chatMessage: ChatMessage) {
@@ -116,6 +121,10 @@ class DatabaseUtils private constructor() {
         orderItems.forEach {
             addFoodToBasket(it)
         }
+    }
+
+    fun addAddress(address: Address) {
+        addressReference.push().setValue(address)
     }
 
     private fun listenBasket() {
@@ -233,6 +242,30 @@ class DatabaseUtils private constructor() {
         pastOrderReference.addValueEventListener(pastOrderListener)
     }
 
+    private fun listenAddresses() {
+        val addressListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Timber.e("addresses changed")
+
+                val temp = mutableListOf<Address>()
+
+                (snapshot.value as Map<*, *>?)?.forEach {
+                    val address = mapToAddress(it.value as Map<*, *>)
+
+                    temp.add(address)
+                }
+
+                mAddresses.value = temp
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+
+        addressReference.addValueEventListener(addressListener)
+    }
+
 
     private fun mapToFoodBasket(map: Map<*, *>): BasketFood {
         return BasketFood(
@@ -284,6 +317,18 @@ class DatabaseUtils private constructor() {
         return PastOrder(
             date = date,
             items = listOfItems
+        )
+    }
+
+    private fun mapToAddress(map: Map<*, *>): Address {
+        return Address(
+            title = map["title"] as String,
+            name = map["name"] as String,
+            lastname = map["lastname"] as String,
+            detail = map["detail"] as String,
+            latitude = map["latitude"] as Double,
+            longitude = map["longitude"] as Double,
+            phoneNumber = map["phoneNumber"] as String,
         )
     }
 }

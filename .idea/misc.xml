@@ -29,6 +29,9 @@
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/dialog_success.xml" value="0.24444444444444444" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_account.xml" value="0.12708333333333333" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_active_order.xml" value="0.25" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_add_address.xml" value="0.25" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_add_address_detail_component.xml" value="0.25" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_addresses.xml" value="0.25" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_basket.xml" value="0.264" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_confirm.xml" value="0.4" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_food_detail.xml" value="0.264" />
@@ -39,6 +42,7 @@
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_sign_up.xml" value="0.264" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/fragment_support.xml" value="0.2827346465816918" />
+        <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/item_address.xml" value="0.20833333333333334" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/item_basket_food.xml" value="0.1015625" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/item_chat_message.xml" value="0.264" />
         <entry key="..\:/Users/yunus/AndroidStudioProjects/FoodOrdering/app/src/main/res/layout/item_food.xml" value="0.24444444444444444" />

@@ -6,11 +6,11 @@ import javax.inject.Inject
 
 class OrderRepository @Inject constructor(){
 
-    val orders get() = DatabaseUtils.getInstance().orders
+    val orders get() = DatabaseUtils.instance.orders
 
-    val pastOrders get() = DatabaseUtils.getInstance().pastOrders
+    val pastOrders get() = DatabaseUtils.instance.pastOrders
 
     fun orderAgain(items: List<BasketFood>) {
-        DatabaseUtils.getInstance().orderAgain(items)
+        DatabaseUtils.instance.orderAgain(items)
     }
 }

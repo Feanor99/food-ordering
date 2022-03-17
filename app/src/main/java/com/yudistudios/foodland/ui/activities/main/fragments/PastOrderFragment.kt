@@ -59,7 +59,11 @@ class PastOrderFragment : Fragment() {
     private fun observePastOrders() {
 
         viewModel.pastOrders.observe(viewLifecycleOwner) {
-            val adapter = PastOrdersRecyclerViewAdapter(it, orderAgainOnClick())
+            val adapter = PastOrdersRecyclerViewAdapter(it.sortedWith(
+                compareBy { order ->
+                    order.date
+                }
+            ).reversed(), orderAgainOnClick())
             binding.adapter = adapter
         }
     }

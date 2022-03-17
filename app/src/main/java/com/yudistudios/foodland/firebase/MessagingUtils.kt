@@ -9,7 +9,7 @@ object MessagingUtils {
     fun generateToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Timber.e("Fetching FCM registration token failed", task.exception)
+                Timber.e("Fetching FCM registration token failed ${task.exception}")
                 return@OnCompleteListener
             }
 

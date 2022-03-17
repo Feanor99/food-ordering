@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.yudistudios.foodland"
-        minSdk 23
+        minSdk 24
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -55,8 +55,11 @@ dependencies {
     def glide_version = "4.13.0"
     def lottie_version = "3.4.0"
     def maps_version = "18.0.2"
+    def location_version = "19.0.1"
     def firebase_version = "29.1.0"
+    def datastore_version = "1.0.0"
 
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
     implementation "com.airbnb.android:lottie:$lottie_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$gson_version"
@@ -79,6 +82,7 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     implementation "com.google.android.gms:play-services-maps:$maps_version"
+    implementation "com.google.android.gms:play-services-location:$location_version"
 
     implementation platform("com.google.firebase:firebase-bom:$firebase_version")
     implementation 'com.google.firebase:firebase-database-ktx'

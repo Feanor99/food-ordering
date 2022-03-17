@@ -36,7 +36,7 @@
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:src="@drawable/ic_xmark"
                 app:tint="@color/black" />
 
             <LinearLayout

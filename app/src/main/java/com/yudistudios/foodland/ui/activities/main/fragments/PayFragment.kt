@@ -37,12 +37,17 @@ class PayFragment : Fragment() {
     lateinit var dialog: AlertDialog
 
     private val callback = OnMapReadyCallback { googleMap ->
+        val addresses = viewModel.addresses.value
 
-        val address = LatLng(41.080146, 28.925986)
-        googleMap.addMarker(MarkerOptions().position(address).title("Marker in address"))
-        googleMap.setMinZoomPreference(15.0f)
-        googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(address))
+        if (addresses != null && addresses.isNotEmpty()) {
+            val address = addresses[0]
+            val latLng = LatLng(address.latitude, address.longitude)
+            googleMap.addMarker(MarkerOptions().position(latLng).title("Marker in address"))
+            googleMap.setMinZoomPreference(15.0f)
+            googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            binding.addressTitle = address.title
+        }
     }
 
     override fun onCreateView(
@@ -55,6 +60,7 @@ class PayFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.totalCost = "0.00"
+        binding.addressTitle = getString(R.string.select_address)
 
         setRecyclerView()
 
@@ -71,7 +77,8 @@ class PayFragment : Fragment() {
 
     private fun back() {
         binding.buttonBack.setOnClickListener {
-            requireActivity().finish()
+            findNavController().popBackStack()
+            findNavController().popBackStack()
         }
     }
 

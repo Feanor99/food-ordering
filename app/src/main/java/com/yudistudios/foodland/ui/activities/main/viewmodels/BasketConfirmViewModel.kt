@@ -8,6 +8,7 @@ import com.yudistudios.foodland.repositories.BasketRepository
 import com.yudistudios.foodland.repositories.FoodRepository
 import com.yudistudios.foodland.models.BasketFood
 import com.yudistudios.foodland.models.Food
+import com.yudistudios.foodland.repositories.AddressRepository
 import com.yudistudios.foodland.retrofit.models.GetBasketResponse
 import com.yudistudios.foodland.utils.Result
 import com.yudistudios.foodland.utils.Status
@@ -20,9 +21,10 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ConfirmViewModel @Inject constructor(
+class BasketConfirmViewModel @Inject constructor(
     private val foodRepository: FoodRepository,
-    private val basketRepository: BasketRepository
+    private val basketRepository: BasketRepository,
+    private val addressRepository: AddressRepository
 ) : ViewModel() {
 
     val foodsInBasket get() = foodRepository.foodsInBasket
@@ -30,6 +32,8 @@ class ConfirmViewModel @Inject constructor(
     var basket = basketRepository.getBasket().asLiveData()
 
     val confirmButtonIsClicked = MutableLiveData(false)
+
+    val addresses get() = addressRepository.addresses
 
     private val hasErrors = MutableLiveData(false)
 
@@ -40,7 +44,7 @@ class ConfirmViewModel @Inject constructor(
     }
 
     private suspend fun addFoodsToBasket() {
-        val foods = DatabaseUtils.getInstance().foodsInBasket.value
+        val foods = DatabaseUtils.instance.foodsInBasket.value
 
         foods?.forEach {
             basketRepository.addFoodToBasket(it).collect { response ->

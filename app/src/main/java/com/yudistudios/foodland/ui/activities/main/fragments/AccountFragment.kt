@@ -12,10 +12,10 @@ import com.yudistudios.foodland.R
 import com.yudistudios.foodland.databinding.FragmentAccountBinding
 import com.yudistudios.foodland.firebase.AuthUtils
 import com.yudistudios.foodland.ui.activities.login.LoginActivity
+import com.yudistudios.foodland.ui.activities.main.MainActivity
 import com.yudistudios.foodland.ui.activities.main.viewmodels.AccountViewModel
 
 class AccountFragment : Fragment() {
-
 
     private val viewModel: AccountViewModel by viewModels()
 
@@ -27,6 +27,8 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAccountBinding.inflate(inflater, container, false)
+
+        MainActivity.sShowBottomNavView.value = true
 
         binding.imageUrl = AuthUtils.user!!.photoUrl?.toString() ?: ""
         binding.email = AuthUtils.user!!.email
@@ -55,6 +57,13 @@ class AccountFragment : Fragment() {
             if (it) {
                 findNavController().navigate(R.id.action_accountFragment_to_pastOrderFragment)
                 viewModel.pastOrdersIsClicked.value = false
+            }
+        }
+
+        viewModel.addressesIsClicked.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(R.id.action_accountFragment_to_addressesFragment)
+                viewModel.addressesIsClicked.value = false
             }
         }
     }

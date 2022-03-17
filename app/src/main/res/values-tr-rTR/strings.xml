@@ -64,4 +64,18 @@
     <string name="estimated_arrival_time_5_mins">Tahmini teslimat süresi: 5 dk.</string>
     <string name="email_password_incorrect">E-posta ve şifre eşleşmedi</string>
     <string name="order_again">Tekrarla</string>
+    <string name="add_new_address">Yeni adres ekle</string>
+    <string name="delivery_address">Teslimat Adresi</string>
+    <string name="use_this_location">Bu konumu kullan</string>
+    <string name="permission_required_toast">İzin gerekli</string>
+    <string name="permission_rationale_location">Konum gerekli</string>
+    <string name="location_permission_denied">Konum izni reddedildi</string>
+    <string name="address_title">Adres Başlığı</string>
+    <string name="address_detail">Adres Detayı</string>
+    <string name="name">Ad</string>
+    <string name="surname">Soyad</string>
+    <string name="save">Kaydet</string>
+    <string name="phone_number">Telefon Numarası</string>
+    <string name="address_saved">Adres Kaydedildi</string>
+    <string name="edit">Düzenle</string>
 </resources>

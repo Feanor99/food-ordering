@@ -15,18 +15,19 @@ import com.yudistudios.foodland.models.BasketFood
 import com.yudistudios.foodland.retrofit.models.GetBasketResponse
 import com.yudistudios.foodland.ui.activities.main.MainActivity
 import com.yudistudios.foodland.ui.activities.main.MainActivity.Companion.foodsInBasketCount
-import com.yudistudios.foodland.ui.activities.main.viewmodels.ConfirmViewModel
+import com.yudistudios.foodland.ui.activities.main.viewmodels.BasketConfirmViewModel
 import com.yudistudios.foodland.ui.adapters.FoodBasketRecyclerItemClickListeners
 import com.yudistudios.foodland.ui.adapters.BasketFoodRecyclerViewAdapter
 import com.yudistudios.foodland.utils.Dialogs
 import com.yudistudios.foodland.utils.Result
+import com.yudistudios.foodland.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
 class BasketFragment : Fragment() {
 
-    private val viewModel: ConfirmViewModel by viewModels()
+    private val viewModel: BasketConfirmViewModel by viewModels()
 
     private var _binding: FragmentBasketBinding? = null
     private val binding get() = _binding!!
@@ -41,6 +42,8 @@ class BasketFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        MainActivity.sShowBottomNavView.value = true
 
         setRecyclerView()
 
@@ -58,11 +61,20 @@ class BasketFragment : Fragment() {
         viewModel.confirmationStatus.observe(viewLifecycleOwner) {
             when (it.result) {
                 Result.SUCCESS -> {
-                    findNavController().navigate(R.id.action_basketFragment_to_payFragment)
-                    MainActivity.sShowBottomNavView.value = false
                     if (dialog.isShowing) {
                         dialog.cancel()
                     }
+
+                    if (!viewModel.addresses.value.isNullOrEmpty()) {
+                        findNavController().navigate(R.id.action_basketFragment_to_payFragment)
+                        MainActivity.sShowBottomNavView.value = false
+
+                        viewModel.confirmationStatus.value = Status(Result.NONE)
+                    } else {
+                        findNavController().navigate(R.id.action_basketFragment_to_addressesFragment)
+                        viewModel.confirmationStatus.value = Status(Result.NONE)
+                    }
+
                 }
                 Result.NETWORK_ERROR -> {
                     if (dialog.isShowing) {
@@ -70,10 +82,12 @@ class BasketFragment : Fragment() {
                     }
                     dialog = Dialogs().errorDialog(requireContext())
                     dialog.show()
+                    viewModel.confirmationStatus.value = Status(Result.NONE)
                 }
                 Result.WAITING -> {
                     dialog = Dialogs().loadingDialog(requireContext())
                     dialog.show()
+                    viewModel.confirmationStatus.value = Status(Result.NONE)
                 }
                 else -> return@observe
             }

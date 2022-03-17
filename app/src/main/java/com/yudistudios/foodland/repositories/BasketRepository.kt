@@ -72,7 +72,7 @@ class BasketRepository @Inject constructor(private val basketService: BasketServ
     }
 
     fun saveOrder(order: Order) {
-        DatabaseUtils.getInstance().saveOrder(order)
+        DatabaseUtils.instance.saveOrder(order)
     }
 
 }

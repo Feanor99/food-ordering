@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_accountFragment_to_pastOrderFragment"
             app:destination="@id/pastOrderFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
     </fragment>
     <fragment
         android:id="@+id/supportFragment"
@@ -67,6 +70,9 @@
         <action
             android:id="@+id/action_basketFragment_to_payFragment"
             app:destination="@id/payFragment" />
+        <action
+            android:id="@+id/action_basketFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
     </fragment>
     <fragment
         android:id="@+id/payFragment"
@@ -78,4 +84,18 @@
         android:name="com.yudistudios.foodland.ui.activities.main.fragments.PastOrderFragment"
         android:label="fragment_past_order"
         tools:layout="@layout/fragment_past_order" />
+    <fragment
+        android:id="@+id/addressesFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.AddressesFragment"
+        android:label="AddressesFragment"
+        tools:layout="@layout/fragment_addresses">
+        <action
+            android:id="@+id/action_addressesFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.AddAddressFragment"
+        android:label="fragment_add_address"
+        tools:layout="@layout/fragment_add_address" />
 </navigation>

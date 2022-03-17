@@ -3,7 +3,7 @@ package com.yudistudios.foodland.models
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import com.yudistudios.foodland.retrofit.models.FoodBasketPost
+import com.yudistudios.foodland.retrofit.models.BasketFoodPost
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -44,8 +44,8 @@ fun BasketFood.toFood(): Food {
     )
 }
 
-fun BasketFood.toFoodBasketPost(): FoodBasketPost {
-    return FoodBasketPost(
+fun BasketFood.toFoodBasketPost(): BasketFoodPost {
+    return BasketFoodPost(
         foodName = foodName,
         foodImageName = foodImageName,
         foodPrice = foodPrice,

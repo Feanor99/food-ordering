@@ -64,4 +64,19 @@
     <string name="email_password_incorrect">E-mail or password is incorrect</string>
     <string name="default_notification_channel_id" translatable="false">default_noti</string>
     <string name="order_again">Order Again</string>
+    <string name="add_new_address">Add new address</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="use_this_location">Use this location</string>
+    <string name="permission_required_toast">Permission Required</string>
+    <string name="permission_rationale_location">Location required</string>
+    <string name="location_permission_denied">Location permission denied</string>
+    <string name="address_title">Address Title</string>
+    <string name="address_detail">Address Detail</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="save">Save</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address_saved">Address Saved</string>
+    <string name="edit">Edit</string>
+    <string name="select_address">Select Address</string>
 </resources>

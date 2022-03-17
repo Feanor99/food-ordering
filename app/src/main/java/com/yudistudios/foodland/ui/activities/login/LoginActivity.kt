@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 //        else {
-//            DatabaseUtils.getInstance()
+//            DatabaseUtils.instance
 //            AuthUtils.signOut(this)
 //        }
         return true

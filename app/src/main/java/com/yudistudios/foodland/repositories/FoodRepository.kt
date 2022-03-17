@@ -13,9 +13,9 @@ import javax.inject.Inject
 
 class FoodRepository @Inject constructor(private val foodService: FoodService) {
 
-    val foodsInBasket get() = DatabaseUtils.getInstance().foodsInBasket
+    val foodsInBasket get() = DatabaseUtils.instance.foodsInBasket
 
-    val favoriteFoods get() = DatabaseUtils.getInstance().favoriteFoods
+    val favoriteFoods get() = DatabaseUtils.instance.favoriteFoods
 
     fun addFoodToBasket(food: Food) {
         val foodsExist = foodsInBasket.value ?: mutableListOf()
@@ -27,7 +27,7 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
 
                 foodBasket?.let {
                     foodBasket.foodAmount += food.amount
-                    DatabaseUtils.getInstance().addFoodToBasket(foodBasket)
+                    DatabaseUtils.instance.addFoodToBasket(foodBasket)
                 }
 
             } else {
@@ -39,7 +39,7 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
                     foodAmount = 1,
                     userId = AuthUtils.user!!.uid
                 )
-                DatabaseUtils.getInstance().addFoodToBasket(foodBasket)
+                DatabaseUtils.instance.addFoodToBasket(foodBasket)
             }
         }
     }
@@ -55,10 +55,10 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
                 foodBasket?.let {
                     foodBasket.foodAmount += food.amount
                     if (foodBasket.foodAmount == 0) {
-                        DatabaseUtils.getInstance().removeFoodFromBasket(foodBasket)
+                        DatabaseUtils.instance.removeFoodFromBasket(foodBasket)
 
                     } else {
-                        DatabaseUtils.getInstance().addFoodToBasket(foodBasket)
+                        DatabaseUtils.instance.addFoodToBasket(foodBasket)
 
                     }
                 }
@@ -66,7 +66,6 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
             }
         }
     }
-
 
     fun setFoodToBasket(food: Food) {
 
@@ -79,7 +78,7 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
             userId = AuthUtils.user!!.uid
         )
 
-        DatabaseUtils.getInstance().addFoodToBasket(foodBasket)
+        DatabaseUtils.instance.addFoodToBasket(foodBasket)
     }
 
     fun removeFoodPermanentlyFromBasket(food: Food) {
@@ -93,12 +92,12 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
             userId = AuthUtils.user!!.uid
         )
 
-        DatabaseUtils.getInstance().removeFoodFromBasket(foodBasket)
+        DatabaseUtils.instance.removeFoodFromBasket(foodBasket)
 
     }
 
     fun clearAll() {
-        DatabaseUtils.getInstance().clearBasket()
+        DatabaseUtils.instance.clearBasket()
     }
 
     fun getAllFoods(): Flow<GetFoodsResponse> {
@@ -114,7 +113,7 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
     }
 
     fun updateFavorites(ids: List<String>) {
-        DatabaseUtils.getInstance().setFavoriteFoods(ids)
+        DatabaseUtils.instance.setFavoriteFoods(ids)
     }
 
 }

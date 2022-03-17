@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="adapter"
-            type="com.yudistudios.foodland.ui.adapters.PastOrdersRecyclerViewAdapter" />
+            type="com.yudistudios.foodland.ui.adapters.AddressesRecyclerViewAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.yudistudios.foodland.ui.activities.main.viewmodels.AddressesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.activities.main.fragments.AddressesFragment">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
@@ -41,29 +47,36 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:text="@string/past_orders"
+                android:text="@string/addresses"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
-
         </com.google.android.material.appbar.MaterialToolbar>
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:adapter="@{adapter}"
             android:orientation="vertical"
             android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:layout_constraintStart_toStartOf="parent"
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/button_new_address"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_new_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/add_new_address"
+            android:onClick="@{() -> viewModel.addAddressButtonOnClick()}"
+            app:icon="@drawable/ic_plus"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

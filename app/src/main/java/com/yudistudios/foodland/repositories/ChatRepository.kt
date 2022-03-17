@@ -6,9 +6,9 @@ import javax.inject.Inject
 
 class ChatRepository @Inject constructor() {
 
-    val chatMessages get() = DatabaseUtils.getInstance().chatMessages
+    val chatMessages get() = DatabaseUtils.instance.chatMessages
 
     fun sendMessage(chatMessage: ChatMessage) {
-        DatabaseUtils.getInstance().sendMessage(chatMessage)
+        DatabaseUtils.instance.sendMessage(chatMessage)
     }
 }

@@ -95,7 +95,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> viewModel.addressesOnClick()}"
                     android:layout_marginVertical="8dp"
                     android:orientation="horizontal">
 

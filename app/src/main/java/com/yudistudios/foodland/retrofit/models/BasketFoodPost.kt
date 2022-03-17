@@ -3,7 +3,7 @@ package com.yudistudios.foodland.retrofit.models
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class FoodBasketPost(
+data class BasketFoodPost(
 
     @SerializedName("yemek_adi")
     @Expose

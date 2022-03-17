@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="addressTitle"
+            type="String" />
+
+        <variable
             name="totalCost"
             type="String" />
 
@@ -40,7 +44,7 @@
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:src="@drawable/ic_xmark"
                 app:tint="@color/black" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -64,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="@string/address"
+            android:text="@{addressTitle}"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp"

@@ -7,6 +7,7 @@ import com.yudistudios.foodland.repositories.BasketRepository
 import com.yudistudios.foodland.repositories.FoodRepository
 import com.yudistudios.foodland.models.BasketFood
 import com.yudistudios.foodland.models.Order
+import com.yudistudios.foodland.repositories.AddressRepository
 import com.yudistudios.foodland.utils.Result
 import com.yudistudios.foodland.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PayViewModel @Inject constructor(
     private val foodRepository: FoodRepository,
-    private val basketRepository: BasketRepository
+    private val basketRepository: BasketRepository,
+    private val addressRepository: AddressRepository
 ) : ViewModel() {
 
     var basket = basketRepository.getBasket().asLiveData()
@@ -30,6 +32,8 @@ class PayViewModel @Inject constructor(
     val payButtonIsClicked = MutableLiveData(false)
 
     private val hasErrors = MutableLiveData(false)
+
+    val addresses get() =  addressRepository.addresses
 
     val clearStatus = MutableLiveData<Status>()
 
