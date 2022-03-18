@@ -197,9 +197,9 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_creditCard"
-            android:text="**** **** **** 1234 VISA"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_width="1dp"
+            android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:textAlignment="center"

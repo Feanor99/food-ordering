@@ -11,6 +11,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -131,13 +132,19 @@ class AddAddressFragment : Fragment() {
                 requestNewLocationData()
             }
             else -> {
-                // No location access granted.
+                Toast.makeText(requireContext(), "Location permission required", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentAddAddressBinding.inflate(inflater, container, false)
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         locationPermissionRequest.launch(
@@ -146,13 +153,11 @@ class AddAddressFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
-    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentAddAddressBinding.inflate(inflater, container, false)
+        if (!isLocationEnabled() || !checkPermissions()) {
+            Toast.makeText(requireContext(), "Location permission required", Toast.LENGTH_SHORT)
+                .show()
+        }
 
         binding.viewModel = viewModel
         binding.layoutAddressDetail.viewModel = viewModel
@@ -163,6 +168,32 @@ class AddAddressFragment : Fragment() {
 
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        val callback = OnMapReadyCallback { googleMap ->
+            mLatitude = 41.044313
+            mLongitude = 29.035711
+
+            val address = LatLng(mLatitude, mLongitude)
+            val marker = MarkerOptions().position(address).title("Marker in address")
+
+            googleMap.addMarker(marker)
+            googleMap.setMinZoomPreference(15.0f)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(address))
+
+            googleMap.setOnMapClickListener {
+                mLatitude = it.latitude
+                mLongitude = it.longitude
+                googleMap.clear()
+                googleMap.addMarker(MarkerOptions().position(it).title("Marker in address"))
+            }
+        }
+        mapFragment?.getMapAsync(callback)
+    }
+
 
     private fun observers() {
 
@@ -185,7 +216,32 @@ class AddAddressFragment : Fragment() {
                 var hasErrors = false
 
                 if (title.isEmpty()) {
-                    binding.layoutAddressDetail.editTextAddressTitle.error = getString(R.string.required)
+                    binding.layoutAddressDetail.editTextAddressTitle.error =
+                        getString(R.string.required)
+                    hasErrors = true
+                }
+
+                if (detail.isEmpty()) {
+                    binding.layoutAddressDetail.editTextAddressDetail.error =
+                        getString(R.string.required)
+                    hasErrors = true
+                }
+
+                if (name.isEmpty()) {
+                    binding.layoutAddressDetail.editTextLastname.error =
+                        getString(R.string.required)
+                    hasErrors = true
+                }
+
+                if (lastname.isEmpty()) {
+                    binding.layoutAddressDetail.editTextLastname.error =
+                        getString(R.string.required)
+                    hasErrors = true
+                }
+
+                if (phoneNumber.isEmpty()) {
+                    binding.layoutAddressDetail.editTextPhoneNumber.error =
+                        getString(R.string.required)
                     hasErrors = true
                 }
 

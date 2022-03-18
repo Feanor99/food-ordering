@@ -20,6 +20,10 @@ import com.google.firebase.ktx.Firebase
 import com.yudistudios.foodland.R
 import com.yudistudios.foodland.utils.Result
 import com.yudistudios.foodland.utils.Status
+import com.yudistudios.foodland.utils.clearPreferences
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 object AuthUtils {
@@ -67,15 +71,16 @@ object AuthUtils {
                     mSignInResultIsSuccess.value = Status(Result.SUCCESS)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Timber.e("createUserWithEmail:failure ${task.exception}")
+                    Timber.e("signInWithEmail:failure ${task.exception}")
 
                     when (task.exception) {
-                        is com.google.firebase.auth.FirebaseAuthInvalidCredentialsException -> {
-                            mSignInResultIsSuccess.value = Status(Result.INCORRECT_PASSWORD)
-                        }
                         is com.google.firebase.FirebaseNetworkException -> {
                             mSignInResultIsSuccess.value = Status(Result.NETWORK_ERROR)
                         }
+                        else -> {
+                            mSignInResultIsSuccess.value = Status(Result.INCORRECT_PASSWORD)
+                        }
+
                     }
                 }
             }
@@ -125,6 +130,9 @@ object AuthUtils {
         DatabaseUtils.destroy()
         mSignInResultIsSuccess.value = Status(Result.NONE)
         mSignUpResultIsSuccess.value = Status(Result.NONE)
+        CoroutineScope(Dispatchers.IO).launch {
+            clearPreferences(context)
+        }
         AuthUI.getInstance()
             .signOut(context)
     }

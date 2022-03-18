@@ -34,7 +34,8 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.2"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="24dp"
@@ -50,9 +51,9 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.2"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginBottom="24dp"
             android:inputType="numberPassword"
             android:letterSpacing="0.2"
@@ -66,9 +67,9 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.2"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginBottom="24dp"
             android:inputType="numberPassword"
             android:letterSpacing="0.2"
@@ -84,12 +85,11 @@
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
             android:letterSpacing="0.2"
             android:paddingTop="2dp"
             android:text="@{creditCard.cardNo.substring(12)}"
             android:textColor="@color/white"
-            android:textSize="26sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@id/textView6"
             app:layout_constraintStart_toEndOf="@id/textView6"
             app:layout_constraintTop_toTopOf="@id/textView6"

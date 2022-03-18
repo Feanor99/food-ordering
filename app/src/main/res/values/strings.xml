@@ -87,4 +87,5 @@
     <string name="new_credit_card">New Credit Card</string>
     <string name="expire_date">Expire Date</string>
     <string name="required">Required</string>
+    <string name="password_match_error">Passwords are not matching</string>
 </resources>

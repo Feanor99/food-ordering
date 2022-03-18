@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.yudistudios.foodland.R
 import com.yudistudios.foodland.databinding.FragmentActiveOrderBinding
 import com.yudistudios.foodland.models.Order
@@ -29,6 +32,7 @@ class ActiveOrderFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var callback: OnMapReadyCallback
+    private lateinit var order: Order
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,22 +43,7 @@ class ActiveOrderFragment : Fragment() {
         MainActivity.sShowBottomNavView.value = false
 
         val args: ActiveOrderFragmentArgs by navArgs()
-        val order = args.order
-
-        callback = OnMapReadyCallback { googleMap ->
-
-            val address = com.google.android.gms.maps.model.LatLng(order.latitude, order.longitude)
-            googleMap.addMarker(
-                com.google.android.gms.maps.model.MarkerOptions().position(address).icon(
-                    BitmapDescriptorFactory.fromResource(R.drawable.motorbike)
-                )
-                    .title("Marker in address")
-            )
-
-            googleMap.setMinZoomPreference(17.0f)
-            googleMap.mapType = com.google.android.gms.maps.GoogleMap.MAP_TYPE_TERRAIN
-            googleMap.moveCamera(com.google.android.gms.maps.CameraUpdateFactory.newLatLng(address))
-        }
+        order = args.order
 
         setRecyclerView(order)
 
@@ -101,6 +90,20 @@ class ActiveOrderFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        callback = OnMapReadyCallback { googleMap ->
+
+            val address = LatLng(order.latitude, order.longitude)
+            googleMap.addMarker(
+                MarkerOptions().position(address).icon(
+                    BitmapDescriptorFactory.fromResource(R.drawable.motorbike)
+                )
+                    .title("Marker in address")
+            )
+
+            googleMap.setMinZoomPreference(17.0f)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(address))
+        }
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }

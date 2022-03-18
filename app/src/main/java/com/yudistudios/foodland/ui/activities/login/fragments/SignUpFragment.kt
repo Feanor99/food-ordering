@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.yudistudios.foodland.R
 import com.yudistudios.foodland.databinding.FragmentSignUpBinding
 import com.yudistudios.foodland.firebase.AuthUtils
 import com.yudistudios.foodland.ui.activities.login.viewmodels.SignUpViewModel
@@ -110,7 +111,7 @@ class SignUpFragment : Fragment() {
                 }
 
                 if (!isPasswordsEqual) {
-                    binding.textInputLayoutRePassword.error = "Passwords are not matching"
+                    binding.textInputLayoutRePassword.error = getString(R.string.password_match_error)
                 }
 
                 if (email.isNotEmpty() && password.isNotEmpty() && isPasswordsEqual) {

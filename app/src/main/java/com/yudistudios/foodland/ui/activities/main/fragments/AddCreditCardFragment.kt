@@ -155,7 +155,6 @@ class AddCreditCardFragment : Fragment() {
 
                     }
                     binding.textViewCardNumber.text = sb.toString()
-                    Timber.e(sb.toString())
                 }
             }
 

@@ -45,3 +45,9 @@ suspend fun getCardEncrypted(context: Context): ByteArray {
 
     return Base64.decode(string, Base64.NO_WRAP)
 }
+
+suspend fun clearPreferences(context: Context) {
+    context.dataStore.edit {
+        it.clear()
+    }
+}

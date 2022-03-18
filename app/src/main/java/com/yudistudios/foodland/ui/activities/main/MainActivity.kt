@@ -52,22 +52,6 @@ class MainActivity : AppCompatActivity() {
 
         MessagingUtils.generateToken()
 
-// get card
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val s = SecurityUtils()
-//            val iv = getIV(this@MainActivity)
-//            val cipherText = getCard(this@MainActivity)
-//            val text = s.decrypt(cipherText, iv)
-//            Timber.e(text.toString())
-//        }
-// save card
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val text = "0123456789101112.0523.213.yunus.dilber"
-//            val s = SecurityUtils()
-//            val ciphertext = s.encrypt(text.toByteArray(), this@MainActivity)
-//            saveCard(this@MainActivity, ciphertext!!)
-//        }
-
     }
 
     private fun cartItemCount() {
@@ -82,31 +66,6 @@ class MainActivity : AppCompatActivity() {
                 badge.isVisible = true
                 badge.number = it
             }
-        }
-    }
-
-
-    override fun onBackPressed() {
-        val fragment =
-            supportFragmentManager.fragments.last()?.childFragmentManager?.fragments?.get(0)
-        if (fragment != null) {
-            when (fragment) {
-                is PayFragment -> {
-                    super.onBackPressed()
-                    super.onBackPressed()
-                }
-                is ActiveOrderFragment -> {
-                    super.onBackPressed()
-                    super.onBackPressed()
-                }
-                else -> {
-                    super.onBackPressed()
-                }
-            }
-            Timber.e(fragment::class.simpleName)
-
-        } else {
-            super.onBackPressed()
         }
     }
 

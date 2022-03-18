@@ -86,4 +86,5 @@
     <string name="new_credit_card">Yeni Kredi Kartı</string>
     <string name="expire_date">Son Kullanma Tarihi</string>
     <string name="required">Zorunlu</string>
+    <string name="password_match_error">Şifreler aynı değil</string>
 </resources>

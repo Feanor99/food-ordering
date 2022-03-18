@@ -78,20 +78,20 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </androidx.core.widget.NestedScrollView>
 
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_order_again"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/order_again"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:icon="@drawable/ic_arrow_rotate"
                     app:iconPadding="8dp"
-                    app:iconSize="20dp"
+                    app:iconSize="18dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/scrollView"
                     app:layout_constraintTop_toBottomOf="@id/scrollView" />
