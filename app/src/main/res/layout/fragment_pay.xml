@@ -10,6 +10,9 @@
             type="String" />
 
         <variable
+            name="last4Digits"
+            type="String" />
+        <variable
             name="totalCost"
             type="String" />
 
@@ -57,7 +60,7 @@
                 android:text="@string/payment"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="@dimen/toolbar_title_text_size"
                 android:textStyle="bold" />
 
         </com.google.android.material.appbar.MaterialToolbar>
@@ -200,17 +203,77 @@
             app:layout_constraintTop_toBottomOf="@id/textView_total" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textView_creditCard"
-            android:text="**** **** **** 1234 VISA"
+            android:id="@+id/textView_card_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:letterSpacing="0.2"
+            android:paddingBottom="2dp"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/checkbox"
+            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_card_no_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:inputType="numberPassword"
+            android:letterSpacing="0.2"
+            android:paddingBottom="2dp"
+            android:text="****"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/checkbox"
+            app:layout_constraintStart_toEndOf="@id/textView_card_no"
+            app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_card_no_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:inputType="numberPassword"
+            android:letterSpacing="0.2"
+            android:paddingBottom="2dp"
+            android:text="****"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/checkbox"
+            app:layout_constraintStart_toEndOf="@id/textView_card_no_1"
+            app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_card_no_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:inputType="numberPassword"
+            android:letterSpacing="0.2"
+            android:paddingBottom="2dp"
+            android:text="****"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@id/checkbox"
+            app:layout_constraintStart_toEndOf="@id/textView_card_no_2"
+            app:layout_constraintTop_toBottomOf="@id/divider3" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textView_creditCard"
+            tools:text="1234"
+            android:text="@{last4Digits}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:gravity="center"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/checkbox"
-            app:layout_constraintStart_toStartOf="@id/map"
+            app:layout_constraintStart_toEndOf="@id/textView_card_no_3"
             app:layout_constraintTop_toBottomOf="@id/divider3" />
 
         <View

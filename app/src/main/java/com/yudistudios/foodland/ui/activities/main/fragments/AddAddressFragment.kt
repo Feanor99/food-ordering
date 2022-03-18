@@ -182,19 +182,29 @@ class AddAddressFragment : Fragment() {
                 val lastname = binding.layoutAddressDetail.editTextLastname.text.toString()
                 val phoneNumber = binding.layoutAddressDetail.editTextPhoneNumber.text.toString()
 
-                val address = Address(
-                    title = title,
-                    detail = detail,
-                    name = name,
-                    lastname = lastname,
-                    phoneNumber = phoneNumber,
-                    latitude = mLatitude,
-                    longitude = mLongitude
-                )
-                viewModel.addAddress(address)
-                Snackbar.make(binding.root, getString(R.string.address_saved), Snackbar.LENGTH_LONG)
-                    .show()
-                findNavController().popBackStack()
+                var hasErrors = false
+
+                if (title.isEmpty()) {
+                    binding.layoutAddressDetail.editTextAddressTitle.error = getString(R.string.required)
+                    hasErrors = true
+                }
+
+                if (!hasErrors) {
+                    val address = Address(
+                        title = title,
+                        detail = detail,
+                        name = name,
+                        lastname = lastname,
+                        phoneNumber = phoneNumber,
+                        latitude = mLatitude,
+                        longitude = mLongitude
+                    )
+
+                    viewModel.addAddress(address)
+                    Snackbar.make(binding.root, getString(R.string.address_saved), Snackbar.LENGTH_LONG)
+                        .show()
+                    findNavController().popBackStack()
+                }
 
                 viewModel.buttonSaveIsClicked.value = false
             }

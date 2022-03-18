@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.yudistudios.foodland.ui.activities.main.viewmodels.BasketConfirmViewModel" />
+            type="com.yudistudios.foodland.ui.activities.main.viewmodels.ConfirmBasketViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -49,7 +49,7 @@
                 android:text="@string/detail"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="@dimen/toolbar_title_text_size"
                 android:textStyle="bold" />
 
         </com.google.android.material.appbar.MaterialToolbar>
@@ -205,7 +205,7 @@
                             android:maxLines="1"
                             android:text='@{viewModel.food.amount + ""}'
                             android:textColor="@color/black"
-                            android:textSize="24sp"
+                            android:textSize="@dimen/toolbar_title_text_size"
                             app:layout_constraintBottom_toBottomOf="@id/materialButton_decrease"
                             app:layout_constraintEnd_toStartOf="@id/materialButton_increase"
                             app:layout_constraintStart_toEndOf="@id/materialButton_decrease"

@@ -21,13 +21,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
+
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val NOTIFICATION_CHANNEL_ID = getString(R.string.default_notification_channel_id)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(NOTIFICATION_CHANNEL_ID, "Your Notifications", NotificationManager.IMPORTANCE_HIGH)
 
-            notificationChannel.description = "Description"
+            notificationChannel.description = "Channel for notifications"
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
             notificationChannel.vibrationPattern = longArrayOf(0, 1000, 500, 1000)
@@ -45,7 +46,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationBuilder.setAutoCancel(true)
             .setColor(ContextCompat.getColor(this, R.color.colorAccent))
             .setContentTitle(getString(R.string.app_name))
-            .setContentText(remoteMessage.notification!!.body)
+            .setContentText(remoteMessage.notification?.body ?: "")
             .setDefaults(Notification.DEFAULT_ALL)
             .setWhen(System.currentTimeMillis())
             .setSmallIcon(R.drawable.ic_launcher_background)

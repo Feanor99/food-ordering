@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_accountFragment_to_addressesFragment"
             app:destination="@id/addressesFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_creditCardsFragment"
+            app:destination="@id/creditCardsFragment" />
     </fragment>
     <fragment
         android:id="@+id/supportFragment"
@@ -64,15 +67,18 @@
     </fragment>
     <fragment
         android:id="@+id/basketFragment"
-        android:name="com.yudistudios.foodland.ui.activities.main.fragments.BasketFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.ConfirmBasketFragment"
         android:label="BasketFragment"
-        tools:layout="@layout/fragment_basket">
+        tools:layout="@layout/fragment_confirm_basket">
         <action
             android:id="@+id/action_basketFragment_to_payFragment"
             app:destination="@id/payFragment" />
         <action
             android:id="@+id/action_basketFragment_to_addressesFragment"
             app:destination="@id/addressesFragment" />
+        <action
+            android:id="@+id/action_basketFragment_to_creditCardsFragment"
+            app:destination="@id/creditCardsFragment" />
     </fragment>
     <fragment
         android:id="@+id/payFragment"
@@ -98,4 +104,18 @@
         android:name="com.yudistudios.foodland.ui.activities.main.fragments.AddAddressFragment"
         android:label="fragment_add_address"
         tools:layout="@layout/fragment_add_address" />
+    <fragment
+        android:id="@+id/creditCardsFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.CreditCardsFragment"
+        android:label="fragment_credit_cards"
+        tools:layout="@layout/fragment_credit_cards" >
+        <action
+            android:id="@+id/action_creditCardsFragment_to_addCreditCardFragment"
+            app:destination="@id/addCreditCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCreditCardFragment"
+        android:name="com.yudistudios.foodland.ui.activities.main.fragments.AddCreditCardFragment"
+        android:label="fragment_add_credit_card"
+        tools:layout="@layout/fragment_add_credit_card" />
 </navigation>

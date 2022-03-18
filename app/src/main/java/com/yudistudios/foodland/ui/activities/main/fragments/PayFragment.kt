@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -23,6 +24,7 @@ import com.yudistudios.foodland.utils.Dialogs
 import com.yudistudios.foodland.utils.Result
 import com.yudistudios.foodland.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.math.BigDecimal
 
@@ -43,8 +45,7 @@ class PayFragment : Fragment() {
             val address = addresses[0]
             val latLng = LatLng(address.latitude, address.longitude)
             googleMap.addMarker(MarkerOptions().position(latLng).title("Marker in address"))
-            googleMap.setMinZoomPreference(15.0f)
-            googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            googleMap.setMinZoomPreference(19.0f)
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
             binding.addressTitle = address.title
         }
@@ -61,6 +62,7 @@ class PayFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.totalCost = "0.00"
         binding.addressTitle = getString(R.string.select_address)
+        binding.last4Digits = "0000"
 
         setRecyclerView()
 
@@ -72,7 +74,17 @@ class PayFragment : Fragment() {
 
         back()
 
+        getCreditCard()
+
         return binding.root
+    }
+
+    private fun getCreditCard() {
+
+        lifecycleScope.launch {
+            val creditCard = viewModel.getCreditCard(requireContext())
+            binding.last4Digits = creditCard?.cardNo?.substring(12)
+        }
     }
 
     private fun back() {

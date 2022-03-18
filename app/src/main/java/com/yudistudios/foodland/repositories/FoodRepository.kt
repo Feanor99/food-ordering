@@ -17,6 +17,18 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
 
     val favoriteFoods get() = DatabaseUtils.instance.favoriteFoods
 
+    fun getAllFoods(): Flow<GetFoodsResponse> {
+        return flow {
+            try {
+                val response = foodService.getAllFoods()
+                emit(response.body() ?: GetFoodsResponse(listOf(), 0))
+            } catch (e: Exception) {
+                Timber.e("${e.message}")
+                emit(GetFoodsResponse(listOf(), 0))
+            }
+        }
+    }
+
     fun addFoodToBasket(food: Food) {
         val foodsExist = foodsInBasket.value ?: mutableListOf()
         foodsExist.let {
@@ -98,18 +110,6 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
 
     fun clearAll() {
         DatabaseUtils.instance.clearBasket()
-    }
-
-    fun getAllFoods(): Flow<GetFoodsResponse> {
-        return flow {
-            try {
-                val response = foodService.getAllFoods()
-                emit(response.body() ?: GetFoodsResponse(listOf(), 0))
-            } catch (e: Exception) {
-                Timber.e("${e.message}")
-                emit(GetFoodsResponse(listOf(), 0))
-            }
-        }
     }
 
     fun updateFavorites(ids: List<String>) {

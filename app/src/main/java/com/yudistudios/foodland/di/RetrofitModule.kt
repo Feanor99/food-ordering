@@ -13,7 +13,6 @@ import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class RetrofitModule {

@@ -66,6 +66,13 @@ class AccountFragment : Fragment() {
                 viewModel.addressesIsClicked.value = false
             }
         }
+
+        viewModel.creditCardsIsClicked.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(R.id.action_accountFragment_to_creditCardsFragment)
+                viewModel.creditCardsIsClicked.value = false
+            }
+        }
     }
 
 

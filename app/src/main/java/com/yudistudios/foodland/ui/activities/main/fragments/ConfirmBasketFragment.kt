@@ -8,28 +8,30 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.yudistudios.foodland.R
-import com.yudistudios.foodland.databinding.FragmentBasketBinding
+import com.yudistudios.foodland.databinding.FragmentConfirmBasketBinding
 import com.yudistudios.foodland.models.BasketFood
 import com.yudistudios.foodland.retrofit.models.GetBasketResponse
 import com.yudistudios.foodland.ui.activities.main.MainActivity
 import com.yudistudios.foodland.ui.activities.main.MainActivity.Companion.foodsInBasketCount
-import com.yudistudios.foodland.ui.activities.main.viewmodels.BasketConfirmViewModel
-import com.yudistudios.foodland.ui.adapters.FoodBasketRecyclerItemClickListeners
+import com.yudistudios.foodland.ui.activities.main.viewmodels.ConfirmBasketViewModel
 import com.yudistudios.foodland.ui.adapters.BasketFoodRecyclerViewAdapter
+import com.yudistudios.foodland.ui.adapters.FoodBasketRecyclerItemClickListeners
 import com.yudistudios.foodland.utils.Dialogs
 import com.yudistudios.foodland.utils.Result
 import com.yudistudios.foodland.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @AndroidEntryPoint
-class BasketFragment : Fragment() {
+class ConfirmBasketFragment : Fragment() {
 
-    private val viewModel: BasketConfirmViewModel by viewModels()
+    private val viewModel: ConfirmBasketViewModel by viewModels()
 
-    private var _binding: FragmentBasketBinding? = null
+    private var _binding: FragmentConfirmBasketBinding? = null
     private val binding get() = _binding!!
 
     lateinit var dialog: AlertDialog
@@ -38,7 +40,7 @@ class BasketFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentBasketBinding.inflate(inflater, container, false)
+        _binding = FragmentConfirmBasketBinding.inflate(inflater, container, false)
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -65,14 +67,27 @@ class BasketFragment : Fragment() {
                         dialog.cancel()
                     }
 
-                    if (!viewModel.addresses.value.isNullOrEmpty()) {
-                        findNavController().navigate(R.id.action_basketFragment_to_payFragment)
-                        MainActivity.sShowBottomNavView.value = false
+                    lifecycleScope.launch {
+                        val creditCard = viewModel.getCreditCard(requireContext())
 
-                        viewModel.confirmationStatus.value = Status(Result.NONE)
-                    } else {
-                        findNavController().navigate(R.id.action_basketFragment_to_addressesFragment)
-                        viewModel.confirmationStatus.value = Status(Result.NONE)
+                        when {
+                            viewModel.addresses.value.isNullOrEmpty() -> {
+                                findNavController().navigate(R.id.action_basketFragment_to_addressesFragment)
+                                viewModel.confirmationStatus.value = Status(Result.NONE)
+                            }
+                            creditCard == null -> {
+                                findNavController().navigate(R.id.action_basketFragment_to_creditCardsFragment)
+                                MainActivity.sShowBottomNavView.value = false
+
+                                viewModel.confirmationStatus.value = Status(Result.NONE)
+                            }
+                            else -> {
+                                findNavController().navigate(R.id.action_basketFragment_to_payFragment)
+                                MainActivity.sShowBottomNavView.value = false
+
+                                viewModel.confirmationStatus.value = Status(Result.NONE)
+                            }
+                        }
                     }
 
                 }
@@ -146,8 +161,8 @@ class BasketFragment : Fragment() {
 
             viewModel.updateBasket(response)
 
-            observer?.let {
-                    it1 -> viewModel.basket.removeObserver(it1)
+            observer?.let { it1 ->
+                viewModel.basket.removeObserver(it1)
             }
         }
 

@@ -53,7 +53,7 @@
                 android:text="@string/order_details"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="@dimen/toolbar_title_text_size"
                 android:textStyle="bold" />
 
         </com.google.android.material.appbar.MaterialToolbar>

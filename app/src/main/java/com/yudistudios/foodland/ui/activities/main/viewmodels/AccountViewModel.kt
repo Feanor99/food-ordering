@@ -8,6 +8,7 @@ class AccountViewModel : ViewModel() {
     val signOutIsClicked = MutableLiveData(false)
     val pastOrdersIsClicked = MutableLiveData(false)
     val addressesIsClicked = MutableLiveData(false)
+    val creditCardsIsClicked = MutableLiveData(false)
 
     fun signOutOnClick() {
         signOutIsClicked.value = true
@@ -19,5 +20,9 @@ class AccountViewModel : ViewModel() {
 
     fun addressesOnClick() {
         addressesIsClicked.value = true
+    }
+
+    fun creditCardsOnClick() {
+        creditCardsIsClicked.value = true
     }
 }

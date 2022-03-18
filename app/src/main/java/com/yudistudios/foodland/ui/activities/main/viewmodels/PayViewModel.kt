@@ -1,19 +1,23 @@
 package com.yudistudios.foodland.ui.activities.main.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.yudistudios.foodland.repositories.BasketRepository
 import com.yudistudios.foodland.repositories.FoodRepository
 import com.yudistudios.foodland.models.BasketFood
+import com.yudistudios.foodland.models.CreditCard
 import com.yudistudios.foodland.models.Order
 import com.yudistudios.foodland.repositories.AddressRepository
+import com.yudistudios.foodland.repositories.CreditCardRepository
 import com.yudistudios.foodland.utils.Result
 import com.yudistudios.foodland.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -24,7 +28,9 @@ import javax.inject.Inject
 class PayViewModel @Inject constructor(
     private val foodRepository: FoodRepository,
     private val basketRepository: BasketRepository,
-    private val addressRepository: AddressRepository
+    private val addressRepository: AddressRepository,
+    private val creditCardRepository: CreditCardRepository
+
 ) : ViewModel() {
 
     var basket = basketRepository.getBasket().asLiveData()
@@ -76,4 +82,9 @@ class PayViewModel @Inject constructor(
         }
     }
 
+    suspend fun getCreditCard(context: Context): CreditCard? {
+        return withContext(Dispatchers.IO) {
+            creditCardRepository.getDefaultCreditCard(context).firstOrNull()
+        }
+    }
 }

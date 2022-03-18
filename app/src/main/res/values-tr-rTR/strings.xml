@@ -78,4 +78,12 @@
     <string name="phone_number">Telefon Numarası</string>
     <string name="address_saved">Adres Kaydedildi</string>
     <string name="edit">Düzenle</string>
+    <string name="select_address">Adres Seçiniz</string>
+    <string name="add_credit_card">Kredi Kartı Ekle</string>
+    <string name="card_number">Kart Numarası</string>
+    <string name="holder_name">Kart Üzerindeki Ad</string>
+    <string name="john_smith">YUNUS DİLBER</string>
+    <string name="new_credit_card">Yeni Kredi Kartı</string>
+    <string name="expire_date">Son Kullanma Tarihi</string>
+    <string name="required">Zorunlu</string>
 </resources>

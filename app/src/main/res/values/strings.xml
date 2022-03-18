@@ -79,4 +79,12 @@
     <string name="address_saved">Address Saved</string>
     <string name="edit">Edit</string>
     <string name="select_address">Select Address</string>
+    <string name="add_credit_card">Add credit card</string>
+    <string name="card_number">Card Number</string>
+    <string name="holder_name">Holder Name</string>
+    <string name="xxxx_xxxx_xxxx_xxxx" translatable="false">xxxx-xxxx-xxxx-xxxx</string>
+    <string name="john_smith">JOHN SMITH</string>
+    <string name="new_credit_card">New Credit Card</string>
+    <string name="expire_date">Expire Date</string>
+    <string name="required">Required</string>
 </resources>
