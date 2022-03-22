@@ -78,6 +78,18 @@ class ConfirmBasketViewModel @Inject constructor(
         }
     }
 
+    fun removeItem(basketFood: BasketFood) {
+        val foodTemp = Food(
+            id = basketFood.id.toString(),
+            name = basketFood.foodName,
+            imageName = basketFood.foodImageName,
+            price = basketFood.foodPrice.toString(),
+            amount = basketFood.foodAmount,
+            isFavorite = false
+        )
+        foodRepository.deleteFoodFromBasket(foodTemp)
+    }
+
     fun updateBasket(getBasketResponse: GetBasketResponse) {
 
         CoroutineScope(Dispatchers.IO).launch {

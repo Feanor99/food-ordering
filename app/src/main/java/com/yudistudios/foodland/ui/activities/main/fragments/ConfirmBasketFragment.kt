@@ -25,6 +25,12 @@ import com.yudistudios.foodland.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import com.yudistudios.foodland.ui.adapters.SwipeToDeleteCallback
+
+import androidx.recyclerview.widget.ItemTouchHelper
+
+
+
 
 @AndroidEntryPoint
 class ConfirmBasketFragment : Fragment() {
@@ -130,6 +136,8 @@ class ConfirmBasketFragment : Fragment() {
 
             Timber.e("foods in basket changed")
             val adapter = binding.recyclerView.adapter as BasketFoodRecyclerViewAdapter
+            val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallback(adapter, requireContext()))
+            itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
             //same list sent if given directly and causes fail to refresh ui
             //so mapping and creating new list
@@ -183,7 +191,11 @@ class ConfirmBasketFragment : Fragment() {
             viewModel.changeFoodBasketByGivenAmount(f, -1)
         }
 
-        val clickListeners = FoodBasketRecyclerItemClickListeners(increaseButton, decreaseButton)
+        val delete = { f: BasketFood ->
+            viewModel.removeItem(f)
+        }
+
+        val clickListeners = FoodBasketRecyclerItemClickListeners(increaseButton, decreaseButton, delete)
 
         return BasketFoodRecyclerViewAdapter(clickListeners)
     }

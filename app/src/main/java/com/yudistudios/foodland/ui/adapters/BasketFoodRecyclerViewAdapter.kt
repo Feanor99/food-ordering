@@ -49,6 +49,10 @@ class BasketFoodRecyclerViewAdapter(
         return currentList.count()
     }
 
+    fun deleteItem(basketFood: BasketFood) {
+        clickListeners.delete(basketFood)
+    }
+
     private class DiffCallback : DiffUtil.ItemCallback<BasketFood>() {
         override fun areItemsTheSame(oldItem: BasketFood, newItem: BasketFood): Boolean {
             return oldItem.id == newItem.id
@@ -62,6 +66,7 @@ class BasketFoodRecyclerViewAdapter(
 
 class FoodBasketRecyclerItemClickListeners(
     val increase: (BasketFood) -> Unit,
-    val decrease: (BasketFood) -> Unit
+    val decrease: (BasketFood) -> Unit,
+    val delete: (BasketFood) -> Unit
 )
 

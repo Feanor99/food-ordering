@@ -79,6 +79,21 @@ class FoodRepository @Inject constructor(private val foodService: FoodService) {
         }
     }
 
+    fun deleteFoodFromBasket(food: Food) {
+        val foodsExist = foodsInBasket.value ?: mutableListOf()
+        foodsExist.let {
+            if (it.any { fb -> fb.id == food.id.toInt() }) {
+                val foodBasket = it.find { fb ->
+                    fb.id == food.id.toInt()
+                }
+
+                foodBasket?.let {
+                    DatabaseUtils.instance.removeFoodFromBasket(foodBasket)
+                }
+            }
+        }
+    }
+
     fun setFoodToBasket(food: Food) {
 
         val foodBasket = BasketFood(
