@@ -52,14 +52,19 @@ class ConfirmBasketViewModel @Inject constructor(
     private suspend fun addFoodsToBasket() {
         val foods = DatabaseUtils.instance.foodsInBasket.value
 
-        foods?.forEach {
-            basketRepository.addFoodToBasket(it).collect { response ->
-                Timber.e(response.toString())
-                if (response.success != 1L) {
-                    hasErrors.postValue(true)
+        async {
+            foods?.forEach {
+                launch {
+                    basketRepository.addFoodToBasket(it).collect { response ->
+                        Timber.e(response.toString())
+                        if (response.success != 1L) {
+                            hasErrors.postValue(true)
+                        }
+                    }
                 }
             }
-        }
+        }.await()
+        
     }
 
     fun changeFoodBasketByGivenAmount(basketFood: BasketFood, amount: Int) {
@@ -94,14 +99,19 @@ class ConfirmBasketViewModel @Inject constructor(
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            getBasketResponse.foods.forEach {
-                basketRepository.removeFoodFromBasket(it.id).collect { response ->
-                    Timber.e(response.toString())
-                    if (response.success != 1L) {
-                        hasErrors.postValue(true)
+            async {
+                getBasketResponse.foods.forEach {
+                    launch {
+                        basketRepository.removeFoodFromBasket(it.id).collect { response ->
+                            Timber.e(response.toString())
+                            if (response.success != 1L) {
+                                hasErrors.postValue(true)
+                            }
+                        }
                     }
                 }
-            }
+            }.await()
+            
 
             addFoodsToBasket()
 
